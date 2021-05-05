@@ -29,7 +29,7 @@ class WindowConstructor extends Component {
 }
 
 const mapDispatch = dispatch => ({
-    createWindow: door => dispatch(createWindow(door)),
+    createWindow: window => dispatch(createWindow(window)),
 })
 
 export default connect(null, mapDispatch)(WindowConstructor);

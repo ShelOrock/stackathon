@@ -16,16 +16,12 @@ export const createElement = element => {
   };
 };
 
-export const deleteElement = idx => {
-  return {
-    type: DELETE_ELEMENT,
-    idx,
-  }
-}
+export const deleteElement = idx => ({
+  type: DELETE_ELEMENT,
+  idx,
+});
 
-export const updateElement = (idx, updatedElement) => {
-  return {
-    type: UPDATE_ELEMENT,
-    element: { idx, ...updatedElement }
-  }
-}
+export const updateElement = (idx, updatedElement) => ({
+  type: UPDATE_ELEMENT,
+  element: { idx, ...updatedElement }
+});

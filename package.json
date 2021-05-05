@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:client-dev": "./node_modules/.bin/webpack --mode=\"development\" --watch",
-    "build-watch": "webpack -w",
-    "start-server": "nodemon ./server/server.js -e html,js,css --ignore public",
-    "start-dev": "npm run build-watch & npm run start-server"
+    "build-watch": "webpack -w --mode=\"development\"",
+    "start:server-dev": "nodemon ./server/index.js -e html,js,css --ignore public",
+    "start-dev": "npm run start:client-dev & npm run start:server-dev",
+    "build": "webpack --mode=\"production\""
   },
   "keywords": [],
   "author": "",

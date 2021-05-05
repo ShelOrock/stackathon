@@ -1,5 +1,11 @@
+#node modules
 node_modules/*
-public/bundle.js
+
+#bundled code
+bundle.js
+bundle.js.map
+
+#other files
 .DS_Store
 .vscode
 .idea

@@ -4,7 +4,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import rootReducer from './redux/index';
 
+let middleware = [];
+if (process.env.NODE_ENV !== 'production') {
+  middleware = [ ...middleware, createLogger({ collapsed: true }) ]
+}
+
 export default createStore(
-    rootReducer,
-    composeWithDevTools(applyMiddleware(createLogger({ collapsed: true })))
-)
+  rootReducer,
+  composeWithDevTools(applyMiddleware(...middleware))
+);

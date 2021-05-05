@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 
-import { resetStore } from '../redux/actions';
+import { resetStore } from '../redux/store/actions';
 
 class Buttons extends Component {
   handleOnClick = () => {

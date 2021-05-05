@@ -4,7 +4,7 @@ import { elements } from './rooms/reducers'
 import { doors } from './doors/reducers';
 import { windows } from './windows/reducers';
 
-export const appReducer = combineReducers({
+export default combineReducers({
   elements,
   doors,
   windows,

@@ -9,7 +9,8 @@
     "build-watch": "webpack -w --mode=\"development\"",
     "start:client-dev": "./node_modules/.bin/webpack --mode=\"development\" --watch",
     "start:server-dev": "nodemon ./server/index.js -e html,js,css --ignore public",
-    "start-dev": "npm run start:client-dev & npm run start:server-dev"
+    "start-dev": "npm run start:client-dev & npm run start:server-dev",
+    "start": "node ./server/index.js NODE_ENV=production"
   },
   "keywords": [],
   "author": "",

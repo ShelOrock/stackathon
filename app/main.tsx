@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 
 import store from './redux/store';
-import App from './Components/Root';
+import App from './components/Root';
 import Theme from './theme';
 
 render(

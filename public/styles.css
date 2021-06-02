@@ -13,56 +13,9 @@ html {
     align-items: center;
 }
 
-.active {
-    border: 2px solid green;
-}
-
-.canvas {
-    border: 5px black solid;
-    position: absolute;
-    top: 0;
-    left: 300;
-    width: 600px;
-    height: 600px;
-    overflow-x: scroll;
-    overflow-y: scroll;
-    background-color: white;
-    box-sizing: content-box;
-}
-
-.menu {
-    height: 100%;
-    padding: 25px;
-    width: 15px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background: lightgrey;
-    overflow-x: hidden;
-    transition: 0.5s;
-    box-shadow: 5px 0 5px #888888;
-    display: flex;
-    flex-direction: column;
-}
-
-.menu > div {
-    margin: 1rem;
-}
-
-.grid {
-    background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px);
-    position: absolute;
-    z-index: -1;
-}
-
-.sceneBackground {
-    background: rgb(214,247,245);
-    background: linear-gradient(177deg, rgba(214,247,245,1) 14%, rgba(240,244,186,1) 100%);
-}
-
 .home-container {
     display: flex;
+    align-items: flex-end;
 }
 
 .button-container {

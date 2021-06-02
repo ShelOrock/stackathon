@@ -1,26 +1,26 @@
 const { resolve } = require('path');
 
 module.exports = {
-    entry: ['babel-polyfill', './app/main'],
+    entry: './app/main.tsx',
     output: {
-        path: __dirname,
-        filename: './public/bundle.js',
+        path: resolve(__dirname, 'public'),
+        filename: 'bundle.js',
     },
-    mode: 'development',
-    context: __dirname,
     devtool: 'source-map',
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: [ '.ts', '.tsx', '.js', '.jsx' ]
     },
     module: {
         rules: [
             {
-                test: /js?$/,
-                exclude: /(node_modules|bower_components)/,
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: 'ts-loader'
+            },
+            {
+                test: /jsx?$/,
                 include: resolve(__dirname, './app'),
-                use: {
-                    loader: 'babel-loader'
-                }
+                loader: 'babel-loader'
             },
             {
                 test: /\.css$/i,

@@ -5,7 +5,8 @@ import { useTypedSelector, findMissingIndex } from '../../../utils';
 import * as StyledComponents from '../../StyledComponents';
 const { StyledButton: { Button } } = StyledComponents;
 
-import { createWindow } from '../../../redux/windows/actions';
+import * as ReduxActions from '../../../redux/actions';
+const { windowActions: { createWindow } } = ReduxActions;
 
 export default () => {
 
@@ -13,7 +14,7 @@ export default () => {
 
   const { windows, currentFloor } = useTypedSelector(state => state);
 
-  const handleCreateWindow = () => {
+  const handleCreateWindow = (): void => {
     dispatch(createWindow({
       index: findMissingIndex(windows),
       width: 25,

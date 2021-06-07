@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useTypedSelector } from '../../utils';
 
 import Grid from './Grid';
-import Room from './Room';
-import DoorComponent from './Door';
-import WindowComponent from './Window';
+import Rooms from './Rooms';
+import Doors from './Doors';
+import Windows from './Windows';
 
 import * as StyledComponent from '../StyledComponents';
 const { StyledCanvas: { Canvas } } = StyledComponent;
@@ -26,10 +26,9 @@ export default () => {
   return (
     <Canvas size={ canvasSize }>
       { !!toggleGrid && <Grid size={ canvasSize }/> }
-      <Room />
-
-      { !!doors.length && doors.map((door: DoorTypes) => <DoorComponent key={ door.index } { ...door } />) }
-      { !!windows.length && windows.map((window: WindowTypes) => <WindowComponent key={ window.index } { ...window } />) }
+      <Rooms />
+      <Doors />
+      <Windows />
     </Canvas>
   );
 };

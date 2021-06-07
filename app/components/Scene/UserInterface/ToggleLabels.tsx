@@ -14,9 +14,9 @@ export default () => {
 
   const dispatch = useDispatch();
   
-  const { toggleLabelInputs } = useTypedSelector(state => state)
+  const { toggleLabels } = useTypedSelector(state => state)
 
-  const handleOnClick: OnClickType = () => dispatch(setLabels(!toggleLabelInputs));
+  const handleOnClick: OnClickType = () => dispatch(setLabels(!toggleLabels));
 
   return <Button onClick={ handleOnClick }>Toggle Labels</Button>;
 }

@@ -1,6 +1,6 @@
 export interface ElementTypes {
   type:
-    |'room'
+    | 'room'
     | 'door'
     | 'window'
     | 'floor';
@@ -14,6 +14,7 @@ export interface ElementTypes {
   isHighlighted?: boolean;
   isLocked?: boolean;
   isHidden?: boolean;
+  isDisabled?: boolean;
   orientation?: 'NS' | 'WE';
   tag?: string;
 };

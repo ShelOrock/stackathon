@@ -1,8 +1,12 @@
 import * as React from 'react';
 const { useRef } = React;
 import * as THREE from 'three';
+import { useTypedSelector } from '../../../utils';
 
 export default () => {
+
+  const { sunPosition } = useTypedSelector(state => state);
+  const numericalSunPosition = Math.abs(parseInt(sunPosition))
 
   const mesh = useRef<THREE.Mesh>(null!);
 
@@ -21,7 +25,7 @@ export default () => {
   return (
     <mesh { ...meshProps }>
       <planeBufferGeometry args={ [200, 200] } />
-      <meshBasicMaterial color={ 'beige' } />
+      <meshBasicMaterial color={ `rgb(${ 234 - Math.floor(numericalSunPosition * 1.25) }, ${ 209 - Math.floor(numericalSunPosition * 1.25) }, ${ 175 - Math.floor(numericalSunPosition * 1.25) })` } />
     </mesh>
   );
 };

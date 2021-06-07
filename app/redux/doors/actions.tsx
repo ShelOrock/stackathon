@@ -7,19 +7,19 @@ import {
 
 import { DoorTypes, ActionFunctionType } from '../../types';
 
-export const createDoor: ActionFunctionType<DoorTypes> = door => ({
+export const createDoor: ActionFunctionType<DoorTypes> = payload => ({
   type: CREATE_DOOR,
-  payload: door
+  payload
 });
 
-export const updateDoor: ActionFunctionType<DoorTypes> = door => ({
+export const updateDoor: ActionFunctionType<DoorTypes> = payload => ({
   type: UPDATE_DOOR,
-  payload: door
+  payload
 });
 
-export const deleteDoor: ActionFunctionType<DoorTypes> = door => ({
+export const deleteDoor: ActionFunctionType<DoorTypes> = payload => ({
   type: DELETE_DOOR,
-  payload: door
+  payload
 });
 
 export const resetDoors: ActionFunctionType<DoorTypes> = () => ({ type: RESET_DOORS });

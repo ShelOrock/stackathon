@@ -17,7 +17,7 @@ const initialState: StateType<WindowsType> = [] as WindowsType;
 export const windows: ReducerFunctionType<typeof initialState, WindowTypes> = (state = initialState, action) => {
   switch(action.type) {
     case CREATE_WINDOW:
-      return [ ...state, action.payload ]
+      return [ ...state, action.payload ];
 
     case UPDATE_WINDOW:
       const windowToUpdate = state.findIndex(window => window.index === action.payload.index);

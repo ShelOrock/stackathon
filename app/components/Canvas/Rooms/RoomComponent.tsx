@@ -54,7 +54,7 @@ export default (room: RoomTypes) => {
       height,
       xPos: position.x,
       yPos: position.y
-    }))
+    }));
   };
 
   const onDoubleClick: OnDoubleClickType = () => dispatch(updateRoom({ index, isHighlighted: !room.isHighlighted }))
@@ -84,11 +84,17 @@ export default (room: RoomTypes) => {
     else return 'black'
   }
 
-  const roomStyleProps = {
+  interface RoomStylePropTypes {
+    width: number;
+    height: number;
+    variant: string;
+  };
+
+  const roomStyleProps: RoomStylePropTypes = {
     width: room.width,
     height: room.height,
     variant: evaluateRoomColor(room),
-  }
+  };
 
   return (
     !isHidden &&

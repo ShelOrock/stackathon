@@ -1,7 +1,19 @@
 import { ElementTypes, ElementsType } from './Element';
-import { RoomTypes, RoomsType } from './Room';
-import { DoorTypes, DoorsType } from './Door';
-import { WindowTypes, WindowsType } from './Window';
+import {
+  RoomTypes,
+  RoomsType,
+  Room3DTypes,
+} from './Room';
+import {
+  DoorTypes,
+  DoorsType,
+  Door3DTypes
+} from './Door';
+import {
+  WindowTypes,
+  WindowsType,
+  Window3DTypes
+} from './Window';
 import { FloorTypes, FloorsType } from './Floor'
 
 export {
@@ -9,10 +21,13 @@ export {
   ElementsType,
   RoomTypes,
   RoomsType,
+  Room3DTypes,
   DoorTypes,
   DoorsType,
+  Door3DTypes,
   WindowTypes,
   WindowsType,
+  Window3DTypes,
   FloorTypes,
   FloorsType,
 };

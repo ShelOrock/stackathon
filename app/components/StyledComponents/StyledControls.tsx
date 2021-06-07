@@ -13,6 +13,6 @@ export const ControlPanel = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 16%;
+  width: 20%;
   margin: 4rem 1rem 2rem;
 `

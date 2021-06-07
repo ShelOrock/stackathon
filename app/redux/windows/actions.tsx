@@ -7,19 +7,19 @@ import {
 
 import { WindowTypes, ActionFunctionType } from '../../types';
 
-export const createWindow: ActionFunctionType<WindowTypes> = window => ({
+export const createWindow: ActionFunctionType<WindowTypes> = payload => ({
   type: CREATE_WINDOW,
-  payload: window
+  payload
 })
 
-export const updateWindow: ActionFunctionType<WindowTypes> = window => ({
+export const updateWindow: ActionFunctionType<WindowTypes> = payload => ({
   type: UPDATE_WINDOW,
-  payload: window
+  payload
 });
 
-export const deleteWindow: ActionFunctionType<WindowTypes> = window => ({
+export const deleteWindow: ActionFunctionType<WindowTypes> = payload => ({
   type: DELETE_WINDOW,
-  payload: window
+  payload
 });
 
 export const resetWindows: ActionFunctionType<WindowTypes> = () => ({ type: RESET_WINDOWS });

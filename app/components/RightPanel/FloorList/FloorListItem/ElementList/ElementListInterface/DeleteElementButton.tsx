@@ -33,7 +33,7 @@ export default (element: ElementTypes) => {
         return (): void => { dispatch(deleteWindow(element)) };
 
       case 'floor':
-        return (): void => { dispatch(deleteFloor(element )) };
+        return (): void => { dispatch(deleteFloor(element)) };
 
       default:
         null;

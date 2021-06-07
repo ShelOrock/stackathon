@@ -21,6 +21,7 @@ export default (door: DoorTypes) => {
     isHidden,
     isHighlighted,
     isLocked,
+    isDisabled,
     tag
   } = door;
 
@@ -42,11 +43,20 @@ export default (door: DoorTypes) => {
     let width = door.height;
     let height = door.width;
     let orientation;
-    if(door.orientation == 'NS') {
-      orientation = 'WE'
-    } else {
-      orientation = 'NS'
-    }
+
+    switch(door.orientation) {
+      case 'NS':
+        orientation = 'WE';
+        break;
+
+      case 'WE':
+        orientation = 'NS';
+        break;
+
+      default:
+        break;
+    };
+
     dispatch(updateDoor({
       index,
       width,
@@ -68,26 +78,35 @@ export default (door: DoorTypes) => {
     },
     onDragStop,
     onDoubleClick,
-    disableDragging: isLocked
+    disableDragging: isLocked || isDisabled,
+    style: { 'zIndex': isDisabled ? '0' : '2' }
   }
+
+  const evaluateDoorColor = (door: DoorTypes): string => {
+    if(door.isDisabled) return 'disabled'
+    else if (door.isHighlighted) return door.tag
+    else return 'black'
+  };
 
   interface DoorStylePropTypes {
     width: number;
     height: number;
+    orientation: 'NS' | 'WE';
     variant: string;
-  }
+  };
 
   const doorStyleProps: DoorStylePropTypes = {
     width: door.width,
     height: door.height,
-    variant: isHighlighted ? tag : 'black'
+    orientation: door.orientation,
+    variant: evaluateDoorColor(door),
   };
 
   return (
     !isHidden &&
     <Rnd { ...rndProps }>
-      <Door { ...doorStyleProps }/>
-      <DoorHUD { ...door } />
+      { !isDisabled && <DoorHUD { ...door }/> }
+      <Door { ...doorStyleProps } />
     </Rnd>
   )
 };

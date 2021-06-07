@@ -26,11 +26,9 @@ export default (element: ElementTypes): JSX.Element => {
     'purple'
   ];
   
-  const evaluateElementType = (e, element: ElementTypes, pill: string): void => {
-    console.log(e, element, pill)
+  const evaluateElementType = (_e, element: ElementTypes, pill: string): void => {
     switch(element.type) {
       case 'room':
-        console.log(pill)
         dispatch(updateRoom({ index, tag: pill }));
         break;
 

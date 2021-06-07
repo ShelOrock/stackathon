@@ -48,5 +48,5 @@ export default (element: ElementTypes) => {
     onClick: evaluateElementType(element),
   };
 
-  return <SmallButton { ...buttonProps }>H</SmallButton>
+  return <SmallButton { ...buttonProps }>{ isHidden ? <>&#127770;</> : <>&#127774;</> }</SmallButton>
 };

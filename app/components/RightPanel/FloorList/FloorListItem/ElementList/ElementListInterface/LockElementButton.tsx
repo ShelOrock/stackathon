@@ -51,5 +51,5 @@ export default (element: ElementTypes) => {
     onClick: evaluateElementType(element),
   };
 
-  return <SmallButton { ...buttonProps }>L</SmallButton>
+  return <SmallButton { ...buttonProps }>{ isLocked ? <>&#128274;</> : <>&#128275;</> }</SmallButton>
 };

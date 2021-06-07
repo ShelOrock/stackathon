@@ -22,7 +22,7 @@ export const Column = styled.div`
 
 export const ElementHUDContainer = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   margin-top: -4rem;
 `;
 

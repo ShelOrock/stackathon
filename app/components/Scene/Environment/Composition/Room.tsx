@@ -4,11 +4,9 @@ import * as THREE from 'three';
 
 import RoomHUD from './RoomHUD';
 
-import { RoomTypes } from '../../../../types';
+import { Room3DTypes } from '../../../../types';
 
-type Room3DType = RoomTypes & JSX.IntrinsicElements['mesh']
-
-export default (room: Room3DType) => {
+export default (room: Room3DTypes) => {
 
   const mesh = useRef<THREE.Mesh>(null!);
   const SCALE_FACTOR: number = 10;
@@ -22,7 +20,7 @@ export default (room: Room3DType) => {
     position: [number, number, number];
     castShadow: boolean;
     receiveShadow: boolean;
-  }
+  };
 
   const meshProps: MeshPropTypes = {
     ref: mesh,
@@ -33,12 +31,24 @@ export default (room: Room3DType) => {
     ],
     castShadow: true,
     receiveShadow: true
+  };
+
+  const roomDimensions: [number, number, number] = [ room.width / SCALE_FACTOR, 10, room.height / SCALE_FACTOR ];
+
+  interface meshMaterialPropTypes {
+    color: string;
+    metalness: number;
+  }
+
+  const meshMaterialProps: meshMaterialPropTypes = {
+    color: '#cccccc',
+    metalness: 0.2
   }
 
   return (
     <mesh { ...meshProps }>
-      <boxGeometry args={ [room.width / SCALE_FACTOR, 10, room.height / SCALE_FACTOR] }/>
-      <meshStandardMaterial color={ 'hotpink' } metalness={ 0.2 } />
+      <boxGeometry args={ roomDimensions }/>
+      <meshStandardMaterial { ...meshMaterialProps } />
       <RoomHUD { ...room }/>
     </mesh>
   );

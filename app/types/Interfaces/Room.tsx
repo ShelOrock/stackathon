@@ -15,3 +15,5 @@ export interface RoomTypes {
 };
 
 export type RoomsType = RoomTypes[];
+
+export type Room3DTypes = RoomTypes & JSX.IntrinsicElements['mesh'];

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../../utils';
+import { useTypedSelector, findMissingIndex } from '../../../utils';
 
 import * as StyledComponents from '../../StyledComponents';
 const { StyledButton: { Button } } = StyledComponents;
@@ -21,8 +21,8 @@ export default () => {
 
   const handleOnClick: OnClickType = () => {
     const createdFloor = {
-      index: floors.length,
-      label: `Floor ${ floors.length + 1 }`,
+      index: findMissingIndex(floors),
+      label: `Floor ${ findMissingIndex(floors) + 1 }`,
       isHighlighted: false,
       isHidden: false
     };

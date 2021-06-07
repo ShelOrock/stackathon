@@ -3,6 +3,13 @@ import { useStore } from 'react-redux';
 
 import Room from './Room';
 import Door from './Door';
+import Window from './Window';
+
+import {
+  RoomTypes,
+  DoorTypes,
+  WindowTypes,
+} from '../../../../types';
 
 export default () => {
   
@@ -10,8 +17,9 @@ export default () => {
   
   return (
     <> 
-      { !!rooms.length && rooms.map(room => <Room key={ room.index } { ...room } />) }
-      { !!doors.length && doors.map(door => <Door key={ door.index } { ...door } />) }
+      { !!rooms.length && rooms.map((room: RoomTypes) => <Room key={ room.index } { ...room } />) }
+      { !!doors.length && doors.map((door: DoorTypes) => <Door key={ door.index } { ...door } />) }
+      { !!windows.length && windows.map((window: WindowTypes ) => <Window key={ window.index } { ...window } />) }
     </>
-  )
-}
+  );
+};

@@ -7,4 +7,4 @@ const store = configureStore({
   middleware: () => new Tuple(logger)
 });
 
-export default store;
+export default store; 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../../../utils';
+import { useAppSelector } from "../../../../hooks";
 
 import WindowHUD from './WindowHUDElements';
 import * as StyledComponents from '../../../StyledComponents';
@@ -9,7 +9,7 @@ import { WindowTypes } from '../../../../types';
 
 export default (window: WindowTypes) => {
 
-  const { toggleHUD } = useTypedSelector(state => state);
+  const { toggleHUD } = useAppSelector(state => state);
 
   return (
     toggleHUD &&

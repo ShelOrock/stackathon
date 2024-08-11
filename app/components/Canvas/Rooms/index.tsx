@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../../utils';
+import { useAppSelector } from '../../../hooks';
 
 import RoomComponent from './RoomComponent';
 
@@ -7,23 +7,19 @@ import { RoomTypes } from '../../../types';
 
 export default () => {
 
-  const { rooms, currentFloor } = useTypedSelector(state => state);
-
-  const renderRooms = () => (
-    !!rooms.length && rooms.map((room: RoomTypes) => {
-      return (
-        <RoomComponent
-          key={ room.index }
-          isDisabled={ room.floor !== currentFloor.index }
-          { ...room }
-        />
-      )
-    })
-  )
+  const { rooms, currentFloor } = useAppSelector(state => state);
 
   return (
     <>
-      { renderRooms() }
+      {
+        !!rooms.length && rooms.map((room: RoomTypes) => (
+          <RoomComponent
+            key={ room.index }
+            isDisabled={ room.floor !== currentFloor.index }
+            { ...room }
+          />
+        ))
+      }
     </>
   )
-}
+};

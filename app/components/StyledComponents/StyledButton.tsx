@@ -6,7 +6,7 @@ interface ButtonStylePropTypes {
   active?: boolean;
 }
 
-export const AllButtonStyles = css<ButtonStylePropTypes>`
+export const AllButtonStyles = styled.button<ButtonStylePropTypes>`
   color: ${ ({ variant, theme }) => variant ? theme.colors[variant].fontColor : theme.colors.default.fontColor };
   background-color: ${ ({ variant, theme }) => variant ? theme.colors[variant].base : theme.colors.default.base };
   border: ${ ({ variant, theme }) => variant == 'tertiary' ? `1px solid ${ theme.colors.default.base }` : 'none' };

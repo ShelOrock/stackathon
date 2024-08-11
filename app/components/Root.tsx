@@ -1,9 +1,9 @@
 import * as React from 'react';
 const { useEffect } = React;
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from "../hooks";
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route
 } from 'react-router-dom';
 
@@ -18,7 +18,7 @@ const {
 
 export default () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(resetFloors());
@@ -27,10 +27,10 @@ export default () => {
 
   return (
     <Router>
-      <Switch>
-        <Route exact path='/' component={ Home } />
-        <Route path='/3D' component={ Scene } />
-      </Switch>
+      <Routes>
+        <Route path='/' element={ <Home /> } />
+        <Route path='/3D' element={ <Scene /> } />
+      </Routes>
     </Router>
   );
 };

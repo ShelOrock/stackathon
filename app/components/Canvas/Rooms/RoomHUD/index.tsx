@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../../../utils';
+import { useAppSelector } from "../../../../hooks";
 
 import RoomHUD from './RoomHUDElements';
 import * as StyledComponents from '../../../StyledComponents'
@@ -9,7 +9,7 @@ import { RoomTypes } from '../../../../types';
 
 export default (room: RoomTypes) => {
 
-  const { toggleHUD } = useTypedSelector(state => state);
+  const { toggleHUD } = useAppSelector(state => state);
 
   return (
     toggleHUD &&

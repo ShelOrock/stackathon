@@ -1,4 +1,4 @@
-import { SET_CURRENT_FLOOR, RESET_CURRENT_FLOOR } from './constants';
+import CurrentFloorActionTypes from './constants';
 
 import {
   FloorTypes,
@@ -6,8 +6,8 @@ import {
 } from '../../types';
 
 export const setCurrentFloor: ActionFunctionType<FloorTypes> = payload => ({
-  type: SET_CURRENT_FLOOR,
+  type: CurrentFloorActionTypes.SET_CURRENT_FLOOR,
   payload
 });
 
-export const resetCurrentFloor: ActionFunctionType<FloorTypes> = () => ({ type: RESET_CURRENT_FLOOR });
+export const resetCurrentFloor: ActionFunctionType<FloorTypes> = () => ({ type: CurrentFloorActionTypes.RESET_CURRENT_FLOOR });

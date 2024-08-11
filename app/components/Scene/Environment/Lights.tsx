@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../../utils';
+import { useAppSelector } from '../../../hooks';
 
 export default () => {
 
-  const { sunPosition } = useTypedSelector(state => state);
+  const { sunPosition } = useAppSelector(state => state);
   return (
     <>
       <ambientLight />

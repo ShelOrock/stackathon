@@ -1,17 +1,19 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../../utils';
+import { useAppSelector } from '../../../hooks';
 
 import FloorListItem from './FloorListItem';
 import * as StyledComponents from '../../StyledComponents';
+import { ComponentMapping } from "../../ComponentMapping";
 const { StyledList: { List } } = StyledComponents;
 
 export default () => {
 
-  const { floors } = useTypedSelector(state => state);
+  const { floors } = useAppSelector(state => state);
   
   return (
     <List>
-      { !!floors.length && floors.map(floor => <FloorListItem key={ floor.index } { ...floor } /> )}
+      <li>meow</li>
+      { !!floors.length && <ComponentMapping componentData={ floors } renderComponent={ (floor: { index }) => <FloorListItem { ...floor } /> } /> }
     </List>
   )
 }

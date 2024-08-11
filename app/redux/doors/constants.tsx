@@ -1,7 +1,8 @@
-export const CREATE_DOOR = Symbol('CREATE_DOOR');
+enum DoorsActionTypes {
+  CREATE_DOOR = "CREATE_DOOR",
+  DELETE_DOOR = "DELETE_DOOR",
+  UPDATE_DOOR = "UPDATE_DOOR",
+  RESET_DOORS = "RESET_DOORS"
+};
 
-export const DELETE_DOOR = Symbol('DELETE_ELEMENT');
-
-export const UPDATE_DOOR = Symbol('UPDATE_DOOR');
-
-export const RESET_DOORS = Symbol('RESET_DOORS');
+export default DoorsActionTypes;

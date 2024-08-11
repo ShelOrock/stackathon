@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../../../utils';
+import { useAppSelector, useAppDispatch } from '../../../../hooks';
 
 import { setSunPosition } from '../../../../redux/sunPosition/actions';
 
@@ -8,9 +7,9 @@ import { InputOnChangeType } from '../../../../types';
 
 export default () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { sunPosition } = useTypedSelector(state => state);
+  const { sunPosition } = useAppSelector(state => state);
 
   const handleOnChange: InputOnChangeType = (e) => dispatch(setSunPosition(e.target.value))
 

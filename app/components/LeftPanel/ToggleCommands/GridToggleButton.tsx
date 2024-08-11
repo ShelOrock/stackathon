@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../../utils';
+import { useAppSelector, useAppDispatch } from '../../../hooks';
 
 import * as StyledComponents from '../../StyledComponents';
 const { StyledButton: { Button } } = StyledComponents;
@@ -12,11 +11,11 @@ import { OnClickType } from '../../../types';
 
 export default () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { toggleGrid } = useTypedSelector(state => state);
+  const { toggleGrid } = useAppSelector(state => state);
 
-  const handleOnClick: OnClickType = () => { dispatch(setGrid(!toggleGrid)) }
+  const handleOnClick: OnClickType = () => dispatch(setGrid(!toggleGrid))
 
   interface ButtonPropTypes {
     variant: string;

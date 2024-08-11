@@ -1,11 +1,11 @@
 import * as React from 'react';
 const { useRef } = React;
 import * as THREE from 'three';
-import { useTypedSelector } from '../../../utils';
+import { useAppSelector } from '../../../hooks';
 
 export default () => {
 
-  const { sunPosition } = useTypedSelector(state => state);
+  const { sunPosition } = useAppSelector(state => state);
   const numericalSunPosition = Math.abs(parseInt(sunPosition))
 
   const mesh = useRef<THREE.Mesh>(null!);

@@ -1,7 +1,8 @@
-export const CREATE_WINDOW = Symbol('CREATE_WINDOW');
+enum WindowsActionTypes {
+  CREATE_WINDOW = "CREATE_WINDOW",
+  DELETE_WINDOW = "DELETE_WINDOW",
+  UPDATE_WINDOW = "UPDATE_WINDOW",
+  RESET_WINDOWS = "RESET_WINDOWS"
+};
 
-export const DELETE_WINDOW = Symbol('DELETE_WINDOW');
-
-export const UPDATE_WINDOW = Symbol('UPDATE_WINDOW');
-
-export const RESET_WINDOWS = Symbol('RESET_WINDOWS');
+export default WindowsActionTypes;

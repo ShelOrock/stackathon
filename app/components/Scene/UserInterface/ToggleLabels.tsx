@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../../utils';
-import { useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from "../../../hooks";
 
 import * as StyledComponents from '../../StyledComponents'
 const { StyledButton: { Button } } = StyledComponents;
@@ -12,9 +11,9 @@ import { OnClickType } from '../../../types';
 
 export default () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   
-  const { toggleLabels } = useTypedSelector(state => state)
+  const { toggleLabels } = useAppSelector(state => state)
 
   const handleOnClick: OnClickType = () => dispatch(setLabels(!toggleLabels));
 

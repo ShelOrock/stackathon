@@ -1,10 +1,10 @@
-import { SET_CANVAS_SIZE, RESET_CANVAS_SIZE } from './constants';
+import canvasSizeActionTypes from './constants';
 
 import { ActionFunctionType } from '../../types'
 
 export const setCanvasSize: ActionFunctionType<number> = payload => ({
-  type: SET_CANVAS_SIZE,
+  type: canvasSizeActionTypes.SET_CANVAS_SIZE,
   payload
 });
 
-export const resetCanvasSize: ActionFunctionType<number> = payload => ({ type: RESET_CANVAS_SIZE });
+export const resetCanvasSize: ActionFunctionType<number> = () => ({ type: canvasSizeActionTypes.RESET_CANVAS_SIZE });

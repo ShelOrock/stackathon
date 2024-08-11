@@ -1,3 +1,6 @@
-export const SET_GRID = Symbol('SET_GRID');
+enum gridActionTypes {
+  SET_GRID = "SET_GRID",
+  RESET_GRID = "RESET_GRID"
+};
 
-export const RESET_GRID = Symbol('RESET_GRID');
+export default gridActionTypes;

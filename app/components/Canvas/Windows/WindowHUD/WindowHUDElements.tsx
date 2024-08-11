@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../../../utils';
+import { useAppSelector } from '../../../../hooks';
 
 import WindowHUDButtons from './WindowHUDButtons';
 import WindowLabelInput from './WindowLabelInput';
@@ -8,7 +8,7 @@ import { WindowTypes } from '../../../../types';
 
 export default (window: WindowTypes) => {
   
-  const { toggleLabels } = useTypedSelector(state => state);
+  const { toggleLabels } = useAppSelector(state => state);
 
   return (
     <>

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../../../../utils';
+import { useAppSelector, useAppDispatch } from '../../../../../hooks';
 
 import * as StyledComponents from '../../../../StyledComponents';
 const { StyledButton: { SmallButton } } = StyledComponents;
@@ -18,13 +17,13 @@ import { FloorTypes, OnClickType } from '../../../../../types';
 
 export default (floor: FloorTypes) => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     rooms,
     doors,
     windows
-  } = useTypedSelector(state => state);
+  } = useAppSelector(state => state);
 
   const roomsOnFloor = rooms.filter(room => room.floor == floor.index);
   const doorsOnFloor = doors.filter(door => door.floor == floor.index);

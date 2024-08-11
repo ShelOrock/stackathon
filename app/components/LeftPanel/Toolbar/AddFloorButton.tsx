@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { useTypedSelector, findMissingIndex } from '../../../utils';
+import { findMissingIndex } from '../../../utils';
 
 import * as StyledComponents from '../../StyledComponents';
 const { StyledButton: { Button } } = StyledComponents;
@@ -12,12 +12,13 @@ const {
 } = ReduxActions;
 
 import { OnClickType } from '../../../types';
+import { useAppSelector } from '../../../hooks';
 
 export default () => {
 
   const dispatch = useDispatch();
 
-  const { floors } = useTypedSelector(state => state);
+  const { floors } = useAppSelector(state => state);
 
   const handleOnClick: OnClickType = () => {
     const createdFloor = {

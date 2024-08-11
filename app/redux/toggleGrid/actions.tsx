@@ -1,10 +1,10 @@
-import { SET_GRID, RESET_GRID } from './constants';
+import gridActionTypes from './constants';
 
 import { ActionFunctionType } from '../../types';
 
 export const setGrid: ActionFunctionType<boolean> = payload => ({
-  type: SET_GRID,
+  type: gridActionTypes.SET_GRID,
   payload
 });
 
-export const resetGrid: ActionFunctionType<boolean> = () => ({ type: RESET_GRID });
+export const resetGrid: ActionFunctionType<boolean> = () => ({ type: gridActionTypes.RESET_GRID });

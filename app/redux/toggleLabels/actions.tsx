@@ -1,10 +1,10 @@
-import { SET_LABELS, RESET_LABELS } from './constants';
+import ToggleLabelActionTypes from './constants';
 
 import { ActionFunctionType } from '../../types';
 
 export const setLabels: ActionFunctionType<boolean> = boolean => ({
-  type: SET_LABELS,
+  type: ToggleLabelActionTypes.SET_LABELS,
   payload: boolean 
 })
 
-export const resetLabels: ActionFunctionType<boolean> = () => ({ type: RESET_LABELS })
+export const resetLabels: ActionFunctionType<boolean> = () => ({ type: ToggleLabelActionTypes.RESET_LABELS })

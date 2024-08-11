@@ -1,9 +1,4 @@
-import {
-    CREATE_WINDOW,
-    DELETE_WINDOW,
-    UPDATE_WINDOW,
-    RESET_WINDOWS
-} from './constants';
+import WindowsActionTypes from './constants';
 
 import {
   WindowTypes,
@@ -14,12 +9,12 @@ import {
 
 const initialState: StateType<WindowsType> = [] as WindowsType;
 
-export const windows: ReducerFunctionType<typeof initialState, WindowTypes> = (state = initialState, action) => {
+export const windows: ReducerFunctionType<typeof initialState, WindowTypes[], WindowTypes> = (state = initialState, action) => {
   switch(action.type) {
-    case CREATE_WINDOW:
+    case WindowsActionTypes.CREATE_WINDOW:
       return [ ...state, action.payload ];
 
-    case UPDATE_WINDOW:
+    case WindowsActionTypes.UPDATE_WINDOW:
       const windowToUpdate = state.findIndex(window => window.index === action.payload.index);
       return [
         ...state.slice(0, windowToUpdate),
@@ -27,10 +22,10 @@ export const windows: ReducerFunctionType<typeof initialState, WindowTypes> = (s
         ...state.slice(windowToUpdate + 1)
       ];
     
-    case DELETE_WINDOW: 
+    case WindowsActionTypes.DELETE_WINDOW: 
       return state.filter(window => window.index !== action.payload.index);
 
-    case RESET_WINDOWS:
+    case WindowsActionTypes.RESET_WINDOWS:
       return [] as WindowsType;
 
     default:

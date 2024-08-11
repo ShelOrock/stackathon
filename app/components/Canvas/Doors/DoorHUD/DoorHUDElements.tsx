@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../../../utils';
+import { useAppSelector } from '../../../../hooks';
 
 import DoorHUDButtons from './DoorHUDButton';
 import DoorLabelInputs from './DoorLabelInputs';
@@ -8,7 +8,8 @@ import { DoorTypes } from '../../../../types';
 
 export default (door: DoorTypes) => {
 
-  const { toggleLabelInputs } = useTypedSelector(state => state);
+  const { toggleLabelInputs } = useAppSelector(state => state);
+  
   return (
     <>
       <DoorHUDButtons { ...door } />

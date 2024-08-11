@@ -1,3 +1,6 @@
-export const SET_CANVAS_SIZE = Symbol('SET_CANVAS_SIZE');
+enum canvasSizeActionTypes {
+  SET_CANVAS_SIZE = "SET_CANVAS_SIZE",
+  RESET_CANVAS_SIZE = "RESET_CANVAS_SIZE"
+};
 
-export const RESET_CANVAS_SIZE = Symbol('RESET_CANVAS_SIZE');
+export default canvasSizeActionTypes;

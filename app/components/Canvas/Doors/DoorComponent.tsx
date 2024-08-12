@@ -3,8 +3,7 @@ import { useAppDispatch } from "../../../hooks";
 import { Rnd } from 'react-rnd';
 
 import DoorHUD from './DoorHUD';
-import * as StyledComponents from '../../StyledComponents';
-const { StyledElements: { Door } } = StyledComponents;
+import StyledDoor from './styles';
 
 import { updateDoor } from '../../../redux/doors/actions';
 
@@ -106,7 +105,7 @@ export default (door: DoorTypes) => {
     !isHidden &&
     <Rnd { ...rndProps }>
       { !isDisabled && <DoorHUD { ...door }/> }
-      <Door { ...doorStyleProps } />
+      <StyledDoor { ...doorStyleProps } />
     </Rnd>
   )
 };

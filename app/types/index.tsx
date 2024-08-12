@@ -19,7 +19,8 @@ import {
   OnDoubleClickType,
   OnResizeType,
   RndPropTypes,
-  InputOnChangeType
+  InputOnChangeType,
+  StyledPropTypes
 } from './react';
 import * as ReduxTypes from './redux';
 
@@ -44,5 +45,7 @@ export {
   OnResizeType,
   RndPropTypes,
   InputOnChangeType,
-  ReduxTypes
+  ReduxTypes,
+  StyledPropTypes
 };
+

@@ -7,11 +7,11 @@ import { FloorTypes, DoorTypes } from '../../../../../../types';
 
 export default (floor: FloorTypes) => {
 
-  const { doors } = useAppSelector(state => state)
+  const { doors = [] } = useAppSelector(state => state)
 
   return (
     <>
-      { !!doors.length && doors.map((door: DoorTypes) => floor.index === door.floor && <DoorListItem key={ door.index } { ...door } /> ) }
+      { doors.map((door: DoorTypes) => floor.index === door.floor && <DoorListItem key={ door.index } { ...door } /> ) }
     </>
   );
 };

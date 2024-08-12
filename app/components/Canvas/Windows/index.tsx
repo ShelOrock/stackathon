@@ -7,12 +7,12 @@ import { WindowTypes } from '../../../types';
 
 export default () => {
 
-  const { windows, currentFloor } = useAppSelector(state => state);
+  const { windows = [], currentFloor } = useAppSelector(state => state);
 
   return (
     <>
       {
-        !!windows.length && windows.map((window: WindowTypes) => (
+        windows.map((window: WindowTypes) => (
           <WindowComponent
             key={ window.index }
             isDisabled={ window.floor !== currentFloor.index }

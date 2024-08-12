@@ -8,6 +8,7 @@ import {
   OnClickType,
   OnDoubleClickType
 } from './Handlers';
+import StyledPropTypes from './styles';
 
 export {
   OnDragStopType,
@@ -16,4 +17,5 @@ export {
   OnResizeType,
   RndPropTypes,
   InputOnChangeType,
+  StyledPropTypes
 };

@@ -7,11 +7,11 @@ import { FloorTypes, RoomTypes } from '../../../../../../types';
 
 export default (floor: FloorTypes) => {
 
-  const { rooms } = useAppSelector(state => state);
+  const { rooms = [] } = useAppSelector(state => state);
 
   return (
     <>
-      { !!rooms.length && rooms.map((room: RoomTypes) => floor.index === room.floor && <RoomListItem key={ room.index } { ...room } /> ) }
+      { rooms.map((room: RoomTypes) => floor.index === room.floor && <RoomListItem key={ room.index } { ...room } /> ) }
     </>
   );
 };

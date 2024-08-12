@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import SetCanvasSizeButton from './SetCanvasSizeButton';
-import * as StyledComponents from '../../../StyledComponents';
-const { StyledDiv: { Row } } = StyledComponents;
+import Row from '../../../Row';
 
 export default () => {
 

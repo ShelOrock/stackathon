@@ -7,11 +7,11 @@ import { FloorTypes, WindowTypes } from '../../../../../../types';
 
 export default (floor: FloorTypes) => {
 
-  const { windows } = useAppSelector(state => state)
+  const { windows = [] } = useAppSelector(state => state)
 
   return (
     <>
-      { !!windows.length && windows.map((window: WindowTypes) => floor.index === window.floor && <WindowListItem key={ window.index } { ...window } />) }
+      { windows.map((window: WindowTypes) => floor.index === window.floor && <WindowListItem key={ window.index } { ...window } />) }
     </>
   );
 };

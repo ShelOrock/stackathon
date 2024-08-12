@@ -3,8 +3,7 @@ import React from 'react';
 import Canvas from './Canvas';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
-import * as StyledComponents from './StyledComponents';
-const { StyledDiv: { Row } } = StyledComponents;
+import Row from './Row';
 
 export default () => {
   return (

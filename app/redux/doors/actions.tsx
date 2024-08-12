@@ -1,20 +1,20 @@
 import DoorsActionTypes from './constants';
 
-import { DoorTypes, ActionFunctionType } from '../../types';
+import { DoorTypes, ReduxTypes } from '../../types';
 
-export const createDoor: ActionFunctionType<DoorTypes> = payload => ({
+export const createDoor: ReduxTypes.ActionTypes.UnknownActionFunctionType<DoorTypes> = payload => ({
   type: DoorsActionTypes.CREATE_DOOR,
   payload
 });
 
-export const updateDoor: ActionFunctionType<DoorTypes> = payload => ({
+export const updateDoor: ReduxTypes.ActionTypes.UnknownActionFunctionType<DoorTypes> = payload => ({
   type: DoorsActionTypes.UPDATE_DOOR,
   payload
 });
 
-export const deleteDoor: ActionFunctionType<DoorTypes> = payload => ({
+export const deleteDoor: ReduxTypes.ActionTypes.UnknownActionFunctionType<DoorTypes> = payload => ({
   type: DoorsActionTypes.DELETE_DOOR,
   payload
 });
 
-export const resetDoors: ActionFunctionType<DoorTypes> = () => ({ type: DoorsActionTypes.RESET_DOORS });
+export const resetDoors: ReduxTypes.ActionTypes.UnknownActionFunctionType<DoorTypes> = () => ({ type: DoorsActionTypes.RESET_DOORS });

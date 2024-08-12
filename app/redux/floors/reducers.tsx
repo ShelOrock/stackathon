@@ -3,8 +3,7 @@ import FloorsActionTypes from './constants';
 import {
   FloorTypes,
   FloorsType,
-  StateType,
-  ReducerFunctionType
+  ReduxTypes
 } from '../../types';
 
 const initialFloor: FloorTypes = {
@@ -14,9 +13,9 @@ const initialFloor: FloorTypes = {
   isHidden: false
 };
 
-const initialState: StateType<FloorsType> = [initialFloor] as FloorsType;
+const initialState: ReduxTypes.StateType<FloorsType> = [initialFloor] as FloorsType;
 
-export const floors: ReducerFunctionType<typeof initialState, FloorTypes[], FloorTypes> = (state = initialState, action) => {
+export const floors: ReduxTypes.ReducerFunctionType<typeof initialState, FloorTypes[], FloorTypes> = (state = initialState, action) => {
   switch(action.type) {
     case FloorsActionTypes.CREATE_FLOOR:
       return [ ...state, action.payload ];

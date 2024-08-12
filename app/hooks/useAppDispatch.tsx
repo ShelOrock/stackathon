@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 
-import { AppDispatchType } from "../types"
+import { ReduxTypes } from "../types"
 
-const useAppDispatch = useDispatch.withTypes<AppDispatchType>();
+const useAppDispatch = useDispatch.withTypes<ReduxTypes.AppDispatchType>();
 
 export default useAppDispatch;

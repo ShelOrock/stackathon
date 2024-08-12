@@ -1,20 +1,20 @@
 import RoomActionTypes from './constants';
 
-import { RoomTypes, ActionFunctionType } from '../../types';
+import { ReduxTypes, RoomTypes } from '../../types';
 
-export const createRoom: ActionFunctionType<RoomTypes> = room => ({
+export const createRoom: ReduxTypes.ActionTypes.UnknownActionFunctionType<RoomTypes> = room => ({
   type: RoomActionTypes.CREATE_ROOM,
   payload: room,
 });
 
-export const updateRoom: ActionFunctionType<RoomTypes> = room => ({
+export const updateRoom: ReduxTypes.ActionTypes.UnknownActionFunctionType<RoomTypes> = room => ({
   type: RoomActionTypes.UPDATE_ROOM,
   payload: room
 });
 
-export const deleteRoom: ActionFunctionType<RoomTypes> = room => ({
+export const deleteRoom: ReduxTypes.ActionTypes.UnknownActionFunctionType<RoomTypes> = room => ({
   type: RoomActionTypes.DELETE_ROOM,
   payload: room
 });
 
-export const resetRooms: ActionFunctionType<RoomTypes> = () => ({ type: RoomActionTypes.RESET_ROOMS })
+export const resetRooms: ReduxTypes.ActionTypes.UnknownActionFunctionType<RoomTypes> = () => ({ type: RoomActionTypes.RESET_ROOMS })

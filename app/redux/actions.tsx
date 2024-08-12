@@ -10,6 +10,8 @@ import * as toggleLabelInputsActions from './toggleLabelInputs/actions';
 import * as toggleLabelsActions from './toggleLabels/actions';
 import * as sunPositionActions from './sunPosition/actions';
 
+import * as toggleElementsActions from "./toggleElements/actions";
+
 export {
   canvasSizeActions,
   roomActions,
@@ -22,4 +24,5 @@ export {
   toggleLabelInputsActions,
   toggleLabelsActions,
   sunPositionActions,
+  toggleElementsActions
 };

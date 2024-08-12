@@ -1,12 +1,13 @@
 import { RootState, AppDispatchType } from './store';
-import { ActionTypes, ActionFunctionType } from './actions';
+import * as ActionTypes from './actions';
+import Entities from './entities';
 import { StateType, ReducerFunctionType } from './reducers';
 
 export { 
   RootState,
   AppDispatchType,
   ActionTypes,
-  ActionFunctionType,
   StateType,
   ReducerFunctionType,
+  Entities
 };

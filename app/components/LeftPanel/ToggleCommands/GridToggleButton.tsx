@@ -4,18 +4,17 @@ import { useAppSelector, useAppDispatch } from '../../../hooks';
 import * as StyledComponents from '../../StyledComponents';
 const { StyledButton: { Button } } = StyledComponents;
 
-import * as ReduxActions from '../../../redux/actions';
-const { toggleGridActions: { setGrid } } = ReduxActions;
-
 import { OnClickType } from '../../../types';
+import { toggleElementsActions } from '../../../redux/actions';
+import { Entities } from '../../../types/redux';
 
 export default () => {
 
   const dispatch = useAppDispatch();
 
-  const { toggleGrid } = useAppSelector(state => state);
+  const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
 
-  const handleOnClick: OnClickType = () => dispatch(setGrid(!toggleGrid))
+  const handleOnClick: OnClickType = () => dispatch(toggleElementsActions.setToggleElement(Entities.grid, !gridIsShowing))
 
   interface ButtonPropTypes {
     variant: string;

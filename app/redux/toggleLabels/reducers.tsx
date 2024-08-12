@@ -1,10 +1,10 @@
 import ToggleLabelActionTypes from './constants';
 
-import { StateType, ReducerFunctionType } from '../../types';
+import { ReduxTypes } from '../../types';
 
-const initialState: StateType<boolean> = true as boolean;
+const initialState: ReduxTypes.StateType<boolean> = true as boolean;
 
-export const toggleLabels: ReducerFunctionType<typeof initialState, boolean, boolean> = (state = initialState, action) => {
+export const toggleLabels: ReduxTypes.ReducerFunctionType<typeof initialState, boolean, boolean> = (state = initialState, action) => {
   switch(action.type) {
     case ToggleLabelActionTypes.SET_LABELS:
       return action.payload;

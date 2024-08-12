@@ -2,8 +2,7 @@ import CurrentFloorActionTypes from './constants';
 
 import {
   FloorTypes,
-  StateType,
-  ReducerFunctionType
+  ReduxTypes
 } from '../../types';
 
 const initialFloor: FloorTypes = {
@@ -13,9 +12,9 @@ const initialFloor: FloorTypes = {
   isHidden: false
 };
 
-const initialState: StateType<FloorTypes> = initialFloor as FloorTypes;
+const initialState: ReduxTypes.StateType<FloorTypes> = initialFloor as FloorTypes;
 
-export const currentFloor: ReducerFunctionType<typeof initialState, FloorTypes> = (state = initialState, action) => {
+export const currentFloor: ReduxTypes.ReducerFunctionType<typeof initialState, FloorTypes> = (state = initialState, action) => {
   switch(action.type) {
     case CurrentFloorActionTypes.SET_CURRENT_FLOOR:
       return action.payload;

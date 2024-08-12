@@ -1,6 +1,6 @@
 import StoreActionTypes from './constants';
 
-import { ActionFunctionType } from '../../types';
+import { ReduxTypes } from '../../types';
 
-export const resetStore: ActionFunctionType = () => ({ type: StoreActionTypes.RESET_STORE });
+export const resetStore: ReduxTypes.ActionTypes.UnknownActionFunctionType = () => ({ type: StoreActionTypes.RESET_STORE });
  

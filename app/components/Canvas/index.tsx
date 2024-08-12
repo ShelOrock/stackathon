@@ -13,12 +13,13 @@ export default () => {
 
   const {
     canvasSize,
-    toggleGrid
   } = useAppSelector(state => state);
+
+  const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
 
   return (
     <Canvas size={ canvasSize }>
-      { !!toggleGrid && <Grid size={ canvasSize }/> }
+      { gridIsShowing && <Grid size={ canvasSize }/> }
       <Rooms />
       <Doors />
       <Windows />

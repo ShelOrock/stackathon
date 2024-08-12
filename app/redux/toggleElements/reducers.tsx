@@ -33,4 +33,5 @@ const createToggleElementsReducer = entityName => (state = toggleElementIntialSt
 export default combineReducers({
   grid: createToggleElementsReducer(UIDataEntities.grid),
   elementLabels: createToggleElementsReducer(UIDataEntities.elementLabels),
+  elementActions: createToggleElementsReducer(UIDataEntities.elementActions)
 });

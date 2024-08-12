@@ -7,12 +7,12 @@ import { RoomTypes } from '../../../types';
 
 export default () => {
 
-  const { rooms, currentFloor } = useAppSelector(state => state);
+  const { rooms = [], currentFloor } = useAppSelector(state => state);
 
   return (
     <>
       {
-        !!rooms.length && rooms.map((room: RoomTypes) => (
+        rooms.map((room: RoomTypes) => (
           <RoomComponent
             key={ room.index }
             isDisabled={ room.floor !== currentFloor.index }

@@ -9,10 +9,10 @@ import { RoomTypes } from '../../../../types';
 
 export default (room: RoomTypes) => {
 
-  const { toggleHUD } = useAppSelector(state => state);
+  const elementActionsIsShowing = useAppSelector(state => state.toggleElements.elementActions.isShowing);
 
   return (
-    toggleHUD &&
+    elementActionsIsShowing &&
     <ElementHUDContainer>
       <RoomHUD { ...room } />
     </ElementHUDContainer>

@@ -9,10 +9,10 @@ import { WindowTypes } from '../../../../types';
 
 export default (window: WindowTypes) => {
 
-  const { toggleHUD } = useAppSelector(state => state);
+  const elementActionsIsShowing = useAppSelector(state => state.toggleElements.elementActions.isShowing);
 
   return (
-    toggleHUD &&
+    elementActionsIsShowing &&
     <ElementHUDContainer>
       <WindowHUD { ...window } />
     </ElementHUDContainer>

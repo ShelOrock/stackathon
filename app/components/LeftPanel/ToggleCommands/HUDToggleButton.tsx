@@ -4,17 +4,17 @@ import { useAppSelector, useAppDispatch } from '../../../hooks';
 import * as StyledComponents from '../../StyledComponents';
 const { StyledButton: { Button } } = StyledComponents;
 
-import { setHUD } from '../../../redux/toggleHUD/actions'
-
 import { OnClickType } from '../../../types';
+import { setToggleElement } from '../../../redux/toggleElements/actions';
+import UIDataEntities from '../../../types/redux/entities';
 
 export default () => {
 
   const dispatch = useAppDispatch();
 
-  const { toggleHUD } = useAppSelector(state => state);
+  const elementActionsIsShowing = useAppSelector(state => state.toggleElements.elementActions.isShowing);
 
-  const handleOnClick: OnClickType = () => dispatch(setHUD(!toggleHUD));
+  const handleOnClick: OnClickType = () => dispatch(setToggleElement(UIDataEntities.elementActions, !elementActionsIsShowing));
 
   return <Button onClick={ handleOnClick }>Toggle HUD</Button>
 }

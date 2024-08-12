@@ -8,11 +8,11 @@ type Room3DType = RoomTypes & JSX.IntrinsicElements['mesh']
 
 export default (room: Room3DType) => {
 
-  const { toggleLabels } = useAppSelector(state => state)
+  const elementLabelsIsShowing = useAppSelector(state => state.toggleElements.elementLabels.isShowing);
 
   return (
     <Html>
-      <h6>{ toggleLabels && room.label }</h6>
+      <h6>{ elementLabelsIsShowing && room.label }</h6>
     </Html>
   )
 };

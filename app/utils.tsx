@@ -1,11 +1,4 @@
-import * as React from 'react';
-const { createContext } = React;
-import { useSelector, TypedUseSelectorHook } from 'react-redux';
-
-import store from './redux/store';
-
 import {
-  RootState,
   RoomTypes,
   RoomsType,
   DoorTypes,
@@ -13,8 +6,6 @@ import {
   WindowTypes,
   WindowsType
 } from './types';
-
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const sortArray = (array: number[]): void => {
   array.length && array.sort((a: number, b: number) => a - b);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from "../../../hooks";
 
 import * as StyledComponents from '../../StyledComponents';
 const { StyledButton: { Button } } = StyledComponents;
@@ -17,7 +17,7 @@ import { OnClickType } from '../../../types';
 
 export default () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleOnClick: OnClickType = () => {
     dispatch(resetFloors());

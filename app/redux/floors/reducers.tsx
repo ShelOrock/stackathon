@@ -1,9 +1,4 @@
-import { 
-  CREATE_FLOOR,
-  UPDATE_FLOOR,
-  DELETE_FLOOR,
-  RESET_FLOORS
-} from './constants';
+import FloorsActionTypes from './constants';
 
 import {
   FloorTypes,
@@ -21,12 +16,12 @@ const initialFloor: FloorTypes = {
 
 const initialState: StateType<FloorsType> = [initialFloor] as FloorsType;
 
-export const floors: ReducerFunctionType<typeof initialState, FloorTypes> = (state = initialState, action) => {
+export const floors: ReducerFunctionType<typeof initialState, FloorTypes[], FloorTypes> = (state = initialState, action) => {
   switch(action.type) {
-    case CREATE_FLOOR:
+    case FloorsActionTypes.CREATE_FLOOR:
       return [ ...state, action.payload ];
 
-    case UPDATE_FLOOR:
+    case FloorsActionTypes.UPDATE_FLOOR:
       const floorToUpdate = state.findIndex(floor => floor.index == action.payload.index);
       return [
         ...state.slice(0, floorToUpdate),
@@ -34,11 +29,11 @@ export const floors: ReducerFunctionType<typeof initialState, FloorTypes> = (sta
         ...state.slice(floorToUpdate + 1)
       ];
 
-    case DELETE_FLOOR:
+    case FloorsActionTypes.DELETE_FLOOR:
       return state.filter(floor => floor.index !== action.payload.index);
 
-    case RESET_FLOORS:
-      return [initialFloor] as FloorsType;
+    case FloorsActionTypes.RESET_FLOORS:
+      return [ initialFloor ] as FloorsType;
 
     default:
       return state;

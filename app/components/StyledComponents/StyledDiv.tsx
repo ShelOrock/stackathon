@@ -5,7 +5,7 @@ interface DivPropTypes {
   alignItems?: string;
 }
 
-const RowsAndColumns = css<DivPropTypes>`
+const RowsAndColumns = styled.div<DivPropTypes>`
   display: flex;
   justify-content: ${ ({ justifyContent }) => justifyContent };
   align-items: ${ ({ alignItems }) => alignItems };

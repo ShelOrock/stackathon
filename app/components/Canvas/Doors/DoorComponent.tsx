@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from "../../../hooks";
 import { Rnd } from 'react-rnd';
 
 import DoorHUD from './DoorHUD';
@@ -27,7 +27,7 @@ export default (door: DoorTypes) => {
 
   const gridSnap: number = 25;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onDragStop: OnDragStopType = (_e, delta) => {
     let xPos = Math.round(delta.x / gridSnap) * gridSnap;

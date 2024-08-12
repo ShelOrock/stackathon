@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from "../../../../../../hooks";
 
 import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledButton: { PillButton } } = StyledComponents;
@@ -16,7 +16,7 @@ import { ElementTypes } from '../../../../../../types';
 export default (element: ElementTypes): JSX.Element => {
   const { index } = element
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const pillColors: string[] = [
     'blue',

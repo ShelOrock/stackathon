@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../../utils';
+import { useAppSelector } from '../../../hooks';
 
 import WindowComponent from './WindowComponent';
 
@@ -7,23 +7,19 @@ import { WindowTypes } from '../../../types';
 
 export default () => {
 
-  const { windows, currentFloor } = useTypedSelector(state => state);
-
-  const renderWindows = () => (
-    !!windows.length && windows.map((window: WindowTypes) => {
-      return (
-        <WindowComponent
-          key={ window.index }
-          isDisabled={ window.floor !== currentFloor.index }
-          { ...window }
-        />
-      )
-    })
-  )
+  const { windows, currentFloor } = useAppSelector(state => state);
 
   return (
     <>
-      { renderWindows() }
+      {
+        !!windows.length && windows.map((window: WindowTypes) => (
+          <WindowComponent
+            key={ window.index }
+            isDisabled={ window.floor !== currentFloor.index }
+            { ...window }
+          />
+        ))
+      }
     </>
-  )
-}
+  );
+};

@@ -1,15 +1,15 @@
-import { SET_GRID, RESET_GRID } from './constants';
+import gridActionTypes from './constants';
 
 import { ReducerFunctionType, StateType } from '../../types';
 
 const initialState: StateType<boolean> = true as boolean;
 
-export const toggleGrid: ReducerFunctionType<typeof initialState, boolean> = (state = initialState, action) => {
+export const toggleGrid: ReducerFunctionType<typeof initialState, boolean, boolean> = (state = initialState, action) => {
   switch(action.type) {
-    case SET_GRID:
+    case gridActionTypes.SET_GRID:
       return action.payload;
 
-    case RESET_GRID:
+    case gridActionTypes.RESET_GRID:
       return initialState;
 
     default:

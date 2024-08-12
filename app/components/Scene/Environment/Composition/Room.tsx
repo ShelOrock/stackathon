@@ -33,7 +33,11 @@ export default (room: Room3DTypes) => {
     receiveShadow: true
   };
 
-  const roomDimensions: [number, number, number] = [ room.width / SCALE_FACTOR, 10, room.height / SCALE_FACTOR ];
+  const roomDimensions: [number, number, number] = [
+    room.width / SCALE_FACTOR,
+    10,
+    room.height / SCALE_FACTOR
+  ];
 
   interface meshMaterialPropTypes {
     color: string;

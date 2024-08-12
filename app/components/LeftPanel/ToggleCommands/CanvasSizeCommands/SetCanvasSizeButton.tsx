@@ -1,6 +1,5 @@
-import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../../../utils';
+import * as React from "react";
+import { useAppSelector, useAppDispatch } from '../../../../hooks';
 
 import * as StyledComponents from '../../../StyledComponents';
 const { StyledButton: { SmallButton } } = StyledComponents;
@@ -10,13 +9,18 @@ const { canvasSizeActions: { setCanvasSize } } = ReduxActions;
 
 import { OnClickType } from '../../../../types';
 
-export default ({ size, label }) => {
+interface ComponentPropTypes {
+  size: number;
+  label: string;
+}
 
-  const { canvasSize } = useTypedSelector(state => state);
+const SetCanvasSizeButton: React.FC<ComponentPropTypes> = ({ size, label }) => {
 
-  const dispatch = useDispatch();
+  const { canvasSize } = useAppSelector(state => state);
 
-  const handleOnClick: OnClickType = () => { dispatch(setCanvasSize(size)) };
+  const dispatch = useAppDispatch();
+
+  const handleOnClick: OnClickType = () => dispatch(setCanvasSize(size));
 
   interface ButtonPropTypes {
     variant: string;
@@ -30,3 +34,5 @@ export default ({ size, label }) => {
 
   return <SmallButton { ...buttonProps }>{ label }</SmallButton>
 };
+
+export default SetCanvasSizeButton;

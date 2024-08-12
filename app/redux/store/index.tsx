@@ -1,15 +1,10 @@
-import { createStore, applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import rootReducer from "./reducers";
+import { Tuple, configureStore } from "@reduxjs/toolkit";
+import logger from "redux-logger";
 
-import { rootReducer } from './reducers';
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: () => new Tuple(logger)
+});
 
-let middleware = [];
-if (process.env.NODE_ENV !== 'production') {
-  middleware = [ ...middleware, createLogger({ collapsed: true }) ]
-}
-
-export default createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+export default store; 

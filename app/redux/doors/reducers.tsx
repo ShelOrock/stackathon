@@ -1,9 +1,4 @@
-import {
-  CREATE_DOOR,
-  DELETE_DOOR,
-  UPDATE_DOOR,
-  RESET_DOORS
-} from './constants';
+import DoorsActionTypes from './constants';
 
 import { 
   DoorTypes,
@@ -14,12 +9,12 @@ import {
 
 const initialState: StateType<DoorsType> = [] as DoorsType;
 
-export const doors: ReducerFunctionType<typeof initialState, DoorTypes> = (state = initialState, action) => {
+export const doors: ReducerFunctionType<typeof initialState, DoorTypes[], DoorTypes> = (state = initialState, action) => {
   switch(action.type) {
-    case CREATE_DOOR:
+    case DoorsActionTypes.CREATE_DOOR:
       return [ ...state, action.payload ];
 
-    case UPDATE_DOOR:
+    case DoorsActionTypes.UPDATE_DOOR:
       const doorToUpdate = state.findIndex(door => door.index === action.payload.index);
       return [
         ...state.slice(0, doorToUpdate),
@@ -27,10 +22,10 @@ export const doors: ReducerFunctionType<typeof initialState, DoorTypes> = (state
         ...state.slice(doorToUpdate + 1)
       ];
 
-    case DELETE_DOOR:
+    case DoorsActionTypes.DELETE_DOOR:
       return state.filter(door => door.index !== action.payload.index);
 
-    case RESET_DOORS:
+    case DoorsActionTypes.RESET_DOORS:
       return [] as DoorsType;
     
     default:

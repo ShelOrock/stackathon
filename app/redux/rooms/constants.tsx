@@ -1,7 +1,8 @@
-export const CREATE_ROOM = Symbol('CREATE_ROOM');
+enum RoomsActionTypes {
+  CREATE_ROOM = "CREATE_ROOM",
+  DELETE_ROOM = "DELETE_ROOM",
+  UPDATE_ROOM = "UPDATE_ROOM",
+  RESET_ROOMS = "RESET_ROOMS"
+};
 
-export const DELETE_ROOM = Symbol('DELETE_ROOM');
-
-export const UPDATE_ROOM = Symbol('UPDATE_ROOM');
-
-export const RESET_ROOMS = Symbol('RESET_ROOMS');
+export default RoomsActionTypes;

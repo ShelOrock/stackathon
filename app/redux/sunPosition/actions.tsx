@@ -1,10 +1,10 @@
-import { SET_SUN_POSITION, RESET_SUN_POSITION } from './constants';
+import SunPositionActionTypes from './constants';
 
 import { ActionFunctionType } from '../../types';
 
 export const setSunPosition: ActionFunctionType<string> = payload => ({
-  type: SET_SUN_POSITION,
+  type: SunPositionActionTypes.SET_SUN_POSITION,
   payload
 });
 
-export const resetSunPosition: ActionFunctionType<string> = () => ({ type: RESET_SUN_POSITION })
+export const resetSunPosition: ActionFunctionType<string> = () => ({ type: SunPositionActionTypes.RESET_SUN_POSITION })

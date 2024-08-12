@@ -1,9 +1,9 @@
-export const CREATE_INITIAL_FLOOR = Symbol('CREATE_INITIAL_FLOOR');
+enum FloorsActionTypes {
+  CREATE_INITIAL_FLOOR = "CREATE_INITAL_FLOOR",
+  CREATE_FLOOR = "CREATE_FLOOR",
+  UPDATE_FLOOR = "UPDATE_FLOOR",
+  DELETE_FLOOR = "DELETE_FLOOR",
+  RESET_FLOORS = "RESET_FLOORS"
+};
 
-export const CREATE_FLOOR = Symbol('CREATE_FLOOR');
-
-export const UPDATE_FLOOR = Symbol('UPDATE_FLOOR');
-
-export const DELETE_FLOOR = Symbol('DELETE_FLOOR');
-
-export const RESET_FLOORS = Symbol('RESET_FLOORS');
+export default FloorsActionTypes;

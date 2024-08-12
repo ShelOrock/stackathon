@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { useTypedSelector, findMissingIndex } from '../../../utils';
+import { findMissingIndex } from '../../../utils';
+import { useAppSelector } from '../../../hooks';
 
 import * as StyledComponents from '../../StyledComponents';
 const { StyledButton: { Button } } = StyledComponents;
@@ -11,7 +12,7 @@ export default () => {
 
   const dispatch = useDispatch();
 
-  const { currentFloor, rooms } = useTypedSelector(state => state);
+  const { currentFloor, rooms } = useAppSelector(state => state);
 
   const handleCreateRoom = () => {
     dispatch(createRoom({

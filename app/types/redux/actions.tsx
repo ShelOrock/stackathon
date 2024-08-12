@@ -1,5 +1,6 @@
-export interface ActionTypes<PayloadType> {
-  type: Symbol;
+export interface ActionTypes<PayloadType = {}> {
+  [key: string]: any;
+  type: string;
   payload?: PayloadType;
 };
 

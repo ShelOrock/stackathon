@@ -23,6 +23,7 @@ import {
 } from './react';
 import {
   RootState,
+  AppDispatchType,
   ActionTypes,
   ActionFunctionType,
   StateType,
@@ -51,6 +52,7 @@ export {
   RndPropTypes,
   InputOnChangeType,
   RootState,
+  AppDispatchType,
   ActionTypes,
   ActionFunctionType,
   StateType,

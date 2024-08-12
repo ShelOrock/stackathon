@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../../../../hooks';
 
 import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledButton: { SmallButton } } = StyledComponents;
@@ -20,7 +20,7 @@ export default (element: ElementTypes) => {
     tag
   } = element;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const evaluateElementType = (element: ElementTypes): OnClickType => {
     switch(element.type) {

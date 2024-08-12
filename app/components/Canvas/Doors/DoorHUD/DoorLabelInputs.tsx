@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from "../../../../hooks";
 
 import * as StyledComponents from '../../../StyledComponents';
 const { StyledForm: { InputField } } = StyledComponents;
@@ -13,7 +13,7 @@ export default (door: DoorTypes) => {
 
   const { index, label } = door;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleOnChange: InputOnChangeType = e =>  dispatch(updateDoor({ index, label: e.target.value }));
 

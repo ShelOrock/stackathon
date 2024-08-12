@@ -1,10 +1,10 @@
-import { SET_HUD, RESET_HUD } from './constants';
+import ToggleHUDActionTypes from './constants';
 
 import { ActionFunctionType } from '../../types';
 
 export const setHUD: ActionFunctionType<boolean> = boolean => ({
-  type: SET_HUD,
+  type: ToggleHUDActionTypes.SET_HUD,
   payload: boolean
 });
 
-export const resetHUD: ActionFunctionType<boolean> = () => ({ type: RESET_HUD });
+export const resetHUD: ActionFunctionType<boolean> = () => ({ type: ToggleHUDActionTypes.RESET_HUD });

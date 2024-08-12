@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../../../hooks';
 
 import * as StyledComponents from '../../../../StyledComponents';
 const { StyledButton: { SmallButton } } = StyledComponents;
@@ -11,11 +11,11 @@ import { FloorTypes, OnClickType } from '../../../../../types';
 
 export default (floor: FloorTypes) => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   
   const { index, isHidden } = floor;
 
-  const handleOnClick: OnClickType = () => { dispatch(updateFloor({ index, isHidden: !isHidden })) }
+  const handleOnClick: OnClickType = () => dispatch(updateFloor({ index, isHidden: !isHidden }));
 
   interface ButtonPropTypes {
     variant: string;

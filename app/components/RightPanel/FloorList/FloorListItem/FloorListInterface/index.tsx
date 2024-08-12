@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../../../../utils';
+import { useAppSelector } from '../../../../../hooks';
 
 import SelectFloorButton from './SelectFloorButton';
 import HideFloorElementsButton from './HideFloorElementsButton';
@@ -9,7 +9,7 @@ import { FloorTypes } from '../../../../../types';
 
 export default (floor: FloorTypes) => {
 
-  const { floors } = useTypedSelector(state => state)
+  const { floors } = useAppSelector(state => state)
 
   return (
     <>

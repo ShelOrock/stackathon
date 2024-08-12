@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from "../../../hooks";
 import { Rnd } from 'react-rnd';
 
 import WindowHUD from './WindowHUD';
@@ -26,7 +26,7 @@ export default (window: WindowTypes) => {
 
   const gridSnap: number = 25;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onDragStop: OnDragStopType = (_e, delta) => {
     let xPos = Math.round(delta.x / gridSnap) * gridSnap;
@@ -86,8 +86,6 @@ export default (window: WindowTypes) => {
     else if (window.isHighlighted) return window.tag
     else return 'black'
   };
-
-  console.log(window.tag)
 
   interface WindowStylePropTypes {
     width: number;

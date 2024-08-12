@@ -1,1 +1,5 @@
-export const RESET_STORE = Symbol('RESET_STORE');
+enum StoreActionTypes {
+  RESET_STORE = "RESET_STORE"
+};
+
+export default StoreActionTypes;

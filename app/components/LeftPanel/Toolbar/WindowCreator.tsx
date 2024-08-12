@@ -1,18 +1,19 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useTypedSelector, findMissingIndex } from '../../../utils';
+import { findMissingIndex } from '../../../utils';
 
 import * as StyledComponents from '../../StyledComponents';
 const { StyledButton: { Button } } = StyledComponents;
 
 import * as ReduxActions from '../../../redux/actions';
+import { useAppSelector } from '../../../hooks';
 const { windowActions: { createWindow } } = ReduxActions;
 
 export default () => {
 
   const dispatch = useDispatch();
 
-  const { windows, currentFloor } = useTypedSelector(state => state);
+  const { windows, currentFloor } = useAppSelector(state => state);
 
   const handleCreateWindow = (): void => {
     dispatch(createWindow({

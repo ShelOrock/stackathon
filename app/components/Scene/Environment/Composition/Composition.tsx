@@ -13,7 +13,7 @@ import {
 
 export default () => {
   
-  const { rooms, doors, windows } = useStore().getState();
+  const { rooms, doors, windows } = useStore().getState() as any;
   
   return (
     <> 

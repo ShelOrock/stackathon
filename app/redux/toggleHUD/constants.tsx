@@ -1,3 +1,6 @@
-export const SET_HUD = Symbol('SET_HUD');
+enum ToggleHUDActionTypes {
+  SET_HUD = "SET_HUD",
+  RESET_HUD = "RESET_HUD"
+};
 
-export const RESET_HUD = Symbol('RESET_HUD');
+export default ToggleHUDActionTypes;

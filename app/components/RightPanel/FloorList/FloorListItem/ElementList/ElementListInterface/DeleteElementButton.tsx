@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../../../../hooks';
 
 import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledButton: { SmallButton } } = StyledComponents;
@@ -19,21 +19,29 @@ import {
 
 export default (element: ElementTypes) => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const evaluateElementType = (element: ElementTypes): OnClickType => {
     switch(element.type) {
       case 'room':
-        return (): void => { dispatch(deleteRoom(element)) };
+        return (): void => {
+          dispatch(deleteRoom(element))
+        };
 
       case 'door':
-        return (): void => { dispatch(deleteDoor(element)) };
+        return (): void => {
+          dispatch(deleteDoor(element))
+        };
 
       case 'window':
-        return (): void => { dispatch(deleteWindow(element)) };
+        return (): void => {
+          dispatch(deleteWindow(element))
+        };
 
       case 'floor':
-        return (): void => { dispatch(deleteFloor(element)) };
+        return (): void => {
+          dispatch(deleteFloor(element))
+        };
 
       default:
         null;

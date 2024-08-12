@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTypedSelector } from '../../utils';
+import { useAppSelector } from "../../hooks";
 
 import Grid from './Grid';
 import Rooms from './Rooms';
@@ -9,19 +9,12 @@ import Windows from './Windows';
 import * as StyledComponent from '../StyledComponents';
 const { StyledCanvas: { Canvas } } = StyledComponent;
 
-import {
-  DoorTypes,
-  WindowTypes,
-} from '../../types';
-
 export default () => {
 
   const {
     canvasSize,
-    doors,
-    windows,
     toggleGrid
-  } = useTypedSelector(state => state);
+  } = useAppSelector(state => state);
 
   return (
     <Canvas size={ canvasSize }>

@@ -1,5 +1,6 @@
 enum UIDataEntities {
-  grid = "grid"
+  grid = "grid",
+  elementLabels = "elementLabels"
 };
 
 export default UIDataEntities;

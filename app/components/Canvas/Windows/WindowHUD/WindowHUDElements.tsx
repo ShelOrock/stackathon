@@ -8,12 +8,12 @@ import { WindowTypes } from '../../../../types';
 
 export default (window: WindowTypes) => {
   
-  const { toggleLabels } = useAppSelector(state => state);
+  const elementLabelsIsShowing = useAppSelector(state => state.toggleElements.elementLabels.isShowing);
 
   return (
     <>
       <WindowHUDButtons { ...window } />
-      { toggleLabels && <WindowLabelInput { ...window } />}
+      { elementLabelsIsShowing && <WindowLabelInput { ...window } />}
     </>
   )
 }

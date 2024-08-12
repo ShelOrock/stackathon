@@ -13,13 +13,17 @@ import {
 
 export default () => {
   
-  const { rooms, doors, windows } = useStore().getState() as any;
+  const {
+    rooms = [],
+    doors = [],
+    windows = []
+  } = useStore().getState() as any;
   
   return (
     <> 
-      { !!rooms.length && rooms.map((room: RoomTypes) => <Room key={ room.index } { ...room } />) }
-      { !!doors.length && doors.map((door: DoorTypes) => <Door key={ door.index } { ...door } />) }
-      { !!windows.length && windows.map((window: WindowTypes ) => <Window key={ window.index } { ...window } />) }
+      { rooms.map((room: RoomTypes) => <Room key={ room.index } { ...room } />) }
+      { doors.map((door: DoorTypes) => <Door key={ door.index } { ...door } />) }
+      { windows.map((window: WindowTypes ) => <Window key={ window.index } { ...window } />) }
     </>
   );
 };

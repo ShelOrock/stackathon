@@ -17,7 +17,7 @@ interface VerticalGridPositionPropTypes {
   size: string;
 }
 
-export const Canvas = styled.div<CanvasPropTypes>`
+const StyledCanvas = styled.div<CanvasPropTypes>`
   background-color: ${ ({ theme }) => theme.colors.white.base };
   margin: 4rem auto 2rem;
   width: ${ ({ size }) => size };
@@ -43,4 +43,6 @@ export const VerticalGridPosition = styled.div<VerticalGridPositionPropTypes>`
   height ${ ({ height }) => height };
   left: ${ ({ column, division }) => column * division };
   outline: ${ ({ size }) => size == 'large' ? '2px' : '1px' } solid #EEE;
-`
+`;
+
+export default StyledCanvas;

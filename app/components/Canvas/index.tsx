@@ -6,23 +6,22 @@ import Rooms from './Rooms';
 import Doors from './Doors';
 import Windows from './Windows';
 
-import * as StyledComponent from '../StyledComponents';
-const { StyledCanvas: { Canvas } } = StyledComponent;
+import StyledCanvas from './styles';
 
-export default () => {
+const Canvas = () => {
 
-  const {
-    canvasSize,
-  } = useAppSelector(state => state);
+  const { canvasSize } = useAppSelector(state => state);
 
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
 
   return (
-    <Canvas size={ canvasSize }>
+    <StyledCanvas size={ canvasSize }>
       { gridIsShowing && <Grid size={ canvasSize }/> }
       <Rooms />
       <Doors />
       <Windows />
-    </Canvas>
+    </StyledCanvas>
   );
 };
+
+export default Canvas;

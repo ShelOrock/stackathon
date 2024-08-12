@@ -1,10 +1,10 @@
 import gridActionTypes from './constants';
 
-import { ActionFunctionType } from '../../types';
+import { ReduxTypes } from '../../types';
 
-export const setGrid: ActionFunctionType<boolean> = payload => ({
+export const setGrid: ReduxTypes.ActionTypes.UnknownActionFunctionType<boolean> = payload => ({
   type: gridActionTypes.SET_GRID,
   payload
 });
 
-export const resetGrid: ActionFunctionType<boolean> = () => ({ type: gridActionTypes.RESET_GRID });
+export const resetGrid: ReduxTypes.ActionTypes.UnknownActionFunctionType<boolean> = () => ({ type: gridActionTypes.RESET_GRID });

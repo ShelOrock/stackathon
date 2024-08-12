@@ -1,9 +1,9 @@
 import StoreActionTypes from './constants';
 import appReducer from '..';
 
-import { ReducerFunctionType, RootState } from '../../types';
+import { ReduxTypes } from '../../types';
 
-const rootReducer: ReducerFunctionType<RootState, RootState> = (state = undefined, action) => {
+const rootReducer: ReduxTypes.ReducerFunctionType<ReduxTypes.RootState, ReduxTypes.RootState> = (state = undefined, action) => {
   switch (action.type) {
     case StoreActionTypes.RESET_STORE:
     default:

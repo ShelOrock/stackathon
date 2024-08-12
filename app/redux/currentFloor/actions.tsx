@@ -2,12 +2,12 @@ import CurrentFloorActionTypes from './constants';
 
 import {
   FloorTypes,
-  ActionFunctionType
+  ReduxTypes
 } from '../../types';
 
-export const setCurrentFloor: ActionFunctionType<FloorTypes> = payload => ({
+export const setCurrentFloor: ReduxTypes.ActionTypes.UnknownActionFunctionType<FloorTypes> = payload => ({
   type: CurrentFloorActionTypes.SET_CURRENT_FLOOR,
   payload
 });
 
-export const resetCurrentFloor: ActionFunctionType<FloorTypes> = () => ({ type: CurrentFloorActionTypes.RESET_CURRENT_FLOOR });
+export const resetCurrentFloor: ReduxTypes.ActionTypes.UnknownActionFunctionType<FloorTypes> = () => ({ type: CurrentFloorActionTypes.RESET_CURRENT_FLOOR });

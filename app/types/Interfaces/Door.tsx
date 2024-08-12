@@ -5,7 +5,7 @@ export interface DoorTypes {
   width?: number;
   height?: number;
   label?: string;
-  orientation?: 'NS' | 'WE';
+  orientation?: "NS" | "WE";
   isHighlighted?: boolean;
   isLocked?: boolean;
   isHidden?: boolean;
@@ -16,4 +16,4 @@ export interface DoorTypes {
 
 export type DoorsType = DoorTypes[];
 
-export type Door3DTypes = DoorTypes & JSX.IntrinsicElements['mesh'];
+export type Door3DTypes = DoorTypes & JSX.IntrinsicElements["mesh"];

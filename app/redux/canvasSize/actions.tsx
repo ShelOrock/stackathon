@@ -1,10 +1,10 @@
 import canvasSizeActionTypes from './constants';
 
-import { ActionFunctionType } from '../../types'
+import { ReduxTypes } from '../../types'
 
-export const setCanvasSize: ActionFunctionType<number> = payload => ({
+export const setCanvasSize: ReduxTypes.ActionTypes.UnknownActionFunctionType<number> = payload => ({
   type: canvasSizeActionTypes.SET_CANVAS_SIZE,
   payload
 });
 
-export const resetCanvasSize: ActionFunctionType<number> = () => ({ type: canvasSizeActionTypes.RESET_CANVAS_SIZE });
+export const resetCanvasSize: ReduxTypes.ActionTypes.UnknownActionFunctionType<number> = () => ({ type: canvasSizeActionTypes.RESET_CANVAS_SIZE });

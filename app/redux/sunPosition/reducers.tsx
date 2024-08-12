@@ -1,10 +1,10 @@
 import SunPositionActionTypes from './constants';
 
-import { StateType, ReducerFunctionType } from '../../types';
+import { ReduxTypes} from '../../types';
 
-const initialState: StateType<string> = '0';
+const initialState: ReduxTypes.StateType<string> = '0';
 
-export const sunPosition: ReducerFunctionType<typeof initialState, string, string> = (state = initialState, action) => {
+export const sunPosition: ReduxTypes.ReducerFunctionType<typeof initialState, string, string> = (state = initialState, action) => {
   switch(action.type) {
     case SunPositionActionTypes.SET_SUN_POSITION:
       return action.payload;

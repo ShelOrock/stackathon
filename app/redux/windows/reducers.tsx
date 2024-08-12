@@ -3,13 +3,12 @@ import WindowsActionTypes from './constants';
 import {
   WindowTypes,
   WindowsType,
-  StateType,
-  ReducerFunctionType
+  ReduxTypes
 } from '../../types';
 
-const initialState: StateType<WindowsType> = [] as WindowsType;
+const initialState: ReduxTypes.StateType<WindowsType> = [] as WindowsType;
 
-export const windows: ReducerFunctionType<typeof initialState, WindowTypes[], WindowTypes> = (state = initialState, action) => {
+export const windows: ReduxTypes.ReducerFunctionType<typeof initialState, WindowTypes[], WindowTypes> = (state = initialState, action) => {
   switch(action.type) {
     case WindowsActionTypes.CREATE_WINDOW:
       return [ ...state, action.payload ];

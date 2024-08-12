@@ -1,20 +1,20 @@
 import WindowsActionTypes from './constants';
 
-import { WindowTypes, ActionFunctionType } from '../../types';
+import { WindowTypes, ReduxTypes } from '../../types';
 
-export const createWindow: ActionFunctionType<WindowTypes> = payload => ({
+export const createWindow: ReduxTypes.ActionTypes.UnknownActionFunctionType<WindowTypes> = payload => ({
   type: WindowsActionTypes.CREATE_WINDOW,
   payload
 })
 
-export const updateWindow: ActionFunctionType<WindowTypes> = payload => ({
+export const updateWindow: ReduxTypes.ActionTypes.UnknownActionFunctionType<WindowTypes> = payload => ({
   type: WindowsActionTypes.UPDATE_WINDOW,
   payload
 });
 
-export const deleteWindow: ActionFunctionType<WindowTypes> = payload => ({
+export const deleteWindow: ReduxTypes.ActionTypes.UnknownActionFunctionType<WindowTypes> = payload => ({
   type: WindowsActionTypes.DELETE_WINDOW,
   payload
 });
 
-export const resetWindows: ActionFunctionType<WindowTypes> = () => ({ type: WindowsActionTypes.RESET_WINDOWS });
+export const resetWindows: ReduxTypes.ActionTypes.UnknownActionFunctionType<WindowTypes> = () => ({ type: WindowsActionTypes.RESET_WINDOWS });

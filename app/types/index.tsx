@@ -21,14 +21,7 @@ import {
   RndPropTypes,
   InputOnChangeType
 } from './react';
-import {
-  RootState,
-  AppDispatchType,
-  ActionTypes,
-  ActionFunctionType,
-  StateType,
-  ReducerFunctionType,
-} from './redux';
+import * as ReduxTypes from './redux';
 
 
 export {
@@ -51,10 +44,5 @@ export {
   OnResizeType,
   RndPropTypes,
   InputOnChangeType,
-  RootState,
-  AppDispatchType,
-  ActionTypes,
-  ActionFunctionType,
-  StateType,
-  ReducerFunctionType
+  ReduxTypes
 };

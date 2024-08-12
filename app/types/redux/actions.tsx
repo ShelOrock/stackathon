@@ -1,7 +1,18 @@
-export interface ActionTypes<PayloadType = {}> {
+import { ReduxTypes } from "..";
+
+interface ActionTypes<PayloadType = {}> {
   [key: string]: any;
+  entityName?: ReduxTypes.Entities;
   type: string;
   payload?: PayloadType;
 };
 
-export type ActionFunctionType<PayloadType = {}> = (payload?: PayloadType) => ActionTypes<PayloadType>;
+type UnknownActionFunctionType<PayloadType = {}> = (payload?: PayloadType) => ActionTypes<PayloadType>;
+
+type KnownActionFunctionType<PayloadType = {}> = (entityName: ReduxTypes.Entities, payload?: PayloadType) => ActionTypes<PayloadType>
+
+export {
+  ActionTypes,
+  UnknownActionFunctionType,
+  KnownActionFunctionType,
+};

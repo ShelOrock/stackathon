@@ -12,6 +12,8 @@ import { toggleHUD } from './toggleHUD/reducers';
 import { toggleLabelInputs } from './toggleLabelInputs/reducers';
 import { toggleLabels } from './toggleLabels/reducers';
 
+import toggleElements from "./toggleElements/reducers" 
+
 export default combineReducers({
   canvasSize,
   rooms,
@@ -23,5 +25,6 @@ export default combineReducers({
   toggleGrid,
   toggleHUD,
   toggleLabelInputs,
-  toggleLabels
+  toggleLabels,
+  toggleElements
 });

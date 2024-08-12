@@ -3,13 +3,12 @@ import RoomActionTypes from './constants';
 import {
   RoomTypes,
   RoomsType,
-  StateType,
-  ReducerFunctionType
+  ReduxTypes
 } from '../../types';
 
-const initialState: StateType<RoomsType> = [] as RoomsType;
+const initialState: ReduxTypes.StateType<RoomsType> = [] as RoomsType;
 
-export const rooms: ReducerFunctionType<typeof initialState, RoomTypes[], RoomTypes> = (state = initialState, action) => {
+export const rooms: ReduxTypes.ReducerFunctionType<typeof initialState, RoomTypes[], RoomTypes> = (state = initialState, action) => {
   switch (action.type) {
     case RoomActionTypes.CREATE_ROOM:
       return [ ...state, action.payload ];

@@ -8,12 +8,12 @@ import { RoomTypes } from '../../../../types';
 
 export default (room: RoomTypes) => {
 
-  const { toggleLabelInputs } = useAppSelector(state => state);
+  const elementLabelsIsShowing = useAppSelector(state => state.toggleElements.elementLabels.isShowing);
 
   return (
     <>
       <RoomHUDButtons { ...room } />
-      { toggleLabelInputs && <RoomLabelInput { ...room }/> }
+      { elementLabelsIsShowing && <RoomLabelInput { ...room }/> }
     </>
   )
 }

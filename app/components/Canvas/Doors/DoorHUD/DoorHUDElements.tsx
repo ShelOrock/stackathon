@@ -8,12 +8,12 @@ import { DoorTypes } from '../../../../types';
 
 export default (door: DoorTypes) => {
 
-  const { toggleLabelInputs } = useAppSelector(state => state);
+  const elementLabelsIsShowing = useAppSelector(state => state.toggleElements.elementLabels.isShowing);
   
   return (
     <>
       <DoorHUDButtons { ...door } />
-      { toggleLabelInputs && <DoorLabelInputs { ...door } /> }
+      { elementLabelsIsShowing && <DoorLabelInputs { ...door } /> }
     </>
   )
 }

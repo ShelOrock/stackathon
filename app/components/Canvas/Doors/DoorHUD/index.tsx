@@ -6,10 +6,10 @@ import { ElementHUDContainer } from '../../../StyledComponents/StyledDiv';
 
 export default (door) => {
 
-  const { toggleHUD } = useAppSelector(state => state);
+  const elementActionsIsShowing = useAppSelector(state => state.toggleElements.elementActions.isShowing);
 
   return (
-    toggleHUD &&
+    elementActionsIsShowing &&
     <ElementHUDContainer>
       <DoorHUD { ...door } />
     </ElementHUDContainer>

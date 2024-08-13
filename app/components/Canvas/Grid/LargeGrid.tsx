@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-import GridSquarePosition from './GridSquarePosition';
+import GridSquare from './GridSquare';
+import { useIndexData } from '../../../hooks';
+import { ComponentMapping } from '../../ComponentMapping';
 
 export default ({ size }) => {
 
@@ -8,15 +10,19 @@ export default ({ size }) => {
 
   const gridArray = [...Array(size / DIVISION_SIZE).keys()];
 
+  const { indexedData: indexedGridArray } = useIndexData(gridArray, "row");
+
   return (
-    <>
-      { gridArray.map((_row, yPos) => <GridSquarePosition
-        key={ yPos }
-        gridArray={ gridArray }
-        yPos={ yPos }
-        divisionSize={ DIVISION_SIZE }
-        size={ 'large' }
-      /> )}
-    </>
+    <ComponentMapping
+      componentData={ indexedGridArray }
+      renderComponent={ ({ row }) => (
+        <GridSquare
+          gridArray={ gridArray }
+          row={ row }
+          divisionSize={ DIVISION_SIZE }
+          size={ 'large' }
+        />
+      ) }
+    />
   );
 };

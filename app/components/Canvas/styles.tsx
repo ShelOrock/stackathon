@@ -33,15 +33,16 @@ export const GridSquare = css`
 `;
 
 export const HorizontalGridPosition = styled.div<HorizontalGridPositionPropTypes>`
-  ${ GridSquare }
-  top ${ ({ row, division }) => row * division };
+  ${ GridSquare };
+  left: ${ ({ row, division }) => row * division };
+  outline: 1px solid #EEE;
 `;
 
 export const VerticalGridPosition = styled.div<VerticalGridPositionPropTypes>`
   ${ GridSquare }
   width: ${ ({ width }) => width };
   height ${ ({ height }) => height };
-  left: ${ ({ column, division }) => column * division };
+  top: ${ ({ column, division }) => column * division };
   outline: ${ ({ size }) => size == 'large' ? '2px' : '1px' } solid #EEE;
 `;
 

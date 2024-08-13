@@ -1,7 +1,4 @@
-import * as React from 'react';
-import { ThemeProvider } from 'styled-components';
-
-export const theme = {
+const theme = {
   font: {
     fontFamily: 'Titillium Web',
     fontSizes: {
@@ -76,8 +73,4 @@ export const theme = {
   },
 };
 
-export default ({ children }) => (
-  <ThemeProvider theme={ theme }>{ children }</ThemeProvider>
-);
-
-export type ThemeType = typeof theme;
+export default theme;

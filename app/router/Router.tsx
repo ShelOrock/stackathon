@@ -1,22 +1,21 @@
-import * as React from 'react';
-const { useEffect } = React;
+import React, { useEffect } from "react";
 import { useAppDispatch } from "../hooks";
 import {
   BrowserRouter as Router,
   Routes,
   Route
-} from 'react-router-dom';
+} from "react-router-dom";
 
 import * as Views from "../views";
-import Scene from './Scene/Scene';
+import Scene from "../components/Scene/Scene";
 
-import * as reduxActions from '../redux/actions';
+import * as reduxActions from "../redux/actions";
 const {
   floorActions: { resetFloors },
   currentFloorActions: { resetCurrentFloor }
 } = reduxActions
 
-export default () => {
+const AppRouter = () => {
 
   const dispatch = useAppDispatch();
 
@@ -28,10 +27,12 @@ export default () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={ <Views.Planner /> } />
-        <Route path='/Planner' element={ <Views.Planner /> } />
-        <Route path='/3D' element={ <Scene /> } />
+        <Route path="/" element={ <Views.Planner /> } />
+        <Route path="/Planner" element={ <Views.Planner /> } />
+        <Route path="/3D" element={ <Scene /> } />
       </Routes>
     </Router>
   );
 };
+
+export default AppRouter;

@@ -1,16 +1,22 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { ThemeProvider } from "styled-components";
 
-import store from './redux/store';
-import App from './components/Root';
-import Theme from './theme';
+import App from "./router/Router";
 
-render(
+import store from "./redux/store";
+
+import theme from "./theme";
+
+const APP = "app";
+
+const root = createRoot(document.getElementById(APP));
+
+root.render(
   <Provider store={ store }>
-    <Theme>
+    <ThemeProvider theme={ theme }>
       <App />
-    </Theme>
+    </ThemeProvider>
   </Provider>,
-  document.getElementById('app')
 );

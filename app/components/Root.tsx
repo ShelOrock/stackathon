@@ -7,7 +7,7 @@ import {
   Route
 } from 'react-router-dom';
 
-import Home from './Home';
+import * as Views from "../views";
 import Scene from './Scene/Scene';
 
 import * as reduxActions from '../redux/actions';
@@ -28,7 +28,8 @@ export default () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={ <Home /> } />
+        <Route path='/' element={ <Views.Planner /> } />
+        <Route path='/Planner' element={ <Views.Planner /> } />
         <Route path='/3D' element={ <Scene /> } />
       </Routes>
     </Router>

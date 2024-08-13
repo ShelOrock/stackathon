@@ -1,6 +1,6 @@
 import React from "react";
 
-import StyledRow from "./styles";
+import StyledColumn from "./styles";
 
 import { ComponentPropTypes } from "./types";
 

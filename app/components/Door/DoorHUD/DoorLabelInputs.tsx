@@ -15,24 +15,16 @@ export default (door: DoorTypes) => {
 
   const dispatch = useAppDispatch();
 
-  const handleOnChange: InputOnChangeType = e =>  dispatch(updateDoor({ index, label: e.target.value }));
+  const handleOnChange: InputOnChangeType = e => dispatch(updateDoor({ index, label: e.target.value }));
 
-  interface InputPropTypes {
-    type: 'text';
-    name: 'label';
-    placeholder: string;
-    value: string;
-    onChange: InputOnChangeType;
-  }
-
-  const inputProps: InputPropTypes = {
-    type: 'text',
-    name: 'label',
-    placeholder: `Door ${ index + 1 }`,
-    value: label,
-    onChange: handleOnChange,
-  }
-
-  return <InputField { ...inputProps } />
+  return (
+    <InputField
+      type="text"
+      name="label"
+      placeholder={ `Door ${ index + 1 }` }
+      value={ label }
+      onChange={ handleOnChange }
+    />
+  )
 
 }

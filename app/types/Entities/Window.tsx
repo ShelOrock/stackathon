@@ -1,11 +1,13 @@
-export interface DoorTypes {
+import { Directions } from "../../enums";
+
+export interface WindowTypes {
   index?: number;
   xPos?: number;
   yPos?: number;
   width?: number;
   height?: number;
   label?: string;
-  orientation?: "NS" | "WE";
+  orientation?: Directions;
   isHighlighted?: boolean;
   isLocked?: boolean;
   isHidden?: boolean;
@@ -14,6 +16,6 @@ export interface DoorTypes {
   tag?: string;
 };
 
-export type DoorsType = DoorTypes[];
+export type WindowsType = WindowTypes[];
 
-export type Door3DTypes = DoorTypes & JSX.IntrinsicElements["mesh"];
+export type Window3DTypes = WindowTypes & JSX.IntrinsicElements['mesh'];

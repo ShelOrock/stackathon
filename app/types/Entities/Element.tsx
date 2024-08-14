@@ -1,19 +1,20 @@
-export interface WindowTypes {
+import { AppData, Directions } from "../../enums";
+
+export interface ElementTypes {
+  type: AppData;
   index?: number;
   xPos?: number;
   yPos?: number;
+  zAxis?: number;
   width?: number;
   height?: number;
   label?: string;
-  orientation?: 'NS' | 'WE';
   isHighlighted?: boolean;
   isLocked?: boolean;
   isHidden?: boolean;
   isDisabled?: boolean;
-  floor?: number;
+  orientation?: Directions;
   tag?: string;
 };
-
-export type WindowsType = WindowTypes[];
-
-export type Window3DTypes = WindowTypes & JSX.IntrinsicElements['mesh'];
+  
+export type ElementsType = ElementTypes[];

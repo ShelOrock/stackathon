@@ -5,20 +5,15 @@ import LockElementButton from '../../RightPanel/FloorList/FloorListItem/ElementL
 import HideElementButton from '../../RightPanel/FloorList/FloorListItem/ElementList/ElementListInterface/HideElementButton';
 import Row from "../../Row";
 
-import { DoorTypes, ElementTypes } from '../../../types';
+import { DoorTypes } from '../../../types';
+import { AppData } from '../../../enums';
 
-export default (door: DoorTypes) => {
+const DoorHUD = (door: DoorTypes) => (
+  <Row>
+    <DeleteElementButton type={ AppData.DOOR } { ...door } />
+    <LockElementButton type={ AppData.DOOR } { ...door } />
+    <HideElementButton type={ AppData.DOOR } { ...door } />
+  </Row>
+)
 
-  const doorHUDProps: ElementTypes = {
-    type: 'door',
-    ...door
-  }
-
-  return (
-    <Row>
-      <DeleteElementButton { ...doorHUDProps } />
-      <LockElementButton { ...doorHUDProps } />
-      <HideElementButton { ...doorHUDProps } />
-    </Row>
-  )
-}
+export default DoorHUD;

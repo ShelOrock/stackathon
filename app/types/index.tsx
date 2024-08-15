@@ -12,7 +12,7 @@ import {
   Window3DTypes,
   FloorTypes,
   FloorsType,
-} from './Interfaces';
+} from './Entities';
 import {
   OnDragStopType,
   OnClickType,

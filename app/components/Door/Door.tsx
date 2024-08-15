@@ -16,6 +16,7 @@ import {
 
 import { Directions } from "../../enums";
 import { ComponentPropTypes } from "./types";
+import DraggableComponent from "../DraggableComponent";
 
 const Door: React.FC<ComponentPropTypes> = ({
   index,
@@ -40,7 +41,7 @@ const Door: React.FC<ComponentPropTypes> = ({
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
   };
 
-  const onDragStop: OnDragStopType = (_e, delta) => {
+  const onDragStop = (_e, delta) => {
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 
@@ -52,7 +53,6 @@ const Door: React.FC<ComponentPropTypes> = ({
   };
 
   const onDoubleClick: OnDoubleClickType = () => {
-
     if(orientation === Directions.NORTH_SOUTH) {
       dispatch(updateDoor({
         index,
@@ -60,6 +60,8 @@ const Door: React.FC<ComponentPropTypes> = ({
         height: width,
         orientation: Directions.EAST_WEST
       }));
+
+      return;
     };
 
     if(orientation === Directions.EAST_WEST) {
@@ -69,25 +71,10 @@ const Door: React.FC<ComponentPropTypes> = ({
         height: width,
         orientation: Directions.NORTH_SOUTH
       }));
+
+      return;
     };
   };
-
-  const rndProps: RndPropTypes = {
-    dragGrid: [ GRID_SNAP, GRID_SNAP ],
-    enableResizing: false,
-    position: {
-      x: xPos,
-      y: yPos
-    },
-    size: {
-      width,
-      height
-    },
-    onDragStop,
-    onDoubleClick,
-    disableDragging: isLocked || isDisabled,
-    style: { "zIndex": isDisabled ? "0" : "2" }
-  }
 
   const evaluateDoorColor = (isDisabled, isHighlighted, tag): string => {
     if(isDisabled) {
@@ -103,7 +90,17 @@ const Door: React.FC<ComponentPropTypes> = ({
 
   return (
     !isHidden &&
-    <Rnd { ...rndProps }>
+    <DraggableComponent
+      dragGrid={ [ GRID_SNAP, GRID_SNAP ] }
+      enableResizing={ false }
+      xPosition={ xPos } // TODO: Change to xPosition
+      yPosition={ yPos } // TODO: Change to yPosition
+      width={ width }
+      height={ height }
+      onDragStop={ onDragStop }
+      onDoubleClick={ onDoubleClick }
+      disableDragging={ isLocked || isDisabled }
+    >
       { !isDisabled && <DoorHUD
         index={ index }
         isDisabled={ isDisabled }
@@ -125,7 +122,7 @@ const Door: React.FC<ComponentPropTypes> = ({
         $orientation={ orientation }
         $variant={ evaluateDoorColor(isDisabled, isHighlighted, tag) }
       />
-    </Rnd>
+    </DraggableComponent>
   )
 };
 

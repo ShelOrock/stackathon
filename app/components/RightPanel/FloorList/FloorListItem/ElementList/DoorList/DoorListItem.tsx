@@ -5,11 +5,12 @@ import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledList: { ListItem } } = StyledComponents;
 
 import { DoorTypes, ElementTypes } from '../../../../../../types';
+import { AppData } from '../../../../../../enums';
 
 export default (door: DoorTypes) => {
 
   const doorHUDProps: ElementTypes = {
-    type: 'door',
+    type: AppData.DOOR,
     ...door
   };
 

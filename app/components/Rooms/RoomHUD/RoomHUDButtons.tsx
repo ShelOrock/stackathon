@@ -6,11 +6,12 @@ import HideElementButton from '../../RightPanel/FloorList/FloorListItem/ElementL
 import Row from '../../Row';
 
 import { RoomTypes, ElementTypes } from '../../../types';
+import { AppData } from '../../../enums';
 
 export default (room: RoomTypes) => {
 
   const roomHUDProps: ElementTypes = {
-    type: 'room',
+    type: AppData.ROOM,
     ...room
   };
 

@@ -15,6 +15,7 @@ import {
   OnDoubleClickType,
   OnDragStopType
 } from '../../types';
+import { Directions } from '../../enums';
 
 export default (window: WindowTypes) => {
   const {
@@ -39,29 +40,27 @@ export default (window: WindowTypes) => {
   }
 
   const onDoubleClick: OnDoubleClickType = () => {
-    let width = window.height;
-    let height = window.width;
-    let orientation;
+    if(window.orientation === Directions.NORTH_SOUTH) {
+      dispatch(updateWindow({
+        index,
+        width: window.height,
+        height: window.width,
+        orientation: Directions.EAST_WEST
+      }));
 
-    switch(window.orientation) {
-      case 'NS':
-        orientation = 'WE';
-        break;
-
-      case 'WE':
-        orientation = 'NS';
-        break;
-
-      default:
-        break;
+      return;
     };
 
-    dispatch(updateWindow({
-      index, 
-      width,
-      height,
-      orientation
-    }));
+    if(window.orientation === Directions.EAST_WEST) {
+      dispatch(updateWindow({
+        index,
+        width: window.height,
+        height: window.width,
+        orientation: Directions.NORTH_SOUTH
+      }));
+
+      return;
+    };
   }
 
   const rndProps: RndPropTypes = {
@@ -90,7 +89,7 @@ export default (window: WindowTypes) => {
   interface WindowStylePropTypes {
     width: number;
     height: number;
-    orientation: 'NS' | 'WE';
+    orientation: Directions;
     variant: string;
   };
 

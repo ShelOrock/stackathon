@@ -3,6 +3,7 @@ const { useRef } = React;
 import * as THREE from 'three';
 
 import { Door3DTypes } from '../../../../types';
+import { Directions } from '../../../../enums';
 
 export default (door: Door3DTypes) => {
 
@@ -10,29 +11,29 @@ export default (door: Door3DTypes) => {
   const SCALE_FACTOR: number = 10;
 
   const translateXCoordinatesTo3D = (door: Door3DTypes): number => {
-    if(door.orientation == 'NS') {
+    if(door.orientation == Directions.NORTH_SOUTH) {
      return ((door.xPos - door.width / 2) + door.width / 2) / SCALE_FACTOR;
     };
-    if(door.orientation == 'WE') {
+    if(door.orientation == Directions.EAST_WEST) {
      return (door.xPos + door.width / 2) / SCALE_FACTOR;
     };
   };
 
   const translateYCoordinatesTo3D = (door: Door3DTypes): number => {
-    if(door.orientation == 'NS') {
+    if(door.orientation == Directions.NORTH_SOUTH) {
      return ((door.yPos + door.width / 2) + door.width / 2) / SCALE_FACTOR;
     };
-    if(door.orientation == 'WE') {
+    if(door.orientation == Directions.EAST_WEST) {
       return ((door.yPos - door.width / 2) + door.width / 2) / SCALE_FACTOR;
     };
   };
 
   const evaluateRotation = (door: Door3DTypes): [number, number, number] => {
     switch(door.orientation) {
-      case 'NS':
+      case Directions.NORTH_SOUTH:
         return [0, Math.PI / 2, 0];
 
-      case 'WE':
+      case Directions.EAST_WEST:
         return [0, 0, 0];
 
       default: 
@@ -42,14 +43,14 @@ export default (door: Door3DTypes) => {
 
   const evaluteDoorDimensions = (door: Door3DTypes): [number, number, number] => {
     switch(door.orientation) {
-      case 'NS':
+      case Directions.NORTH_SOUTH:
         return [
           door.height / SCALE_FACTOR,
           6,
           door.width / SCALE_FACTOR
         ];
 
-      case 'WE':
+      case Directions.EAST_WEST:
         return [
           door.width / SCALE_FACTOR,
           6,

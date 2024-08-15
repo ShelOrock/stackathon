@@ -7,6 +7,7 @@ const { StyledButton: { Button } } = StyledComponents;
 
 import * as ReduxActions from '../../../redux/actions';
 import { useAppSelector } from '../../../hooks';
+import { Directions } from '../../../enums';
 const { windowActions: { createWindow } } = ReduxActions;
 
 export default () => {
@@ -23,7 +24,7 @@ export default () => {
       xPos: 0,
       yPos: 0,
       label: `Window ${ findMissingIndex(windows) + 1 }`,
-      orientation: 'WE',
+      orientation: Directions.EAST_WEST,
       isHighlighted: false,
       isLocked: false,
       isHidden: false,

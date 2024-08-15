@@ -5,11 +5,12 @@ import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledList: { ListItem } } = StyledComponents;
 
 import { WindowTypes, ElementTypes } from '../../../../../../types'; 
+import { AppData } from '../../../../../../enums';
 
 export default (window: WindowTypes) => {
   
   const windowHUDProps: ElementTypes = {
-    type: 'window',
+    type: AppData.WINDOW,
     ...window
   };
 

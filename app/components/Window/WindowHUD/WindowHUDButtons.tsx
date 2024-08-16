@@ -1,24 +1,19 @@
-import * as React from 'react';
+import React from 'react';
 
 import DeleteElementButton from '../../RightPanel/FloorList/FloorListItem/ElementList/ElementListInterface/DeleteElementButton';
 import LockElementButton from '../../RightPanel/FloorList/FloorListItem/ElementList/ElementListInterface/LockElementButton';
 import HideElementButton from '../../RightPanel/FloorList/FloorListItem/ElementList/ElementListInterface/HideElementButton';
 import Row from '../../Row';
 
-import { WindowTypes, ElementTypes } from '../../../types';
+import { WindowTypes } from '../../../types';
 import { AppData } from '../../../enums';
 
-export default (window: WindowTypes) => {
+const WindowHUD = (window: WindowTypes) => (
+  <Row>
+    <DeleteElementButton type={ AppData.WINDOW} { ...window } />
+    <LockElementButton type={ AppData.WINDOW} { ...window } />
+    <HideElementButton type={ AppData.WINDOW} { ...window } />
+  </Row>
+);
 
-  const windowHUDProps: ElementTypes = {
-    type: AppData.WINDOW,
-    ...window
-  }
-  return (
-    <Row>
-      <DeleteElementButton { ...windowHUDProps } />
-      <LockElementButton { ...windowHUDProps } />
-      <HideElementButton { ...windowHUDProps } />
-    </Row>
-  )
-}
+export default WindowHUD;

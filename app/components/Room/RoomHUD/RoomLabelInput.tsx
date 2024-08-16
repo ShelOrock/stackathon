@@ -7,9 +7,9 @@ const { StyledForm: { InputField } } = StyledComponents;
 import * as ReduxActions from '../../../redux/actions';
 const { roomActions: { updateRoom } } = ReduxActions;
 
-import { RoomTypes, InputOnChangeType } from '../../../types';
+import { InputOnChangeType } from '../../../types';
 
-export default (room: RoomTypes) => {
+export default (room) => {
 
   const { index, label } = room;
 
@@ -17,21 +17,13 @@ export default (room: RoomTypes) => {
 
   const handleOnChange: InputOnChangeType = e => dispatch(updateRoom({ index, label: e.target.value }))
 
-  interface InputPropTypes {
-    type: 'text';
-    name: 'label';
-    placeholder: string;
-    value: string;
-    onChange: InputOnChangeType;
-  }
-
-  const inputProps: InputPropTypes = {
-    type: 'text',
-    name: 'label',
-    placeholder: `Room ${ index + 1 }`,
-    value: label,
-    onChange: handleOnChange,
-  }
-
-  return <InputField { ...inputProps }/>
+  return (
+    <InputField
+      type="text"
+      name="label"
+      placeholder={ `Room ${ index + 1 }`}
+      value={ label }
+      onChange={ handleOnChange }
+    />
+  )
 };

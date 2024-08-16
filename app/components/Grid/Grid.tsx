@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { useIndexData } from '../../hooks';
 
-import { ComponentMapping } from '../ComponentMapping';
+import ComponentMapping from '../ComponentMapping';
 import VerticalGridLine from './VerticalGridLine';
 import Row from '../Row';
 import HorizonGridLine from './HorizonGridLine';

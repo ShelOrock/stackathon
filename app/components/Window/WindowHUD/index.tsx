@@ -5,9 +5,8 @@ import WindowHUD from './WindowHUDElements';
 import * as StyledComponents from '../../StyledComponents';
 const { StyledDiv: { ElementHUDContainer } } = StyledComponents;
 
-import { WindowTypes } from '../../../types';
 
-export default (window: WindowTypes) => {
+export default (window) => {
 
   const elementActionsIsShowing = useAppSelector(state => state.toggleElements.elementActions.isShowing);
 

@@ -1,18 +1,19 @@
-import React from "react";
+import * as React from "react";
 import { useAppDispatch } from "../../hooks";
 
-import StyledDoor from "./styles";
+import StyledWindow from "./styles";
 
-import DoorHUD from "./DoorHUD";
 import DraggableComponent from "../DraggableComponent";
+import WindowHUD from "./WindowHUD";
 
-import { updateDoor } from "../../redux/doors/actions";
+import * as ReduxActions from "../../redux/actions";
+const { windowActions: { updateWindow } } = ReduxActions;
 
 import { Directions } from "../../enums";
-import { DoorTypes, OnDoubleClickType } from "../../types";
+import { OnDoubleClickType, OnDragStopType } from "../../types";
 import { ComponentPropTypes } from "./types";
 
-const Door: React.FC<ComponentPropTypes> = ({
+const Window: React.FC<ComponentPropTypes> = ({
   index,
   isDisabled,
   isHidden,
@@ -26,7 +27,7 @@ const Door: React.FC<ComponentPropTypes> = ({
   xPos,
   yPos,
   tag,
-}: DoorTypes) => {
+}) => {
   const GRID_SNAP: number = 25;
 
   const dispatch = useAppDispatch();
@@ -35,11 +36,11 @@ const Door: React.FC<ComponentPropTypes> = ({
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
   };
 
-  const onDragStop = (_e, delta) => {
+  const onDragStop: OnDragStopType = (_e, delta) => {
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 
-    dispatch(updateDoor({
+    dispatch(updateWindow({
       index,
       xPos: xPosition,
       yPos: yPosition
@@ -48,7 +49,7 @@ const Door: React.FC<ComponentPropTypes> = ({
 
   const onDoubleClick: OnDoubleClickType = () => {
     if(orientation === Directions.NORTH_SOUTH) {
-      dispatch(updateDoor({
+      dispatch(updateWindow({
         index,
         width: height,
         height: width,
@@ -59,7 +60,7 @@ const Door: React.FC<ComponentPropTypes> = ({
     };
 
     if(orientation === Directions.EAST_WEST) {
-      dispatch(updateDoor({
+      dispatch(updateWindow({
         index,
         width: height,
         height: width,
@@ -68,13 +69,13 @@ const Door: React.FC<ComponentPropTypes> = ({
 
       return;
     };
-  };
+  }
 
-  const evaluateDoorColor = (isDisabled, isHighlighted, tag): string => {
+  const evaluateWindowColor = (isDisabled, isHighlighted, tag): string => {
     if(isDisabled) {
       return "disabled";
 
-    } else if(isHighlighted) {
+    } else if (isHighlighted) {
       return tag;
 
     } else {
@@ -96,13 +97,12 @@ const Door: React.FC<ComponentPropTypes> = ({
         disableDragging={ isLocked || isDisabled }
       >
         { !isDisabled && (
-          <DoorHUD
+          <WindowHUD 
             index={ index }
             isDisabled={ isDisabled }
             isHidden={ isHidden }
             isHighlighted={ isHighlighted }
             isLocked={ isLocked }
-            tag={ tag }
             height={ height }
             width={ width }
             orientation={ orientation }
@@ -110,17 +110,18 @@ const Door: React.FC<ComponentPropTypes> = ({
             yPosition={ yPosition }
             xPos={ xPos }
             yPos={ yPos }
-          /> 
+            tag={ tag }
+          />
         ) }
-        <StyledDoor 
+        <StyledWindow 
           $width={ width }
           $height={ height }
           $orientation={ orientation }
-          $variant={ evaluateDoorColor(isDisabled, isHighlighted, tag) }
+          $variant={ evaluateWindowColor(isDisabled, isHighlighted, tag ) }
         />
       </DraggableComponent>
     )
-  )
+  );
 };
 
-export default Door;
+export default Window;

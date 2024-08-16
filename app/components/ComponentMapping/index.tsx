@@ -1,1 +1,1 @@
-export { default as ComponentMapping } from "./ComponentMapping";
+export { default } from "./ComponentMapping";

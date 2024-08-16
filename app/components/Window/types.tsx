@@ -24,11 +24,11 @@ interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "isHidden"
   | "isHighlighted"
   | "isLocked"
+  | "tag"
   | "xPosition"
   | "yPosition"
   | "xPos"
   | "yPos"
-  | "tag"
 > {};
 
 interface StyledElementPropTypes extends StyledPropTypes<StylingPropTypes> {};

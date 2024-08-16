@@ -6,7 +6,7 @@ import RightPanel from "../components/RightPanel";
 import Row from "../components/Row";
 import Grid from "../components/Grid";
 import ComponentMapping from "../components/ComponentMapping";
-import Rooms from "../components/Rooms";
+import Room from "../components/Room";
 import Window from "../components/Window";
 import Door from "../components/Door";
 
@@ -18,7 +18,13 @@ const Planner = () => {
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
 
-  const { doors = [], windows = [], currentFloor } = useAppSelector(state => state);
+  const {
+    rooms = [],
+    doors = [],
+    windows = [],
+    currentFloor
+  } = useAppSelector(state => state);
+  const { indexedData: indexedRooms } = useIndexData(rooms, AppData.ROOM);
   const { indexedData: indexedDoors } = useIndexData(doors, AppData.DOOR);
   const { indexedData: indexedWindows } = useIndexData(windows, AppData.WINDOW);
 
@@ -27,7 +33,15 @@ const Planner = () => {
       <LeftPanel />
       <Canvas canvasSize={ canvasSize }>
         { gridIsShowing && <Grid canvasSize={ canvasSize } /> }
-        <Rooms />
+        <ComponentMapping
+          componentData={ indexedRooms }
+          renderComponent={ ({ room }) => (
+            <Room
+              isDisabled={ room.floor !== currentFloor.index }
+              { ...room }
+            />
+          ) }
+        />
         <ComponentMapping
           componentData={ indexedDoors }
           renderComponent={ ({ door }) => (

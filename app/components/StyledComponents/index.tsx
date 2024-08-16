@@ -5,7 +5,6 @@ import * as StyledSelect from './StyledSelect';
 import * as StyledButton from './StyledButton';
 import * as StyledCanvas from '../Canvas/styles';
 import * as StyledControls from './StyledControls';
-import * as StyledElements from './StyledElements';
 
 export {
   StyledDiv,
@@ -15,5 +14,4 @@ export {
   StyledButton,
   StyledCanvas,
   StyledControls,
-  StyledElements,
-}
+};

@@ -22,7 +22,7 @@ export const doors: ReduxTypes.ReducerFunctionType<typeof initialState, DoorType
       ];
 
     case DoorsActionTypes.DELETE_DOOR:
-      return state.filter(door => door.index !== action.payload.index);
+      return state.filter(door => door.index !== action.payload);
 
     case DoorsActionTypes.RESET_DOORS:
       return [] as DoorsType;

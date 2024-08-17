@@ -32,7 +32,7 @@ export default (floor: FloorTypes) => {
   const handleOnClick = () => {
     dispatch(deleteFloor(floor))
     roomsOnFloor.forEach(room => dispatch(deleteRoom(room)));
-    doorsOnFloor.forEach(door => dispatch(deleteDoor(door)));
+    doorsOnFloor.forEach(door => dispatch(deleteDoor(door.index)));
     windowsOnFloor.forEach(window => dispatch(deleteWindow(window)));
     dispatch(resetCurrentFloor())
   }

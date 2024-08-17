@@ -14,6 +14,7 @@ import { ComponentPropTypes } from "./types";
 
 const Door: React.FC<ComponentPropTypes> = ({
   index,
+  label,
   isDisabled,
   isHidden,
   isHighlighted,
@@ -98,18 +99,9 @@ const Door: React.FC<ComponentPropTypes> = ({
         { !isDisabled && (
           <DoorHUD
             index={ index }
-            isDisabled={ isDisabled }
+            label={ label }
             isHidden={ isHidden }
-            isHighlighted={ isHighlighted }
             isLocked={ isLocked }
-            tag={ tag }
-            height={ height }
-            width={ width }
-            orientation={ orientation }
-            xPosition={ xPosition }
-            yPosition={ yPosition }
-            xPos={ xPos }
-            yPos={ yPos }
           /> 
         ) }
         <StyledDoor 

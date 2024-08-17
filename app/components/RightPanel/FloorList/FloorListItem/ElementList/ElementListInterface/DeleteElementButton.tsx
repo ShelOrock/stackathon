@@ -30,7 +30,7 @@ export default (element: ElementTypes) => {
 
       case 'door':
         return (): void => {
-          dispatch(deleteDoor(element))
+          dispatch(deleteDoor(element.index))
         };
 
       case 'window':

@@ -7,32 +7,32 @@ import {
   WindowsType
 } from './types';
 
-export const sortArray = (array: number[]): void => {
-  array.length && array.sort((a: number, b: number) => a - b);
+export const sortArray = (array: number[] = []): void => {
+  array.sort((a: number, b: number) => a - b);
 };
 
-export const findMissingIndex = (array: RoomsType | DoorsType | WindowsType): number => {
+export const findMissingId = (array: RoomsType | DoorsType | WindowsType = []): number => {
 
-  const arrayIndexes = array.map((item: RoomTypes | DoorTypes | WindowTypes) => item.index);
-    
+  const arrayIds = array.map((item: RoomTypes | DoorTypes | WindowTypes) => item.id);
+    console.log(arrayIds)
   let result: number = 0;
-  sortArray(arrayIndexes);
+  sortArray(arrayIds);
 
-  if(!array.length || !arrayIndexes.includes(0)) {
+  if(!arrayIds.includes(0)) {
     return result;
   };
 
-  arrayIndexes.forEach((_roomIndex: number, idx: number) => {
-    if(arrayIndexes[idx + 1]) {
-      if(arrayIndexes[idx + 1] - arrayIndexes[idx] > 1) {
-        result = arrayIndexes[idx] + 1;
+  arrayIds.forEach((_roomIndex: number, index: number) => {
+    if(arrayIds[index + 1]) {
+      if(arrayIds[index + 1] - arrayIds[index] > 1) {
+        result = arrayIds[index] + 1;
       };
     };
   });
 
   if(!result) {
-    result = arrayIndexes[array.length - 1] + 1
+    result = arrayIds[array.length - 1] + 1
   }
-    
+    console.log({ result })
   return result;
 };

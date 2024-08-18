@@ -8,9 +8,11 @@ import { floors } from './floors/reducers';
 import { currentFloor } from './currentFloor/reducers';
 import { sunPosition } from './sunPosition/reducers';
 
+import appData from "./entities/reducers";
 import toggleElements from "./toggleElements/reducers" 
 
 export default combineReducers({
+  appData,
   canvasSize,
   rooms,
   doors,
@@ -18,5 +20,6 @@ export default combineReducers({
   floors,
   currentFloor,
   sunPosition,
+
   toggleElements
 });

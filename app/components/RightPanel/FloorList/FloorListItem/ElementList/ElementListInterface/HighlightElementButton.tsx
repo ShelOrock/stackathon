@@ -7,15 +7,17 @@ const { StyledButton: { SmallButton } } = StyledComponents;
 import * as ReduxActions from '../../../../../../redux/actions';
 const { 
   roomActions: { updateRoom },
-  doorActions: { updateDoor },
   windowActions: { updateWindow },
 } = ReduxActions;
 
 import { ElementTypes, OnClickType } from '../../../../../../types';
+import { AppData } from '../../../../../../enums';
+import { updateEntity } from '../../../../../../redux/entities/actions';
+import UIDataEntities from '../../../../../../types/redux/entities';
 
 export default (element: ElementTypes) => {
   const {
-    index,
+    id,
     isHighlighted,
     tag
   } = element;
@@ -24,14 +26,20 @@ export default (element: ElementTypes) => {
 
   const evaluateElementType = (element: ElementTypes): OnClickType => {
     switch(element.type) {
-      case 'room':
-        return (): void => { dispatch(updateRoom({ index, isHighlighted: !isHighlighted })) };
+      case AppData.ROOMS:
+        return (): void => {
+          dispatch(updateRoom({ id, isHighlighted: !isHighlighted }))
+        };
 
-      case 'door':
-        return (): void => { dispatch(updateDoor({ index, isHighlighted: !isHighlighted })) };
+      case AppData.DOORS:
+        return (): void => {
+          dispatch(updateEntity(UIDataEntities.doors, { id, isHighlighted: !isHighlighted }))
+        };
 
-      case 'window':
-        return (): void => { dispatch(updateWindow({ index, isHighlighted: !isHighlighted })) };
+      case AppData.WINDOWS:
+        return (): void => {
+          dispatch(updateWindow({ id, isHighlighted: !isHighlighted }))
+        };
         
       default:
         null;

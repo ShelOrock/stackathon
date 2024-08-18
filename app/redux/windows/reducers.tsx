@@ -14,7 +14,7 @@ export const windows: ReduxTypes.ReducerFunctionType<typeof initialState, Window
       return [ ...state, action.payload ];
 
     case WindowsActionTypes.UPDATE_WINDOW:
-      const windowToUpdate = state.findIndex(window => window.index === action.payload.index);
+      const windowToUpdate = state.findIndex(window => window.id === action.payload.id);
       return [
         ...state.slice(0, windowToUpdate),
         { ...state[windowToUpdate], ...action.payload },
@@ -22,7 +22,7 @@ export const windows: ReduxTypes.ReducerFunctionType<typeof initialState, Window
       ];
     
     case WindowsActionTypes.DELETE_WINDOW: 
-      return state.filter(window => window.index !== action.payload);
+      return state.filter(window => window.id !== action.payload);
 
     case WindowsActionTypes.RESET_WINDOWS:
       return [] as WindowsType;

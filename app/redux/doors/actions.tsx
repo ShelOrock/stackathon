@@ -7,11 +7,6 @@ export const createDoor: ReduxTypes.ActionTypes.UnknownActionFunctionType<DoorTy
   payload
 });
 
-export const updateDoor: ReduxTypes.ActionTypes.UnknownActionFunctionType<DoorTypes> = payload => ({
-  type: DoorsActionTypes.UPDATE_DOOR,
-  payload
-});
-
 export const deleteDoor: ReduxTypes.ActionTypes.UnknownActionFunctionType<number> = payload => ({
   type: DoorsActionTypes.DELETE_DOOR,
   payload

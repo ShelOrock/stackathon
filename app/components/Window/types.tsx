@@ -2,7 +2,7 @@ import { Directions } from "../../enums";
 import { StyledPropTypes } from "../../types";
 
 interface ComponentPropTypes {
-  index: number;
+  id: number;
   label: string;
   isDisabled: boolean;
   isHidden: boolean;
@@ -20,7 +20,7 @@ interface ComponentPropTypes {
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,
-  | "index"
+  | "id"
   | "label"
   | "isDisabled"
   | "isHidden"

@@ -14,7 +14,7 @@ export const doors: ReduxTypes.ReducerFunctionType<typeof initialState, DoorType
       return [ ...state, action.payload ];
 
     case DoorsActionTypes.UPDATE_DOOR:
-      const doorToUpdate = state.findIndex(door => door.index === action.payload.index);
+      const doorToUpdate = state.findIndex(door => door.id === action.payload.id);
       return [
         ...state.slice(0, doorToUpdate),
         { ...state[doorToUpdate], ...action.payload },
@@ -22,7 +22,7 @@ export const doors: ReduxTypes.ReducerFunctionType<typeof initialState, DoorType
       ];
 
     case DoorsActionTypes.DELETE_DOOR:
-      return state.filter(door => door.index !== action.payload);
+      return state.filter(door => door.id !== action.payload);
 
     case DoorsActionTypes.RESET_DOORS:
       return [] as DoorsType;

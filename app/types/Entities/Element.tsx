@@ -2,7 +2,7 @@ import { AppData, Directions } from "../../enums";
 
 export interface ElementTypes {
   type: AppData;
-  index?: number;
+  id?: number;
   xPos?: number;
   yPos?: number;
   zAxis?: number;

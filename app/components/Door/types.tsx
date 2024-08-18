@@ -2,7 +2,8 @@ import { Directions } from "../../enums";
 import { StyledPropTypes } from "../../types";
 
 interface ComponentPropTypes {
-  index: number;
+  id: number;
+  label: string;
   isDisabled: boolean;
   isHidden: boolean;
   isHighlighted: boolean;
@@ -12,22 +13,19 @@ interface ComponentPropTypes {
   orientation: Directions;
   xPosition: number;
   yPosition: number;
-  xPos: number;
-  yPos: number;
   tag: string;
   variant?: string;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,
-  | "index"
+  | "id"
+  | "label"
   | "isDisabled"
   | "isHidden"
   | "isHighlighted"
   | "isLocked"
   | "xPosition"
   | "yPosition"
-  | "xPos"
-  | "yPos"
   | "tag"
 > {};
 

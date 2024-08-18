@@ -1,7 +1,7 @@
 import { Directions } from "../../enums";
 
 export interface WindowTypes {
-  index?: number;
+  id?: number;
   xPos?: number;
   yPos?: number;
   width?: number;

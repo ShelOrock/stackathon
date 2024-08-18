@@ -5,14 +5,16 @@ import Row from "../../Row";
 import Column from '../../Column';
 import Button from '../../Button';
 
-import { deleteDoor, updateDoor } from '../../../redux/doors/actions';
+import { deleteDoor } from '../../../redux/doors/actions';
 
 import { ComponentPropTypes } from './types';
 import { InputField } from '../../StyledComponents/StyledForm';
 import StyledDoorHUD from './styles';
+import { deleteEntity, updateEntity } from '../../../redux/entities/actions';
+import UIDataEntities from '../../../types/redux/entities';
 
 const DoorHUD: React.FC<ComponentPropTypes> = ({
-  index,
+  id,
   label,
   isLocked,
   isHidden
@@ -27,15 +29,15 @@ const DoorHUD: React.FC<ComponentPropTypes> = ({
       <Column>
         <Row>
           <Button
-            onClick={ () => dispatch(deleteDoor(index)) }
+            onClick={ () => dispatch(deleteEntity(UIDataEntities.doors, id)) }
             variant="tertiary"
           >X</Button>
           <Button
-            onClick={ () => dispatch(updateDoor({ index, isLocked: !isLocked }))}
+            onClick={ () => dispatch(updateEntity(UIDataEntities.doors, { id, isLocked: !isLocked }))}
             variant="tertiary"
           >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
           <Button
-            onClick={ () => dispatch(updateDoor({ index, isHidden: !isHidden }))}
+            onClick={ () => dispatch(updateEntity(UIDataEntities.doors, { id, isHidden: !isHidden }))}
             variant="tertiary"
           >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
         </Row>
@@ -43,9 +45,9 @@ const DoorHUD: React.FC<ComponentPropTypes> = ({
           <InputField
             type="text"
             name="label"
-            placeholder={ `Door ${ index + 1 }` }
+            placeholder={ `Door ${ id + 1 }` }
             value={ label }
-            onChange={ e => dispatch(updateDoor({ index, label: e.target.value })) }
+            onChange={ e => dispatch(updateEntity(UIDataEntities.doors, { id, label: e.target.value })) }
           />
         ) }
       </Column>

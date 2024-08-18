@@ -1,7 +1,8 @@
+import { combineReducers } from "@reduxjs/toolkit";
+
 import ToggleElementActionTypes from "./constants";
 
 import { ReduxTypes } from "../../types";
-import { combineReducers } from "@reduxjs/toolkit";
 import UIDataEntities from "../../types/redux/entities";
 
 const initialState: ReduxTypes.StateType<boolean> = true as boolean;

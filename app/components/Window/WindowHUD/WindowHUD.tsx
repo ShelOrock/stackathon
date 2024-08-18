@@ -14,7 +14,7 @@ import { deleteWindow, updateWindow } from '../../../redux/windows/actions';
 import { ComponentPropTypes } from './types';
 
 const WindowHUD: React.FC<ComponentPropTypes> = ({
-  index,
+  id,
   label,
   isLocked,
   isHidden
@@ -29,15 +29,15 @@ const WindowHUD: React.FC<ComponentPropTypes> = ({
       <Column>
         <Row>
           <Button
-            onClick={ () => dispatch(deleteWindow(index)) }
+            onClick={ () => dispatch(deleteWindow(id)) }
             variant="tertiary"
           >X</Button>
           <Button
-            onClick={ () => dispatch(updateWindow({ index, isLocked: !isLocked }))}
+            onClick={ () => dispatch(updateWindow({ id, isLocked: !isLocked }))}
             variant="tertiary"
           >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
           <Button
-            onClick={ () => dispatch(updateWindow({ index, isHidden: !isHidden }))}
+            onClick={ () => dispatch(updateWindow({ id, isHidden: !isHidden }))}
             variant="tertiary"
           >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
         </Row>
@@ -45,9 +45,9 @@ const WindowHUD: React.FC<ComponentPropTypes> = ({
           <InputField
             type="text"
             name="label"
-            placeholder={ `Window ${ index + 1 }` }
+            placeholder={ `Window ${ id + 1 }` }
             value={ label }
-            onChange={ e => dispatch(updateWindow({ index, label: e.target.value })) }
+            onChange={ e => dispatch(updateWindow({ id, label: e.target.value })) }
           />
         ) }
       </Column>

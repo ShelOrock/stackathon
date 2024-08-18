@@ -1,14 +1,14 @@
 import { StyledPropTypes } from "../../../types";
 
 interface ComponentPropTypes {
-  index: number;
+  id: number;
   label: string;
   isHidden: boolean;
   isLocked: boolean;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,
-  | "index"
+  | "id"
   | "label"
   | "isHidden"
   | "isLocked"

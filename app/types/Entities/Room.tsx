@@ -1,5 +1,5 @@
 export interface RoomTypes {
-  index?: number;
+  id?: number;
   xPos?: number;
   yPos?: number;
   zAxis?: number;

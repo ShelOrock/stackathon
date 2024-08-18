@@ -6,10 +6,9 @@ import StyledWindow from "./styles";
 import DraggableComponent from "../DraggableComponent";
 import WindowHUD from "./WindowHUD";
 
-import * as ReduxActions from "../../redux/actions";
-const { windowActions: { updateWindow } } = ReduxActions;
+import { updateEntity } from "../../redux/entities/actions";
 
-import { Directions } from "../../enums";
+import { AppData, Directions } from "../../enums";
 import { OnDoubleClickType, OnDragStopType } from "../../types";
 import { ComponentPropTypes } from "./types";
 
@@ -25,8 +24,6 @@ const Window: React.FC<ComponentPropTypes> = ({
   orientation,
   xPosition,
   yPosition,
-  xPos,
-  yPos,
   tag,
 }) => {
   const GRID_SNAP: number = 25;
@@ -41,16 +38,16 @@ const Window: React.FC<ComponentPropTypes> = ({
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 
-    dispatch(updateWindow({
+    dispatch(updateEntity(AppData.Windows, {
       id,
-      xPos: xPosition,
-      yPos: yPosition
+      xPosition,
+      yPosition
     }));
   };
 
   const onDoubleClick: OnDoubleClickType = () => {
     if(orientation === Directions.NORTH_SOUTH) {
-      dispatch(updateWindow({
+      dispatch(updateEntity(AppData.Windows, {
         id,
         width: height,
         height: width,
@@ -61,7 +58,7 @@ const Window: React.FC<ComponentPropTypes> = ({
     };
 
     if(orientation === Directions.EAST_WEST) {
-      dispatch(updateWindow({
+      dispatch(updateEntity(AppData.Windows, {
         id,
         width: height,
         height: width,
@@ -89,8 +86,8 @@ const Window: React.FC<ComponentPropTypes> = ({
       <DraggableComponent
         dragGrid={ [ GRID_SNAP, GRID_SNAP ] }
         enableResizing={ false }
-        xPosition={ xPos } // TODO: Change to xPosition
-        yPosition={ yPos } // TODO: Change to yPosition
+        xPosition={ xPosition } 
+        yPosition={ yPosition } 
         width={ width }
         height={ height }
         onDragStop={ onDragStop }

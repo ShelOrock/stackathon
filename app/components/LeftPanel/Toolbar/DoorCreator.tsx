@@ -5,17 +5,16 @@ import Button from '../../Button';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { AppData, Directions } from '../../../enums';
 import { addEntity } from '../../../redux/entities/actions';
-import UIDataEntities from '../../../types/redux/entities';
+
 import * as AppDataSelectors from '../../../redux/entities/selectors';
 
 import { findMissingId } from '../../../utils';
-
 
 export default () => {
 
   const dispatch = useAppDispatch();
 
-  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.DOORS,
+  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors,
     { attributes: [ "id" ] }
   ));
 
@@ -24,7 +23,7 @@ export default () => {
   const handleCreateDoor = (): void => {
     const id = findMissingId(doors);
 
-    dispatch(addEntity(UIDataEntities.doors, {
+    dispatch(addEntity(AppData.Doors, {
       id,
       width: 25,
       height: 12,

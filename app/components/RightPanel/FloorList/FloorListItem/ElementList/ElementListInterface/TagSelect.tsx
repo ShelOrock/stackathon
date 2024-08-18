@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useAppDispatch, useIndexData } from "../../../../../../hooks";
 
 import * as StyledComponents from '../../../../../StyledComponents';
@@ -7,12 +7,10 @@ const { StyledButton: { PillButton } } = StyledComponents;
 import * as ReduxActions from '../../../../../../redux/actions'
 const {
   roomActions: { updateRoom },
-  windowActions: { updateWindow },
 } = ReduxActions;
 
 import { ElementTypes } from '../../../../../../types';
 import { AppData } from '../../../../../../enums';
-import UIDataEntities from '../../../../../../types/redux/entities';
 import { updateEntity } from '../../../../../../redux/entities/actions';
 import ComponentMapping from '../../../../../ComponentMapping';
 
@@ -31,16 +29,16 @@ export default (element: ElementTypes): JSX.Element => {
   
   const evaluateElementType = (_e, element: ElementTypes, pill: string): void => {
     switch(element.type) {
-      case AppData.ROOMS:
+      case AppData.Rooms:
         dispatch(updateRoom({ id, tag: pill }));
         break;
 
-      case AppData.DOORS:
-        dispatch(updateEntity(UIDataEntities.doors, { id, tag: pill }));
+      case AppData.Doors:
+        dispatch(updateEntity(AppData.Doors, { id, tag: pill }));
         break;
 
-      case AppData.WINDOWS: 
-        dispatch(updateWindow({ id, tag: pill }));
+      case AppData.Windows: 
+        dispatch(updateEntity(AppData.Windows, { id, tag: pill }));
         break;
     };
   };

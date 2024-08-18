@@ -10,7 +10,7 @@ import { AppData } from '../../../../../../enums';
 export default (door: DoorTypes) => {
 
   const doorHUDProps: ElementTypes = {
-    type: AppData.DOORS,
+    type: AppData.Doors,
     ...door
   };
 

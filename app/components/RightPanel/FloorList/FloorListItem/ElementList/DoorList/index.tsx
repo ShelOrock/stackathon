@@ -10,7 +10,7 @@ import { AppData } from '../../../../../../enums';
 
 export default (floor: FloorTypes) => {
 
-  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.DOORS));
+  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
 
   return (
     <ComponentMapping

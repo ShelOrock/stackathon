@@ -5,13 +5,11 @@ import Row from "../../Row";
 import Column from '../../Column';
 import Button from '../../Button';
 
-import { deleteDoor } from '../../../redux/doors/actions';
-
 import { ComponentPropTypes } from './types';
 import { InputField } from '../../StyledComponents/StyledForm';
 import StyledDoorHUD from './styles';
 import { deleteEntity, updateEntity } from '../../../redux/entities/actions';
-import UIDataEntities from '../../../types/redux/entities';
+import { AppData } from '../../../enums';
 
 const DoorHUD: React.FC<ComponentPropTypes> = ({
   id,
@@ -29,15 +27,15 @@ const DoorHUD: React.FC<ComponentPropTypes> = ({
       <Column>
         <Row>
           <Button
-            onClick={ () => dispatch(deleteEntity(UIDataEntities.doors, id)) }
+            onClick={ () => dispatch(deleteEntity(AppData.Doors, id)) }
             variant="tertiary"
           >X</Button>
           <Button
-            onClick={ () => dispatch(updateEntity(UIDataEntities.doors, { id, isLocked: !isLocked }))}
+            onClick={ () => dispatch(updateEntity(AppData.Doors, { id, isLocked: !isLocked }))}
             variant="tertiary"
           >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
           <Button
-            onClick={ () => dispatch(updateEntity(UIDataEntities.doors, { id, isHidden: !isHidden }))}
+            onClick={ () => dispatch(updateEntity(AppData.Doors, { id, isHidden: !isHidden }))}
             variant="tertiary"
           >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
         </Row>
@@ -47,7 +45,7 @@ const DoorHUD: React.FC<ComponentPropTypes> = ({
             name="label"
             placeholder={ `Door ${ id + 1 }` }
             value={ label }
-            onChange={ e => dispatch(updateEntity(UIDataEntities.doors, { id, label: e.target.value })) }
+            onChange={ e => dispatch(updateEntity(AppData.Doors, { id, label: e.target.value })) }
           />
         ) }
       </Column>

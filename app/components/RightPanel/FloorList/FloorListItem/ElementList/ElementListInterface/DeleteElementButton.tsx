@@ -16,7 +16,7 @@ import {
   OnClickType,
 } from '../../../../../../types';
 import { deleteEntity } from '../../../../../../redux/entities/actions';
-import UIDataEntities from '../../../../../../types/redux/entities';
+import { AppData } from '../../../../../../enums';
 
 export default (element: ElementTypes) => {
 
@@ -31,7 +31,7 @@ export default (element: ElementTypes) => {
 
       case 'doors':
         return (): void => {
-          dispatch(deleteEntity(UIDataEntities.doors, element.id))
+          dispatch(deleteEntity(AppData.Doors, element.id))
         };
 
       case 'windows':

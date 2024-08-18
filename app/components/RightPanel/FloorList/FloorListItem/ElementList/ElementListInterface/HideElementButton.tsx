@@ -7,13 +7,11 @@ const { StyledButton: { SmallButton } } = StyledComponents;
 import * as ReduxActions from '../../../../../../redux/actions';
 const { 
   roomActions: { updateRoom },
-  windowActions: { updateWindow },
 } = ReduxActions;
 
 import { ElementTypes, OnClickType } from '../../../../../../types';
 import { AppData } from '../../../../../../enums';
 import { updateEntity } from '../../../../../../redux/entities/actions';
-import UIDataEntities from '../../../../../../types/redux/entities';
 
 export default (element: ElementTypes) => {
   const {
@@ -26,19 +24,19 @@ export default (element: ElementTypes) => {
 
   const evaluateElementType = (element: ElementTypes): OnClickType => {
     switch(element.type) {
-      case AppData.ROOMS:
+      case AppData.Rooms:
         return (): void => {
           dispatch(updateRoom({ id, isHidden: !isHidden }))
         };
 
-      case AppData.DOORS:
+      case AppData.Doors:
         return (): void => {
-          dispatch(updateEntity(UIDataEntities.doors, { id, isHidden: !isHidden }))
+          dispatch(updateEntity(AppData.Doors, { id, isHidden: !isHidden }))
         };
 
-      case AppData.WINDOWS:
+      case AppData.Windows:
         return (): void => {
-          dispatch(updateWindow({ id, isHidden: !isHidden }))
+          dispatch(updateEntity(AppData.Windows, { id, isHidden: !isHidden }))
         };
         
       default:

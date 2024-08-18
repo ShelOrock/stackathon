@@ -3,7 +3,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import ToggleElementActionTypes from "./constants";
 
 import { ReduxTypes } from "../../types";
-import UIDataEntities from "../../types/redux/entities";
+import { UIData } from "../../enums";
 
 const initialState: ReduxTypes.StateType<boolean> = true as boolean;
 const toggleElementIntialState: ReduxTypes.StateType<{ isShowing: typeof initialState }> = { isShowing: initialState }
@@ -32,7 +32,7 @@ const createToggleElementsReducer = entityName => (state = toggleElementIntialSt
 };
 
 export default combineReducers({
-  grid: createToggleElementsReducer(UIDataEntities.grid),
-  elementLabels: createToggleElementsReducer(UIDataEntities.elementLabels),
-  elementActions: createToggleElementsReducer(UIDataEntities.elementActions)
+  grid: createToggleElementsReducer(UIData.Grid),
+  elementLabels: createToggleElementsReducer(UIData.ElementLabels),
+  elementActions: createToggleElementsReducer(UIData.ElementActions)
 });

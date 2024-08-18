@@ -15,6 +15,7 @@ import { ComponentPropTypes } from "./types";
 
 const Window: React.FC<ComponentPropTypes> = ({
   index,
+  label,
   isDisabled,
   isHidden,
   isHighlighted,
@@ -99,18 +100,9 @@ const Window: React.FC<ComponentPropTypes> = ({
         { !isDisabled && (
           <WindowHUD 
             index={ index }
-            isDisabled={ isDisabled }
+            label={ label }
             isHidden={ isHidden }
-            isHighlighted={ isHighlighted }
             isLocked={ isLocked }
-            height={ height }
-            width={ width }
-            orientation={ orientation }
-            xPosition={ xPosition }
-            yPosition={ yPosition }
-            xPos={ xPos }
-            yPos={ yPos }
-            tag={ tag }
           />
         ) }
         <StyledWindow 

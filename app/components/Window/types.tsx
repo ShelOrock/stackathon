@@ -3,6 +3,7 @@ import { StyledPropTypes } from "../../types";
 
 interface ComponentPropTypes {
   index: number;
+  label: string;
   isDisabled: boolean;
   isHidden: boolean;
   isHighlighted: boolean;
@@ -20,6 +21,7 @@ interface ComponentPropTypes {
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "index"
+  | "label"
   | "isDisabled"
   | "isHidden"
   | "isHighlighted"

@@ -22,7 +22,7 @@ export const windows: ReduxTypes.ReducerFunctionType<typeof initialState, Window
       ];
     
     case WindowsActionTypes.DELETE_WINDOW: 
-      return state.filter(window => window.index !== action.payload.index);
+      return state.filter(window => window.index !== action.payload);
 
     case WindowsActionTypes.RESET_WINDOWS:
       return [] as WindowsType;

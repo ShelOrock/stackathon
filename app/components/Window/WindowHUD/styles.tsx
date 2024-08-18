@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 import { StyledElementPropTypes } from "./types";
 
-const StyledDoorHUD = styled.div<StyledElementPropTypes>`
+const StyledWindowHUD = styled.div<StyledElementPropTypes>`
   margin-top: -64px;
 `;
 
-export default StyledDoorHUD;
+export default StyledWindowHUD;

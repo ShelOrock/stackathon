@@ -12,7 +12,7 @@ export const updateWindow: ReduxTypes.ActionTypes.UnknownActionFunctionType<Wind
   payload
 });
 
-export const deleteWindow: ReduxTypes.ActionTypes.UnknownActionFunctionType<WindowTypes> = payload => ({
+export const deleteWindow: ReduxTypes.ActionTypes.UnknownActionFunctionType<number> = payload => ({
   type: WindowsActionTypes.DELETE_WINDOW,
   payload
 });

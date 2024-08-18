@@ -33,7 +33,7 @@ export default (floor: FloorTypes) => {
     dispatch(deleteFloor(floor))
     roomsOnFloor.forEach(room => dispatch(deleteRoom(room)));
     doorsOnFloor.forEach(door => dispatch(deleteDoor(door.index)));
-    windowsOnFloor.forEach(window => dispatch(deleteWindow(window)));
+    windowsOnFloor.forEach(window => dispatch(deleteWindow(window.index)));
     dispatch(resetCurrentFloor())
   }
 

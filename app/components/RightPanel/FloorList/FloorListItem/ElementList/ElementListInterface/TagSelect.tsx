@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useAppDispatch } from "../../../../../../hooks";
+import { useAppDispatch, useIndexData } from "../../../../../../hooks";
 
 import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledButton: { PillButton } } = StyledComponents;
@@ -7,14 +7,17 @@ const { StyledButton: { PillButton } } = StyledComponents;
 import * as ReduxActions from '../../../../../../redux/actions'
 const {
   roomActions: { updateRoom },
-  doorActions: { updateDoor },
   windowActions: { updateWindow },
 } = ReduxActions;
 
 import { ElementTypes } from '../../../../../../types';
+import { AppData } from '../../../../../../enums';
+import UIDataEntities from '../../../../../../types/redux/entities';
+import { updateEntity } from '../../../../../../redux/entities/actions';
+import ComponentMapping from '../../../../../ComponentMapping';
 
 export default (element: ElementTypes): JSX.Element => {
-  const { index } = element
+  const { id } = element
 
   const dispatch = useAppDispatch();
 
@@ -28,42 +31,32 @@ export default (element: ElementTypes): JSX.Element => {
   
   const evaluateElementType = (_e, element: ElementTypes, pill: string): void => {
     switch(element.type) {
-      case 'room':
-        dispatch(updateRoom({ index, tag: pill }));
+      case AppData.ROOMS:
+        dispatch(updateRoom({ id, tag: pill }));
         break;
 
-      case 'door':
-        dispatch(updateDoor({ index, tag: pill }));
+      case AppData.DOORS:
+        dispatch(updateEntity(UIDataEntities.doors, { id, tag: pill }));
         break;
 
-      case 'window': 
-        dispatch(updateWindow({ index, tag: pill }));
+      case AppData.WINDOWS: 
+        dispatch(updateWindow({ id, tag: pill }));
         break;
     };
   };
 
-  interface ButtonPropTypes {
-    key: string;
-    variant: string;
-    onClick: any;
-    active: boolean;
-  }
-
-  const renderPills = (): JSX.Element[] => (
-    pillColors.map((pill: string) => {
-      const buttonProps:ButtonPropTypes = {
-        key: pill,
-        variant: pill,
-        onClick: (e) => evaluateElementType(e, element, pill),
-        active: element.tag == pill
-      }
-    return <PillButton { ...buttonProps } /> 
-    })
-  );
+  const { indexedData: indexedPills } = useIndexData(pillColors, "pills");
 
   return (
-    <>
-      { renderPills() }
-    </>
+    <ComponentMapping
+      componentData={ indexedPills }
+      renderComponent={ ({ pill }) => (
+        <PillButton
+          variant={ pill }
+          onClick={ e => evaluateElementType(e, element, pill) }
+          active={ element.tag === pill }
+        />
+      ) }
+    />
   )
 };

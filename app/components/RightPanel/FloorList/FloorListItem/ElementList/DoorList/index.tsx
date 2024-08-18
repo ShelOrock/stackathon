@@ -1,17 +1,23 @@
-import * as React from 'react';
+import React from 'react';
 import { useAppSelector } from '../../../../../../hooks';
 
 import DoorListItem from './DoorListItem';
 
-import { FloorTypes, DoorTypes } from '../../../../../../types';
+import { FloorTypes } from '../../../../../../types';
+import ComponentMapping from '../../../../../ComponentMapping';
+import { AppDataSelectors } from '../../../../../../redux/selectors';
+import { AppData } from '../../../../../../enums';
 
 export default (floor: FloorTypes) => {
 
-  const { doors = [] } = useAppSelector(state => state)
+  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.DOORS));
 
   return (
-    <>
-      { doors.map((door: DoorTypes) => floor.index === door.floor && <DoorListItem key={ door.index } { ...door } /> ) }
-    </>
+    <ComponentMapping
+      componentData={ doors }
+      renderComponent={ door => floor.index === door.floor && (
+        <DoorListItem { ...door }/>
+      ) }
+    />
   );
 };

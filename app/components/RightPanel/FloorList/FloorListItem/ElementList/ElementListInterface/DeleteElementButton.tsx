@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useAppDispatch } from '../../../../../../hooks';
 
 import * as StyledComponents from '../../../../../StyledComponents';
@@ -7,7 +7,6 @@ const { StyledButton: { SmallButton } } = StyledComponents;
 import * as ReduxActions from '../../../../../../redux/actions';
 const {
   roomActions: { deleteRoom },
-  doorActions: { deleteDoor },
   windowActions: { deleteWindow },
   floorActions: { deleteFloor }
 } = ReduxActions;
@@ -16,6 +15,8 @@ import {
   ElementTypes,
   OnClickType,
 } from '../../../../../../types';
+import { deleteEntity } from '../../../../../../redux/entities/actions';
+import UIDataEntities from '../../../../../../types/redux/entities';
 
 export default (element: ElementTypes) => {
 
@@ -23,22 +24,22 @@ export default (element: ElementTypes) => {
 
   const evaluateElementType = (element: ElementTypes): OnClickType => {
     switch(element.type) {
-      case 'room':
+      case 'rooms':
         return (): void => {
           dispatch(deleteRoom(element))
         };
 
-      case 'door':
+      case 'doors':
         return (): void => {
-          dispatch(deleteDoor(element.index))
+          dispatch(deleteEntity(UIDataEntities.doors, element.id))
         };
 
-      case 'window':
+      case 'windows':
         return (): void => {
-          dispatch(deleteWindow(element.index))
+          dispatch(deleteWindow(element.id))
         };
 
-      case 'floor':
+      case 'floors':
         return (): void => {
           dispatch(deleteFloor(element))
         };

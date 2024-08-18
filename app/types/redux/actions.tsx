@@ -1,4 +1,5 @@
 import { ReduxTypes } from "..";
+import { AppData } from "../../enums";
 
 interface ActionTypes<PayloadType = {}> {
   [key: string]: any;

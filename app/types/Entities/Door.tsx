@@ -1,7 +1,7 @@
 import { Directions } from "../../enums";
 
 export interface DoorTypes {
-  index?: number;
+  id?: number;
   xPosition?: number;
   yPosition?: number;
   xPos?: number; // TODO: Delete

@@ -14,7 +14,7 @@ import { OnDoubleClickType, OnDragStopType } from "../../types";
 import { ComponentPropTypes } from "./types";
 
 const Window: React.FC<ComponentPropTypes> = ({
-  index,
+  id,
   label,
   isDisabled,
   isHidden,
@@ -42,7 +42,7 @@ const Window: React.FC<ComponentPropTypes> = ({
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 
     dispatch(updateWindow({
-      index,
+      id,
       xPos: xPosition,
       yPos: yPosition
     }));
@@ -51,7 +51,7 @@ const Window: React.FC<ComponentPropTypes> = ({
   const onDoubleClick: OnDoubleClickType = () => {
     if(orientation === Directions.NORTH_SOUTH) {
       dispatch(updateWindow({
-        index,
+        id,
         width: height,
         height: width,
         orientation: Directions.EAST_WEST
@@ -62,7 +62,7 @@ const Window: React.FC<ComponentPropTypes> = ({
 
     if(orientation === Directions.EAST_WEST) {
       dispatch(updateWindow({
-        index,
+        id,
         width: height,
         height: width,
         orientation: Directions.NORTH_SOUTH
@@ -99,7 +99,7 @@ const Window: React.FC<ComponentPropTypes> = ({
       >
         { !isDisabled && (
           <WindowHUD 
-            index={ index }
+            id={ id }
             label={ label }
             isHidden={ isHidden }
             isLocked={ isLocked }

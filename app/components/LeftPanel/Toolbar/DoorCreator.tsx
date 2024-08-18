@@ -1,29 +1,36 @@
-import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { findMissingIndex } from '../../../utils';
+import React from 'react';
 
-import * as StyledComponents from '../../StyledComponents';
-const { StyledButton: { Button } } = StyledComponents;
+import Button from '../../Button';
 
-import * as ReduxActions from '../../../redux/actions';
-import { useAppSelector } from '../../../hooks';
-import { Directions } from '../../../enums';
-const { doorActions: { createDoor } } = ReduxActions;
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { AppData, Directions } from '../../../enums';
+import { addEntity } from '../../../redux/entities/actions';
+import UIDataEntities from '../../../types/redux/entities';
+import * as AppDataSelectors from '../../../redux/entities/selectors';
+
+import { findMissingId } from '../../../utils';
+
 
 export default () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { doors, currentFloor } = useAppSelector(state => state);
+  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.DOORS,
+    { attributes: [ "id" ] }
+  ));
+
+  const { currentFloor } = useAppSelector(state => state);
 
   const handleCreateDoor = (): void => {
-    dispatch(createDoor({
-      index: findMissingIndex(doors),
+    const id = findMissingId(doors);
+
+    dispatch(addEntity(UIDataEntities.doors, {
+      id,
       width: 25,
       height: 12,
-      xPos: 0,
-      yPos: 0,
-      label: `Door ${ findMissingIndex(doors) + 1 }`,
+      xPosition: 0,
+      yPosition: 0,
+      label: `Door ${ id + 1 }`,
       orientation: Directions.EAST_WEST,
       isHighlighted: false,
       isLocked: false,

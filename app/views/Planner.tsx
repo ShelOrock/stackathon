@@ -12,21 +12,18 @@ import Door from "../components/Door";
 
 import { useAppSelector, useIndexData } from "../hooks";
 import { AppData } from "../enums";
+import { AppDataSelectors } from "../redux/selectors";
 
 const Planner = () => {
 
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
 
-  const {
-    rooms = [],
-    doors = [],
-    windows = [],
-    currentFloor
-  } = useAppSelector(state => state);
-  const { indexedData: indexedRooms } = useIndexData(rooms, AppData.ROOM);
-  const { indexedData: indexedDoors } = useIndexData(doors, AppData.DOOR);
-  const { indexedData: indexedWindows } = useIndexData(windows, AppData.WINDOW);
+  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.DOORS));
+  const { rooms = [], windows = [], currentFloor } = useAppSelector(state => state);
+  const { indexedData: indexedRooms } = useIndexData(rooms, AppData.ROOMS);
+  // const { indexedData: indexedDoors } = useIndexData(doors, AppData.DOOR);
+  const { indexedData: indexedWindows } = useIndexData(windows, AppData.WINDOWS);
 
   return (
     <Row>
@@ -43,8 +40,8 @@ const Planner = () => {
           ) }
         />
         <ComponentMapping
-          componentData={ indexedDoors }
-          renderComponent={ ({ door }) => (
+          componentData={ doors }
+          renderComponent={ (door) => (
             <Door
               isDisabled={ door.floor !== currentFloor.index }
               { ...door }

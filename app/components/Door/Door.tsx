@@ -6,14 +6,14 @@ import StyledDoor from "./styles";
 import DoorHUD from "./DoorHUD";
 import DraggableComponent from "../DraggableComponent";
 
-import { updateDoor } from "../../redux/doors/actions";
-
 import { Directions } from "../../enums";
-import { DoorTypes, OnDoubleClickType } from "../../types";
+import { OnDoubleClickType } from "../../types";
 import { ComponentPropTypes } from "./types";
+import { updateEntity } from "../../redux/entities/actions";
+import UIDataEntities from "../../types/redux/entities";
 
 const Door: React.FC<ComponentPropTypes> = ({
-  index,
+  id,
   label,
   isDisabled,
   isHidden,
@@ -24,10 +24,8 @@ const Door: React.FC<ComponentPropTypes> = ({
   orientation,
   xPosition,
   yPosition,
-  xPos,
-  yPos,
   tag,
-}: DoorTypes) => {
+}) => {
   const GRID_SNAP: number = 25;
 
   const dispatch = useAppDispatch();
@@ -37,20 +35,21 @@ const Door: React.FC<ComponentPropTypes> = ({
   };
 
   const onDragStop = (_e, delta) => {
+    console.log(delta)
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 
-    dispatch(updateDoor({
-      index,
-      xPos: xPosition,
-      yPos: yPosition
+    dispatch(updateEntity(UIDataEntities.doors, {
+      id,
+      xPosition,
+      yPosition
     }));
   };
 
   const onDoubleClick: OnDoubleClickType = () => {
     if(orientation === Directions.NORTH_SOUTH) {
-      dispatch(updateDoor({
-        index,
+      dispatch(updateEntity(UIDataEntities.doors, {
+        id,
         width: height,
         height: width,
         orientation: Directions.EAST_WEST
@@ -60,8 +59,8 @@ const Door: React.FC<ComponentPropTypes> = ({
     };
 
     if(orientation === Directions.EAST_WEST) {
-      dispatch(updateDoor({
-        index,
+      dispatch(updateEntity(UIDataEntities.doors, {
+        id,
         width: height,
         height: width,
         orientation: Directions.NORTH_SOUTH
@@ -88,8 +87,8 @@ const Door: React.FC<ComponentPropTypes> = ({
       <DraggableComponent
         dragGrid={ [ GRID_SNAP, GRID_SNAP ] }
         enableResizing={ false }
-        xPosition={ xPos } // TODO: Change to xPosition
-        yPosition={ yPos } // TODO: Change to yPosition
+        xPosition={ xPosition }
+        yPosition={ yPosition }
         width={ width }
         height={ height }
         onDragStop={ onDragStop }
@@ -98,7 +97,7 @@ const Door: React.FC<ComponentPropTypes> = ({
       >
         { !isDisabled && (
           <DoorHUD
-            index={ index }
+            id={ id }
             label={ label }
             isHidden={ isHidden }
             isLocked={ isLocked }

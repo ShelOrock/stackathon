@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import ElementListInterface from '../ElementListInterface';
 import * as StyledComponents from '../../../../../StyledComponents';
@@ -10,7 +10,7 @@ import { AppData } from '../../../../../../enums';
 export default (door: DoorTypes) => {
 
   const doorHUDProps: ElementTypes = {
-    type: AppData.DOOR,
+    type: AppData.DOORS,
     ...door
   };
 

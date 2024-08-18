@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useAppDispatch } from "../../../../../../hooks";
 
 import * as StyledComponents from '../../../../../StyledComponents';
@@ -7,7 +7,6 @@ const { StyledButton: { SmallButton } } = StyledComponents;
 import * as ReduxActions from '../../../../../../redux/actions';
 const {
   roomActions: { updateRoom },
-  doorActions: { updateDoor },
   windowActions: { updateWindow }
 } = ReduxActions;
 
@@ -15,10 +14,13 @@ import {
   ElementTypes,
   OnClickType
 } from '../../../../../../types';
+import { AppData } from '../../../../../../enums';
+import UIDataEntities from '../../../../../../types/redux/entities';
+import { updateEntity } from '../../../../../../redux/entities/actions';
 
 export default (element: ElementTypes) => {
   const {
-    index,
+    id,
     isLocked,
     tag
   } = element;
@@ -27,14 +29,20 @@ export default (element: ElementTypes) => {
 
   const evaluateElementType = (element: ElementTypes): OnClickType => {
     switch(element.type) {
-      case 'room':
-        return (): void => { dispatch(updateRoom({ index, isLocked: !isLocked })) };
+      case AppData.ROOMS:
+        return (): void => {
+          dispatch(updateRoom({ id, isLocked: !isLocked }))
+        };
 
-      case 'door':
-        return (): void => { dispatch(updateDoor({ index, isLocked: !isLocked })) };
+      case AppData.DOORS:
+        return (): void => {
+          dispatch(updateEntity(UIDataEntities.doors, { id, isLocked: !isLocked }))
+        };
 
-      case 'window':
-        return (): void => { dispatch(updateWindow({ index, isLocked: !isLocked })) };
+      case AppData.WINDOWS:
+        return (): void => {
+          dispatch(updateWindow({ id, isLocked: !isLocked }))
+        };
         
       default:
         null;

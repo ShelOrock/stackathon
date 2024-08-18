@@ -19,11 +19,10 @@ const Planner = () => {
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
 
-  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.DOORS));
+  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const { rooms = [], windows = [], currentFloor } = useAppSelector(state => state);
-  const { indexedData: indexedRooms } = useIndexData(rooms, AppData.ROOMS);
-  // const { indexedData: indexedDoors } = useIndexData(doors, AppData.DOOR);
-  const { indexedData: indexedWindows } = useIndexData(windows, AppData.WINDOWS);
+  const { indexedData: indexedRooms } = useIndexData(rooms, AppData.Rooms);
+  const { indexedData: indexedWindows } = useIndexData(windows, AppData.Windows);
 
   return (
     <Row>

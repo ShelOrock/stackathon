@@ -5,11 +5,6 @@ import { WindowTypes, ReduxTypes } from '../../types';
 export const createWindow: ReduxTypes.ActionTypes.UnknownActionFunctionType<WindowTypes> = payload => ({
   type: WindowsActionTypes.CREATE_WINDOW,
   payload
-})
-
-export const updateWindow: ReduxTypes.ActionTypes.UnknownActionFunctionType<WindowTypes> = payload => ({
-  type: WindowsActionTypes.UPDATE_WINDOW,
-  payload
 });
 
 export const deleteWindow: ReduxTypes.ActionTypes.UnknownActionFunctionType<number> = payload => ({

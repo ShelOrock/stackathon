@@ -84,7 +84,7 @@ const createAppDataSlice = entityName => (state = appDataSliceInitialState, acti
 }
 
 export default combineReducers({
-  rooms: createAppDataSlice(AppDataSlices.ROOMS),
-  doors: createAppDataSlice(AppDataSlices.DOORS),
-  windows: createAppDataSlice(AppDataSlices.WINDOWS)
+  rooms: createAppDataSlice(AppDataSlices.Rooms),
+  doors: createAppDataSlice(AppDataSlices.Doors),
+  windows: createAppDataSlice(AppDataSlices.Windows)
 });

@@ -2,11 +2,11 @@ import { Directions } from "../../enums";
 
 export interface WindowTypes {
   id?: number;
-  xPos?: number;
-  yPos?: number;
+  label?: string;
+  xPosition?: number;
+  yPosition?: number;
   width?: number;
   height?: number;
-  label?: string;
   orientation?: Directions;
   isHighlighted?: boolean;
   isLocked?: boolean;

@@ -9,9 +9,9 @@ import Column from '../../Column';
 import Button from '../../Button';
 import { InputField } from '../../StyledComponents/StyledForm';
 
-import { deleteWindow, updateWindow } from '../../../redux/windows/actions';
-
 import { ComponentPropTypes } from './types';
+import { deleteEntity, updateEntity } from '../../../redux/entities/actions';
+import { AppData } from '../../../enums';
 
 const WindowHUD: React.FC<ComponentPropTypes> = ({
   id,
@@ -29,15 +29,15 @@ const WindowHUD: React.FC<ComponentPropTypes> = ({
       <Column>
         <Row>
           <Button
-            onClick={ () => dispatch(deleteWindow(id)) }
+            onClick={ () => dispatch(deleteEntity(AppData.Windows, id)) }
             variant="tertiary"
           >X</Button>
           <Button
-            onClick={ () => dispatch(updateWindow({ id, isLocked: !isLocked }))}
+            onClick={ () => dispatch(updateEntity(AppData.Windows, { id, isLocked: !isLocked }))}
             variant="tertiary"
           >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
           <Button
-            onClick={ () => dispatch(updateWindow({ id, isHidden: !isHidden }))}
+            onClick={ () => dispatch(updateEntity(AppData.Windows, { id, isHidden: !isHidden }))}
             variant="tertiary"
           >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
         </Row>
@@ -47,7 +47,7 @@ const WindowHUD: React.FC<ComponentPropTypes> = ({
             name="label"
             placeholder={ `Window ${ id + 1 }` }
             value={ label }
-            onChange={ e => dispatch(updateWindow({ id, label: e.target.value })) }
+            onChange={ e => dispatch(updateEntity(AppData.Windows, { id, label: e.target.value })) }
           />
         ) }
       </Column>

@@ -6,11 +6,10 @@ import StyledDoor from "./styles";
 import DoorHUD from "./DoorHUD";
 import DraggableComponent from "../DraggableComponent";
 
-import { Directions } from "../../enums";
+import { AppData, Directions } from "../../enums";
 import { OnDoubleClickType } from "../../types";
 import { ComponentPropTypes } from "./types";
 import { updateEntity } from "../../redux/entities/actions";
-import UIDataEntities from "../../types/redux/entities";
 
 const Door: React.FC<ComponentPropTypes> = ({
   id,
@@ -39,7 +38,7 @@ const Door: React.FC<ComponentPropTypes> = ({
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 
-    dispatch(updateEntity(UIDataEntities.doors, {
+    dispatch(updateEntity(AppData.Doors, {
       id,
       xPosition,
       yPosition
@@ -48,7 +47,7 @@ const Door: React.FC<ComponentPropTypes> = ({
 
   const onDoubleClick: OnDoubleClickType = () => {
     if(orientation === Directions.NORTH_SOUTH) {
-      dispatch(updateEntity(UIDataEntities.doors, {
+      dispatch(updateEntity(AppData.Doors, {
         id,
         width: height,
         height: width,
@@ -59,7 +58,7 @@ const Door: React.FC<ComponentPropTypes> = ({
     };
 
     if(orientation === Directions.EAST_WEST) {
-      dispatch(updateEntity(UIDataEntities.doors, {
+      dispatch(updateEntity(AppData.Doors, {
         id,
         width: height,
         height: width,

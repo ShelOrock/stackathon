@@ -1,8 +1,8 @@
 enum AppData {
-  ROOMS = "rooms",
-  DOORS = "doors",
-  WINDOWS = "windows",
-  FLOORS = "floors"
+  Rooms = "rooms",
+  Doors = "doors",
+  Windows = "windows",
+  Floors = "floors"
 };
 
 export default AppData;

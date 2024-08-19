@@ -1,35 +1,37 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { findMissingIndex } from '../../../utils';
+import React from "react";
+import { findMissingId } from "../../../utils";
 
-import * as StyledComponents from '../../StyledComponents';
-const { StyledButton: { Button } } = StyledComponents;
-
-import * as ReduxActions from '../../../redux/actions';
-import { useAppSelector } from '../../../hooks';
-import { Directions } from '../../../enums';
-const { windowActions: { createWindow } } = ReduxActions;
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { AppData, Directions } from "../../../enums";
+import { AppDataSelectors } from "../../../redux/selectors";
+import { addEntity } from "../../../redux/entities/actions";
+import Button from "../../Button";
 
 export default () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { windows, currentFloor } = useAppSelector(state => state);
+  const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows, {
+    attributes: [ "id" ]
+  }));
+  const { currentFloor } = useAppSelector(state => state);
 
   const handleCreateWindow = (): void => {
-    dispatch(createWindow({
-      index: findMissingIndex(windows),
+    const id = findMissingId(windows);
+
+    dispatch(addEntity(AppData.Windows, {
+      id,
       width: 25,
       height: 2,
       xPos: 0,
       yPos: 0,
-      label: `Window ${ findMissingIndex(windows) + 1 }`,
+      label: `Window ${ id + 1 }`,
       orientation: Directions.EAST_WEST,
       isHighlighted: false,
       isLocked: false,
       isHidden: false,
       floor: currentFloor.index,
-      tag: 'blue',
+      tag: "blue",
     }));
   };
 

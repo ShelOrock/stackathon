@@ -1,19 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import { useAppDispatch } from "../../../../../../hooks";
 
 import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledButton: { SmallButton } } = StyledComponents;
 
-import * as ReduxActions from '../../../../../../redux/actions';
-const { 
-  roomActions: { updateRoom },
-} = ReduxActions;
-
 import { ElementTypes, OnClickType } from '../../../../../../types';
 import { AppData } from '../../../../../../enums';
 import { updateEntity } from '../../../../../../redux/entities/actions';
 
-export default (element: ElementTypes) => {
+export default (element) => {
   const {
     id,
     isHidden,
@@ -26,7 +21,7 @@ export default (element: ElementTypes) => {
     switch(element.type) {
       case AppData.Rooms:
         return (): void => {
-          dispatch(updateRoom({ id, isHidden: !isHidden }))
+          dispatch(updateEntity(AppData.Rooms, { id, isHidden: !isHidden }))
         };
 
       case AppData.Doors:
@@ -44,15 +39,10 @@ export default (element: ElementTypes) => {
     }
   }
 
-  interface ButtonPropTypes {
-    variant: string;
-    onClick: OnClickType;
-  };
-
-  const buttonProps: ButtonPropTypes = {
-    variant: isHidden ? 'secondary' : tag,
-    onClick: evaluateElementType(element),
-  };
-
-  return <SmallButton { ...buttonProps }>{ isHidden ? <>&#127770;</> : <>&#127774;</> }</SmallButton>
+  return (
+    <SmallButton
+      onClick={ evaluateElementType(element) }
+      // variant={ isHidden ? "secondary" : tag }
+    >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</SmallButton>
+  )
 };

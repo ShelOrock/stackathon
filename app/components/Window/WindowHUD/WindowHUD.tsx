@@ -23,36 +23,39 @@ const WindowHUD: React.FC<ComponentPropTypes> = ({
   const dispatch = useAppDispatch();
 
   const elementLabelsIsShowing = useAppSelector(state => state.toggleElements.elementLabels.isShowing);
+  const elementActionsIsShowing = useAppSelector(state => state.toggleElements.elementActions.isShowing);
 
   return (
-    <StyledWindowHUD>
-      <Column>
-        <Row>
-          <Button
-            onClick={ () => dispatch(deleteEntity(AppData.Windows, id)) }
-            variant="tertiary"
-          >X</Button>
-          <Button
-            onClick={ () => dispatch(updateEntity(AppData.Windows, { id, isLocked: !isLocked }))}
-            variant="tertiary"
-          >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
-          <Button
-            onClick={ () => dispatch(updateEntity(AppData.Windows, { id, isHidden: !isHidden }))}
-            variant="tertiary"
-          >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
-        </Row>
-        { elementLabelsIsShowing && (
-          <InputField
-            type="text"
-            name="label"
-            placeholder={ `Window ${ id + 1 }` }
-            value={ label }
-            onChange={ e => dispatch(updateEntity(AppData.Windows, { id, label: e.target.value })) }
-          />
-        ) }
-      </Column>
-    </StyledWindowHUD>
-  )
+    elementActionsIsShowing && (
+      <StyledWindowHUD>
+        <Column>
+          <Row>
+            <Button
+              onClick={ () => dispatch(deleteEntity(AppData.Windows, id)) }
+              variant="tertiary"
+            >X</Button>
+            <Button
+              onClick={ () => dispatch(updateEntity(AppData.Windows, { id, isLocked: !isLocked }))}
+              variant="tertiary"
+            >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
+            <Button
+              onClick={ () => dispatch(updateEntity(AppData.Windows, { id, isHidden: !isHidden }))}
+              variant="tertiary"
+            >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
+          </Row>
+          { elementLabelsIsShowing && (
+            <InputField
+              type="text"
+              name="label"
+              placeholder={ `Window ${ id + 1 }` }
+              value={ label }
+              onChange={ e => dispatch(updateEntity(AppData.Windows, { id, label: e.target.value })) }
+            />
+          ) }
+        </Column>
+      </StyledWindowHUD>
+    )
+  );
 };
 
 export default WindowHUD;

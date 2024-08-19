@@ -1,17 +1,23 @@
-import * as React from 'react';
+import React from 'react';
 import { useAppSelector } from '../../../../../../hooks';
 
 import WindowListItem from './WindowListItem';
 
-import { FloorTypes, WindowTypes } from '../../../../../../types';
+import { FloorTypes } from '../../../../../../types';
+import { AppDataSelectors } from '../../../../../../redux/selectors';
+import { AppData } from '../../../../../../enums';
+import ComponentMapping from '../../../../../ComponentMapping';
 
 export default (floor: FloorTypes) => {
 
-  const { windows = [] } = useAppSelector(state => state)
+  const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
 
   return (
-    <>
-      { windows.map((window: WindowTypes) => floor.index === window.floor && <WindowListItem key={ window.index } { ...window } />) }
-    </>
+    <ComponentMapping
+      componentData={ windows }
+      renderComponent={ window => floor.index === window.floor && (
+        <WindowListItem { ...window } />
+      ) }
+    />
   );
 };

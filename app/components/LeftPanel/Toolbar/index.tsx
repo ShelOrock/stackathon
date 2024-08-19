@@ -4,16 +4,15 @@ import AddFloorButton from './AddFloorButton';
 import RoomCreator from './RoomCreator';
 import DoorCreator from './DoorCreator';
 import WindowCreator from './WindowCreator';
-import * as StyledComponent from '../../StyledComponents';
-const { StyledDiv: { Column } } = StyledComponent;
+import Column from '../../Column';
 
-export default () => {
-  return (
-    <Column>
-      <AddFloorButton />
-      <RoomCreator />
-      <DoorCreator />
-      <WindowCreator />
-    </Column>
-  );
-}
+const Toolbar = () => (
+  <Column>
+    <AddFloorButton />
+    <RoomCreator />
+    <DoorCreator />
+    <WindowCreator />
+  </Column>
+);
+
+export default Toolbar;

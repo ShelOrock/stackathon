@@ -1,33 +1,37 @@
-import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { findMissingIndex } from '../../../utils';
-import { useAppSelector } from '../../../hooks';
+import React from "react";
+import { findMissingId } from "../../../utils";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 
-import * as StyledComponents from '../../StyledComponents';
-const { StyledButton: { Button } } = StyledComponents;
-
-import { createRoom } from '../../../redux/rooms/actions';
+import { selectAppData } from "../../../redux/entities/selectors";
+import { AppData } from "../../../enums";
+import { addEntity } from "../../../redux/entities/actions";
+import Button from "../../Button";
 
 export default () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { currentFloor, rooms } = useAppSelector(state => state);
+  const rooms = useAppSelector(selectAppData(AppData.Rooms, {
+    attributes: [ "id" ]
+  } ));
+  const { currentFloor } = useAppSelector(state => state);
 
   const handleCreateRoom = () => {
-    dispatch(createRoom({
-      index: findMissingIndex(rooms),
+    const id = findMissingId(rooms);
+
+    dispatch(addEntity(AppData.Rooms, {
+      id,
       width: 100,
       height: 100,
       zAxis: 2,
       xPos: 0,
       yPos: 0,
-      label: `Room ${ findMissingIndex(rooms) + 1 }`,
+      label: `Room ${ id + 1 }`,
       isHighlighted: false,
       isLocked: false,
       isHidden: false,
       floor: currentFloor.index,
-      tag: 'blue',
+      tag: "blue",
     }));
   };
 

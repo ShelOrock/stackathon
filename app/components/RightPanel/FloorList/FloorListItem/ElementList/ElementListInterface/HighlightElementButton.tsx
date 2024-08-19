@@ -1,19 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import { useAppDispatch } from '../../../../../../hooks';
 
 import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledButton: { SmallButton } } = StyledComponents;
 
-import * as ReduxActions from '../../../../../../redux/actions';
-const { 
-  roomActions: { updateRoom },
-} = ReduxActions;
-
 import { ElementTypes, OnClickType } from '../../../../../../types';
 import { AppData } from '../../../../../../enums';
 import { updateEntity } from '../../../../../../redux/entities/actions';
 
-export default (element: ElementTypes) => {
+export default (element) => {
   const {
     id,
     isHighlighted,
@@ -26,7 +21,7 @@ export default (element: ElementTypes) => {
     switch(element.type) {
       case AppData.Rooms:
         return (): void => {
-          dispatch(updateRoom({ id, isHighlighted: !isHighlighted }))
+          dispatch(updateEntity(AppData.Rooms, { id, isHighlighted: !isHighlighted }))
         };
 
       case AppData.Doors:

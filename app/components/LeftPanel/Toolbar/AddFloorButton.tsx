@@ -1,22 +1,19 @@
-import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { findMissingId } from '../../../utils';
+import React from "react";
+import { findMissingId } from "../../../utils";
 
-import * as StyledComponents from '../../StyledComponents';
-const { StyledButton: { Button } } = StyledComponents;
-
-import * as ReduxActions from '../../../redux/actions';
+import * as ReduxActions from "../../../redux/actions";
 const {
   floorActions: { createFloor },
   currentFloorActions: { setCurrentFloor }
 } = ReduxActions;
 
-import { OnClickType } from '../../../types';
-import { useAppSelector } from '../../../hooks';
+import { OnClickType } from "../../../types";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import Button from "../../Button";
 
 export default () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { floors } = useAppSelector(state => state);
 
@@ -33,15 +30,10 @@ export default () => {
     dispatch(setCurrentFloor(createdFloor));
   };
 
-  interface ButtonPropTypes {
-    variant: string;
-    onClick: OnClickType;
-  }
-
-  const buttonProps: ButtonPropTypes = {
-    variant: 'primary',
-    onClick: handleOnClick,
-  };
-
-  return <Button { ...buttonProps }>+ Add Floor</Button>
+  return (
+    <Button
+      onClick={ handleOnClick }
+      variant="primary"
+    >+ Add Floor</Button>
+  );
 };

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import SetCanvasSizeButton from './SetCanvasSizeButton';
 import Row from '../../../Row';

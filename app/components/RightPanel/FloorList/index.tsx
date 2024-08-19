@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useAppSelector } from '../../../hooks';
 
 import FloorListItem from './FloorListItem';
@@ -12,8 +12,10 @@ export default () => {
   
   return (
     <List>
-      <li>meow</li>
-      { <ComponentMapping componentData={ floors } renderComponent={ (floor: { index }) => <FloorListItem { ...floor } /> } /> }
+      <ComponentMapping
+        componentData={ floors }
+        renderComponent={ (floor: { index }) => <FloorListItem { ...floor } /> }
+      />
     </List>
-  )
-}
+  );
+};

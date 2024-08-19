@@ -1,19 +1,16 @@
-import * as React from 'react';
+import React from "react";
 import { useAppDispatch } from "../../../hooks";
 
-import * as StyledComponents from '../../StyledComponents';
-const { StyledButton: { Button } } = StyledComponents;
-
-import * as ReduxActions from '../../../redux/actions';
+import * as ReduxActions from "../../../redux/actions";
 const {
   floorActions: { resetFloors },
   currentFloorActions: { resetCurrentFloor },
-  roomActions: { resetRooms },
-  doorActions: { resetDoors },
-  windowActions: { resetWindows }
   } = ReduxActions;
 
-import { OnClickType } from '../../../types';
+import { OnClickType } from "../../../types";
+import { resetEntities } from "../../../redux/entities/actions";
+import { AppData } from "../../../enums";
+import Button from "../../Button";
 
 export default () => {
 
@@ -22,15 +19,15 @@ export default () => {
   const handleOnClick: OnClickType = () => {
     dispatch(resetFloors());
     dispatch(resetCurrentFloor());
-    dispatch(resetRooms());
-    dispatch(resetDoors());
-    dispatch(resetWindows());
+    dispatch(resetEntities(AppData.Rooms));
+    dispatch(resetEntities(AppData.Doors));
+    dispatch(resetEntities(AppData.Windows));
   };
 
-  const buttonProps = {
-    onClick: handleOnClick,
-    variant: 'tertiary'
-  }
-
-  return <Button { ...buttonProps }>Reset</Button>
-}
+  return (
+    <Button
+      onClick={ handleOnClick }
+      variant="tertiary"
+    >Reset</Button>
+  );
+};

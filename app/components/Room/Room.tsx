@@ -3,8 +3,6 @@ import { useAppDispatch } from "../../hooks";
 
 import RoomHUD from "./RoomHUD";
 
-import { updateRoom } from "../../redux/rooms/actions"
-
 import {
   OnDragStopType,
   OnResizeType,
@@ -13,9 +11,12 @@ import {
 import DraggableComponent from "../DraggableComponent";
 import { ComponentPropTypes } from "./types";
 import StyledRoom from "./styles";
+import { updateEntity } from "../../redux/entities/actions";
+import { AppData } from "../../enums";
 
 const Room: React.FC<ComponentPropTypes> = ({
-  index,
+  id,
+  label,
   isDisabled,
   isHidden,
   isHighlighted,
@@ -24,8 +25,6 @@ const Room: React.FC<ComponentPropTypes> = ({
   width,
   xPosition,
   yPosition,
-  xPos,
-  yPos,
   tag,
   variant
 }) => {
@@ -42,10 +41,10 @@ const Room: React.FC<ComponentPropTypes> = ({
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 
-    dispatch(updateRoom({
-      index,
-      xPos: xPosition,
-      yPos: yPosition
+    dispatch(updateEntity(AppData.Rooms, {
+      id,
+      xPosition,
+      yPosition
     }));
   }
 
@@ -59,16 +58,16 @@ const Room: React.FC<ComponentPropTypes> = ({
     const width = snapCoordinateToGrid(parseInt(ref.style.width), GRID_SNAP);
     const height = snapCoordinateToGrid(parseInt(ref.style.height), GRID_SNAP);
 
-    dispatch(updateRoom({
-      index,
+    dispatch(updateEntity(AppData.Rooms, {
+      id,
       width,
       height,
-      xPos: position.x,
-      yPos: position.y
+      xPosition: position.x,
+      yPosition: position.y
     }));
   };
 
-  const onDoubleClick: OnDoubleClickType = () => dispatch(updateRoom({ index, isHighlighted: !isHighlighted }))
+  const onDoubleClick: OnDoubleClickType = () => dispatch(updateEntity(AppData.Rooms, { id, isHighlighted: !isHighlighted }))
 
   const evaluateRoomColor = (isDisabled, isHighlighted, tag): string => {
     if(isDisabled) {
@@ -89,8 +88,8 @@ const Room: React.FC<ComponentPropTypes> = ({
         dragGrid={ [ GRID_SNAP, GRID_SNAP ] }
         enableResizing={ !isLocked && !isDisabled }
         resizeGrid={ [ GRID_SNAP, GRID_SNAP ] }
-        xPosition={ xPos } // TODO: Change to xPosition
-        yPosition={ yPos } // TODO: Change to yPosition
+        xPosition={ xPosition }
+        yPosition={ yPosition }
         width={ width }
         height={ height }
         onDragStop={ onDragStop }
@@ -99,7 +98,10 @@ const Room: React.FC<ComponentPropTypes> = ({
       >
         { !isDisabled && (
           <RoomHUD
-            
+            id={ id }
+            label={ label }
+            isHidden={ isHidden }
+            isLocked={ isLocked }
           />
         ) }
         <StyledRoom 

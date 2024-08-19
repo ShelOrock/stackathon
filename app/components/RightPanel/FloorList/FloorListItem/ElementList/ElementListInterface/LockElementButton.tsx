@@ -1,22 +1,17 @@
-import React from 'react';
+import React from "react";
 import { useAppDispatch } from "../../../../../../hooks";
 
-import * as StyledComponents from '../../../../../StyledComponents';
+import * as StyledComponents from "../../../../../StyledComponents";
 const { StyledButton: { SmallButton } } = StyledComponents;
-
-import * as ReduxActions from '../../../../../../redux/actions';
-const {
-  roomActions: { updateRoom },
-} = ReduxActions;
 
 import {
   ElementTypes,
   OnClickType
-} from '../../../../../../types';
-import { AppData } from '../../../../../../enums';
-import { updateEntity } from '../../../../../../redux/entities/actions';
+} from "../../../../../../types";
+import { AppData } from "../../../../../../enums";
+import { updateEntity } from "../../../../../../redux/entities/actions";
 
-export default (element: ElementTypes) => {
+export default (element) => {
   const {
     id,
     isLocked,
@@ -29,7 +24,7 @@ export default (element: ElementTypes) => {
     switch(element.type) {
       case AppData.Rooms:
         return (): void => {
-          dispatch(updateRoom({ id, isLocked: !isLocked }))
+          dispatch(updateEntity(AppData.Rooms, { id, isLocked: !isLocked }))
         };
 
       case AppData.Doors:
@@ -53,7 +48,7 @@ export default (element: ElementTypes) => {
   }
 
   const buttonProps: ButtonPropTypes = {
-    variant: isLocked ? tag : 'secondary',
+    variant: isLocked ? tag : "secondary",
     onClick: evaluateElementType(element),
   };
 

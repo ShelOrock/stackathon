@@ -1,22 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 
 import ElementListInterface from '../ElementListInterface';
 import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledList: { ListItem } } = StyledComponents;
 
-import { RoomTypes, ElementTypes } from '../../../../../../types';
+import { RoomTypes } from '../../../../../../types';
 import { AppData } from '../../../../../../enums';
 
-export default (room: RoomTypes) => {
-
-  const roomHUDProps: ElementTypes = {
-    type: AppData.ROOM,
-    ...room
-  };
-
-  return (
-    <ListItem>
-      <ElementListInterface { ...roomHUDProps } />
-    </ListItem>
-  )
-}
+export default (room: RoomTypes) => (
+  <ListItem>
+    <ElementListInterface type={ AppData.Rooms } { ...room } />
+  </ListItem>
+);

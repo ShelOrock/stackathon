@@ -13,8 +13,8 @@ export const sortArray = (array: number[] = []): void => {
 
 export const findMissingId = (array: RoomsType | DoorsType | WindowsType = []): number => {
 
-  const arrayIds = array.map((item: RoomTypes | DoorTypes | WindowTypes) => item.id);
-    console.log(arrayIds)
+  const arrayIds = array.map(item => item.id);
+
   let result: number = 0;
   sortArray(arrayIds);
 

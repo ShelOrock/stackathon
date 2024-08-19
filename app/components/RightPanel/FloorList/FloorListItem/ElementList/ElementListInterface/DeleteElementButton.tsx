@@ -6,37 +6,32 @@ const { StyledButton: { SmallButton } } = StyledComponents;
 
 import * as ReduxActions from '../../../../../../redux/actions';
 const {
-  roomActions: { deleteRoom },
-  windowActions: { deleteWindow },
   floorActions: { deleteFloor }
 } = ReduxActions;
 
-import {
-  ElementTypes,
-  OnClickType,
-} from '../../../../../../types';
+import { OnClickType } from '../../../../../../types';
 import { deleteEntity } from '../../../../../../redux/entities/actions';
 import { AppData } from '../../../../../../enums';
 
-export default (element: ElementTypes) => {
+export default (element) => {
 
   const dispatch = useAppDispatch();
 
-  const evaluateElementType = (element: ElementTypes): OnClickType => {
+  const evaluateElementType = (element): OnClickType => {
     switch(element.type) {
       case 'rooms':
         return (): void => {
-          dispatch(deleteRoom(element))
+          dispatch(deleteEntity(AppData.Rooms, element.id));
         };
 
       case 'doors':
         return (): void => {
-          dispatch(deleteEntity(AppData.Doors, element.id))
+          dispatch(deleteEntity(AppData.Doors, element.id));
         };
 
       case 'windows':
         return (): void => {
-          dispatch(deleteWindow(element.id))
+          dispatch(deleteEntity(AppData.Windows, element.id));
         };
 
       case 'floors':

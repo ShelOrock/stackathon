@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useAppSelector, useAppDispatch } from '../../../../hooks';
 
 import * as StyledComponents from '../../../StyledComponents';

@@ -4,17 +4,12 @@ import { useAppDispatch, useIndexData } from "../../../../../../hooks";
 import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledButton: { PillButton } } = StyledComponents;
 
-import * as ReduxActions from '../../../../../../redux/actions'
-const {
-  roomActions: { updateRoom },
-} = ReduxActions;
-
 import { ElementTypes } from '../../../../../../types';
 import { AppData } from '../../../../../../enums';
 import { updateEntity } from '../../../../../../redux/entities/actions';
 import ComponentMapping from '../../../../../ComponentMapping';
 
-export default (element: ElementTypes): JSX.Element => {
+export default (element): JSX.Element => {
   const { id } = element
 
   const dispatch = useAppDispatch();
@@ -30,7 +25,7 @@ export default (element: ElementTypes): JSX.Element => {
   const evaluateElementType = (_e, element: ElementTypes, pill: string): void => {
     switch(element.type) {
       case AppData.Rooms:
-        dispatch(updateRoom({ id, tag: pill }));
+        dispatch(updateEntity(AppData.Rooms, { id, tag: pill }));
         break;
 
       case AppData.Doors:

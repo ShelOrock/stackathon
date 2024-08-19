@@ -14,9 +14,9 @@ export default () => {
 
   const dispatch = useAppDispatch();
 
-  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors,
-    { attributes: [ "id" ] }
-  ));
+  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors, {
+    attributes: [ "id" ]
+  } ));
 
   const { currentFloor } = useAppSelector(state => state);
 

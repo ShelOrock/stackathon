@@ -7,7 +7,7 @@ const { StyledButton: { Button } } = StyledComponents;
 import { toggleElementsActions } from '../../../redux/actions';
 
 import { OnClickType } from '../../../types';
-import UIDataEntities from '../../../types/redux/entities';
+import { UIData } from '../../../enums';
 
 export default () => {
 
@@ -15,7 +15,7 @@ export default () => {
   
   const elementLabelsIsShowing = useAppSelector(state => state.toggleElements.elementLabels.isShowing);
 
-  const handleOnClick: OnClickType = () => dispatch(toggleElementsActions.setToggleElement(UIDataEntities.elementLabels, !elementLabelsIsShowing));
+  const handleOnClick: OnClickType = () => dispatch(toggleElementsActions.setToggleElement(UIData.ElementLabels, !elementLabelsIsShowing));
 
   return <Button onClick={ handleOnClick }>Toggle Labels</Button>;
 }

@@ -10,7 +10,7 @@ import Room from "../components/Room";
 import Window from "../components/Window";
 import Door from "../components/Door";
 
-import { useAppSelector, useIndexData } from "../hooks";
+import { useAppSelector } from "../hooks";
 import { AppData } from "../enums";
 import { AppDataSelectors } from "../redux/selectors";
 
@@ -19,10 +19,10 @@ const Planner = () => {
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
 
+  const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms));
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
-  const { rooms = [], windows = [], currentFloor } = useAppSelector(state => state);
-  const { indexedData: indexedRooms } = useIndexData(rooms, AppData.Rooms);
-  const { indexedData: indexedWindows } = useIndexData(windows, AppData.Windows);
+  const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
+  const { currentFloor } = useAppSelector(state => state);
 
   return (
     <Row>
@@ -30,8 +30,8 @@ const Planner = () => {
       <Canvas canvasSize={ canvasSize }>
         { gridIsShowing && <Grid canvasSize={ canvasSize } /> }
         <ComponentMapping
-          componentData={ indexedRooms }
-          renderComponent={ ({ room }) => (
+          componentData={ rooms }
+          renderComponent={ room => (
             <Room
               isDisabled={ room.floor !== currentFloor.index }
               { ...room }
@@ -40,7 +40,7 @@ const Planner = () => {
         />
         <ComponentMapping
           componentData={ doors }
-          renderComponent={ (door) => (
+          renderComponent={ door => (
             <Door
               isDisabled={ door.floor !== currentFloor.index }
               { ...door }
@@ -48,8 +48,8 @@ const Planner = () => {
           ) }
         />
         <ComponentMapping
-          componentData={ indexedWindows }
-          renderComponent={ ({ window }) => (
+          componentData={ windows }
+          renderComponent={ window => (
             <Window
               isDisabled={ window.floor !== currentFloor.index }
               { ...window }

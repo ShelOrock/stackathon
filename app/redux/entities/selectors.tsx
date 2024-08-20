@@ -6,6 +6,11 @@ const selectAppData = (entityName, parameters = {}) => createSelector([
 ], (entities, ids) => convertAppDataEntitiesToArray(entities, ids, parameters)
 );
 
+const selectActiveAppData = (entityName, parameters = {}) => createSelector([
+  state => selectAppDataEntities(state, entityName),
+  state => selectAppDataActiveId(state, entityName),
+], (entities, activeId) => convertSelectedIdToEntity(entities, activeId, parameters));
+
 const selectAppDataEntities = (state, entityName) => {
   const selectedSlice = state.appData[entityName];
 
@@ -26,6 +31,16 @@ const selectAppDataIds = (state, entityName) => {
   return selectedSlice.ids;
 };
 
+const selectAppDataActiveId = (state, entityName) => {
+  const selectedSlice = state.appData[entityName];
+
+  if(!selectedSlice) {
+    return null;
+  };
+
+  return selectedSlice.activeId;
+}
+
 const convertAppDataEntitiesToArray = (entities, ids, {
   attributes = []
 }) => {
@@ -34,6 +49,20 @@ const convertAppDataEntitiesToArray = (entities, ids, {
 
   return selectedEntitiesWithFilteredAttributes;
 };
+
+const convertSelectedIdToEntity = (entities, activeId, {
+  attributes = []
+}) => {
+  const activeEntity = entities[activeId];
+
+  if(!activeEntity) {
+    return {};
+  };
+
+  const activeEntityWithFilteredAttributes = filterEntityAttributes(activeEntity, attributes);
+
+  return activeEntityWithFilteredAttributes;
+}
 
 const filterEntityAttributes = (entities, attributes) => {
   if(!attributes.length) {
@@ -50,9 +79,10 @@ const reduceEntityAttributes = (entity, attributes) => {
   }), {});
 
   return filteredAttributes;
-}
+};
 
 export {
   selectAppData,
-  selectAppDataIds
+  selectAppDataIds,
+  selectActiveAppData
 };

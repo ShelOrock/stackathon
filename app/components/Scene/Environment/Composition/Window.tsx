@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 const { useRef } = React;
 import * as THREE from 'three';
 
@@ -12,19 +12,19 @@ export default (window: Window3DTypes) => {
 
   const translateXCoordinatesTo3D = (window: Window3DTypes): number => {
     if(window.orientation == Directions.NORTH_SOUTH) {
-      return ((window.xPos - window.width / 2) + window.width / 2) / SCALE_FACTOR;
+      return ((window.xPosition - window.width / 2) + window.width / 2) / SCALE_FACTOR;
     };
     if(window.orientation == Directions.EAST_WEST) {
-      return (window.xPos + window.width / 2) / SCALE_FACTOR
+      return (window.xPosition + window.width / 2) / SCALE_FACTOR
     };
   };
 
   const translateYCoordinatesTo3D = (window: Window3DTypes): number => {
     if(window.orientation == Directions.NORTH_SOUTH) {
-      return ((window.yPos + window.width / 2) + window.height / 2) / SCALE_FACTOR;
+      return ((window.yPosition + window.width / 2) + window.height / 2) / SCALE_FACTOR;
     };
     if(window.orientation == Directions.EAST_WEST) {
-      return ((window.yPos - window.width / 2) + window.width / 2) / SCALE_FACTOR;
+      return ((window.yPosition - window.width / 2) + window.width / 2) / SCALE_FACTOR;
     };
   };
 

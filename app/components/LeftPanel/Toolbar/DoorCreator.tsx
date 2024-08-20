@@ -18,7 +18,9 @@ export default () => {
     attributes: [ "id" ]
   } ));
 
-  const { currentFloor } = useAppSelector(state => state);
+  const activeFloorId = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
+    attributes: [ "id" ]
+  }));
 
   const handleCreateDoor = (): void => {
     const id = findMissingId(doors);
@@ -34,7 +36,7 @@ export default () => {
       isHighlighted: false,
       isLocked: false,
       isHidden: false,
-      floor: currentFloor.index,
+      floor: activeFloorId,
       tag: 'blue'
     }));
   };

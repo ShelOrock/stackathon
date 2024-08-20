@@ -6,13 +6,16 @@ import { AppData as AppDataSlices } from "../../enums";
 
 const idsInitialState: ReduxTypes.StateType<number[]> = [];
 const entitiesInitialState: ReduxTypes.StateType<{ [id: number]: any }> = {};
+const activeIdInitialState: ReduxTypes.StateType<number> = null;
 
 const appDataSliceInitialState: ReduxTypes.StateType<{
   ids: typeof idsInitialState,
-  entities: typeof entitiesInitialState
+  entities: typeof entitiesInitialState,
+  activeId: typeof activeIdInitialState
 }> = {
   ids: idsInitialState,
-  entities: entitiesInitialState
+  entities: entitiesInitialState,
+  activeId: activeIdInitialState
 };
 
 const ids: ReduxTypes.ReducerFunctionType<typeof idsInitialState, number[], any> = (state = idsInitialState, action) => {
@@ -66,7 +69,19 @@ const entities: ReduxTypes.ReducerFunctionType<typeof entitiesInitialState, { [i
 
     default:
       return state;
+  };
+};
 
+const activeId: ReduxTypes.ReducerFunctionType<typeof activeIdInitialState, number, number> = (state = activeIdInitialState, action) => {
+  switch(action.type) {
+    case EntitiesActionTypes.SET_ACTIVE_ID:
+      return action.payload;
+
+    case EntitiesActionTypes.RESET_ACTIVE_ID:
+      return activeIdInitialState;
+
+    default:
+      return state;
   };
 };
 
@@ -75,7 +90,8 @@ const createAppDataSlice = entityName => (state = appDataSliceInitialState, acti
     case `${ entityName }`:
       return {
         ids: ids(state.ids, action),
-        entities: entities(state.entities, action)
+        entities: entities(state.entities, action),
+        activeId: activeId(state.activeId, action)
       };
 
     default:
@@ -86,5 +102,6 @@ const createAppDataSlice = entityName => (state = appDataSliceInitialState, acti
 export default combineReducers({
   rooms: createAppDataSlice(AppDataSlices.Rooms),
   doors: createAppDataSlice(AppDataSlices.Doors),
-  windows: createAppDataSlice(AppDataSlices.Windows)
+  windows: createAppDataSlice(AppDataSlices.Windows),
+  floors: createAppDataSlice(AppDataSlices.Floors)
 });

@@ -8,20 +8,16 @@ import {
 
 import * as Views from "../views";
 import Scene from "../components/Scene/Scene";
-
-import * as reduxActions from "../redux/actions";
-const {
-  floorActions: { resetFloors },
-  currentFloorActions: { resetCurrentFloor }
-} = reduxActions
+import { resetActiveId, resetEntities } from "../redux/entities/actions";
+import { AppData } from "../enums";
 
 const AppRouter = () => {
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(resetFloors());
-    dispatch(resetCurrentFloor());
+    dispatch(resetEntities(AppData.Floors));
+    dispatch(resetActiveId(AppData.Floors));
   }, []);
 
   return (

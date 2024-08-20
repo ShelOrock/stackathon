@@ -1,15 +1,20 @@
 import React from 'react';
 
 import ToggleCommands from './ToggleCommands/ToggleCommands';
-import Toolbar from './Toolbar';
-import * as StyledComponents from '../StyledComponents';
-const { StyledControls: { ControlPanel } } = StyledComponents;
+import Column from '../Column';
+import AddFloorButton from './Toolbar/AddFloorButton';
+import RoomCreator from './Toolbar/RoomCreator';
+import DoorCreator from './Toolbar/DoorCreator';
+import WindowCreator from './Toolbar/WindowCreator';
 
 export default () => {
   return (
-    <ControlPanel>
+    <Column>
       <ToggleCommands />
-      <Toolbar />
-    </ControlPanel>
-  )
-}
+      <AddFloorButton />
+      <RoomCreator />
+      <DoorCreator />
+      <WindowCreator />
+    </Column>
+  );
+};

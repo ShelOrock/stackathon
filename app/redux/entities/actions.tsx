@@ -25,9 +25,22 @@ const resetEntities: ReduxTypes.ActionTypes.KnownActionFunctionType<any> = entit
   type: EntitiesActionTypes.RESET_ENTITIES
 });
 
+const setActiveId: ReduxTypes.ActionTypes.KnownActionFunctionType<any> = (entityName, payload) => ({
+  entityName,
+  type: EntitiesActionTypes.SET_ACTIVE_ID,
+  payload
+});
+
+const resetActiveId: ReduxTypes.ActionTypes.KnownActionFunctionType<any> = entityName => ({
+  entityName,
+  type: EntitiesActionTypes.RESET_ACTIVE_ID
+});
+
 export {
   addEntity,
   updateEntity,
   deleteEntity,
-  resetEntities
+  resetEntities,
+  setActiveId,
+  resetActiveId
 };

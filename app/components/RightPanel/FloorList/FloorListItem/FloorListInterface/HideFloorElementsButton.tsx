@@ -1,31 +1,22 @@
-import * as React from 'react';
+import React from 'react';
 import { useAppDispatch } from '../../../../../hooks';
 
 import * as StyledComponents from '../../../../StyledComponents';
 const { StyledButton: { SmallButton } } = StyledComponents;
 
-import * as ReduxActions from '../../../../../redux/actions';
-const { floorActions: { updateFloor } } = ReduxActions;
+import { OnClickType } from '../../../../../types';
+import { updateEntity } from '../../../../../redux/entities/actions';
+import { AppData } from '../../../../../enums';
 
-import { FloorTypes, OnClickType } from '../../../../../types';
-
-export default (floor: FloorTypes) => {
+export default (floor) => {
 
   const dispatch = useAppDispatch();
   
-  const { index, isHidden } = floor;
+  const { id, isHidden } = floor;
 
-  const handleOnClick: OnClickType = () => dispatch(updateFloor({ index, isHidden: !isHidden }));
+  const handleOnClick: OnClickType = () => dispatch(updateEntity(AppData.Floors, { id, isHidden: !isHidden }));
 
-  interface ButtonPropTypes {
-    variant: string;
-    onClick: OnClickType;
-  }
-
-  const buttonProps: ButtonPropTypes = {
-    variant: 'primary',
-    onClick: handleOnClick,
-  };
-
-  return <SmallButton { ...buttonProps }>{ !isHidden ? <>&#9660;</> : <>&#9654;</> }</SmallButton>;
+  return (
+    <SmallButton onClick={ handleOnClick }>{ !isHidden ? <>&#9660;</> : <>&#9654;</> }</SmallButton>
+  );
 };

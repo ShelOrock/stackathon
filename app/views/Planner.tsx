@@ -22,7 +22,9 @@ const Planner = () => {
   const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms));
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
-  const { currentFloor } = useAppSelector(state => state);
+  const activeFloorId = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
+    attributes: [ "id" ]
+  }));
 
   return (
     <Row>
@@ -33,7 +35,7 @@ const Planner = () => {
           componentData={ rooms }
           renderComponent={ room => (
             <Room
-              isDisabled={ room.floor !== currentFloor.index }
+              isDisabled={ room.floor !== activeFloorId }
               { ...room }
             />
           ) }
@@ -42,7 +44,7 @@ const Planner = () => {
           componentData={ doors }
           renderComponent={ door => (
             <Door
-              isDisabled={ door.floor !== currentFloor.index }
+              isDisabled={ door.floor !== activeFloorId }
               { ...door }
             />
           ) }
@@ -51,7 +53,7 @@ const Planner = () => {
           componentData={ windows }
           renderComponent={ window => (
             <Window
-              isDisabled={ window.floor !== currentFloor.index }
+              isDisabled={ window.floor !== activeFloorId }
               { ...window }
             />
           ) }

@@ -1,9 +1,0 @@
-enum FloorsActionTypes {
-  CREATE_INITIAL_FLOOR = "CREATE_INITAL_FLOOR",
-  CREATE_FLOOR = "CREATE_FLOOR",
-  UPDATE_FLOOR = "UPDATE_FLOOR",
-  DELETE_FLOOR = "DELETE_FLOOR",
-  RESET_FLOORS = "RESET_FLOORS"
-};
-
-export default FloorsActionTypes;

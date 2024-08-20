@@ -4,11 +4,6 @@ import { useAppDispatch } from '../../../../../../hooks';
 import * as StyledComponents from '../../../../../StyledComponents';
 const { StyledButton: { SmallButton } } = StyledComponents;
 
-import * as ReduxActions from '../../../../../../redux/actions';
-const {
-  floorActions: { deleteFloor }
-} = ReduxActions;
-
 import { OnClickType } from '../../../../../../types';
 import { deleteEntity } from '../../../../../../redux/entities/actions';
 import { AppData } from '../../../../../../enums';
@@ -36,7 +31,7 @@ export default (element) => {
 
       case 'floors':
         return (): void => {
-          dispatch(deleteFloor(element))
+          dispatch(deleteEntity(AppData.Floors, element.id))
         };
 
       default:

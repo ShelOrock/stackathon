@@ -1,21 +1,23 @@
-import * as React from 'react';
+import React from 'react';
 import { useAppSelector, useAppDispatch } from '../../../../../hooks';
 
 import * as StyledComponents from '../../../../StyledComponents';
 const { StyledButton: { SmallButton } } = StyledComponents;
 
-import * as ReduxActions from '../../../../../redux/actions';
-const { currentFloorActions: { setCurrentFloor } } = ReduxActions;
+import { OnClickType } from '../../../../../types';
+import { AppDataSelectors } from '../../../../../redux/selectors';
+import { AppData } from '../../../../../enums';
+import { setActiveId } from '../../../../../redux/entities/actions';
 
-import { FloorTypes, OnClickType } from '../../../../../types';
-
-export default (floor: FloorTypes) => {
+export default (floor) => {
 
   const dispatch = useAppDispatch();
 
-  const { currentFloor } = useAppSelector(state => state);
+  const activeFloorId = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
+    attributes: [ "id" ]
+  }));
 
-  const handleOnClick: OnClickType = () => dispatch(setCurrentFloor(floor));
+  const handleOnClick: OnClickType = () => dispatch(setActiveId(AppData.Floors, floor.id));
 
   interface ButtonPropTypes {
     variant: string;
@@ -23,9 +25,9 @@ export default (floor: FloorTypes) => {
   };
 
   const buttonProps: ButtonPropTypes = {
-    variant: currentFloor.index === floor.index ? 'primary' : 'secondary',
+    variant: activeFloorId === floor.id ? 'primary' : 'secondary',
     onClick: handleOnClick
   };
 
-  return <SmallButton { ...buttonProps }>Floor { floor.index + 1 }</SmallButton>
+  return <SmallButton { ...buttonProps }>Floor { floor.id + 1 }</SmallButton>
 };

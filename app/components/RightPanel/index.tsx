@@ -3,12 +3,11 @@ import React from 'react';
 import CommandButtons from './CommandButtons/CommandButtons';
 import FloorList from './FloorList';
 
-import * as StyledComponents from '../StyledComponents';
-const { StyledControls: { ControlPanel } } = StyledComponents;
+import Column from '../Column';
 
 export default () => (
-  <ControlPanel>
+  <Column>
     <CommandButtons />
     <FloorList />
-  </ControlPanel>
+  </Column>
 );

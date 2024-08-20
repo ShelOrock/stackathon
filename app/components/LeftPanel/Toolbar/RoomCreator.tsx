@@ -2,19 +2,21 @@ import React from "react";
 import { findMissingId } from "../../../utils";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 
-import { selectAppData } from "../../../redux/entities/selectors";
 import { AppData } from "../../../enums";
 import { addEntity } from "../../../redux/entities/actions";
 import Button from "../../Button";
+import { AppDataSelectors } from "../../../redux/selectors";
 
 export default () => {
 
   const dispatch = useAppDispatch();
 
-  const rooms = useAppSelector(selectAppData(AppData.Rooms, {
+  const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms, {
     attributes: [ "id" ]
   } ));
-  const { currentFloor } = useAppSelector(state => state);
+  const activeFloorId = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
+    attributes: [ "id" ]
+  }));
 
   const handleCreateRoom = () => {
     const id = findMissingId(rooms);
@@ -30,7 +32,7 @@ export default () => {
       isHighlighted: false,
       isLocked: false,
       isHidden: false,
-      floor: currentFloor.index,
+      floor: activeFloorId,
       tag: "blue",
     }));
   };

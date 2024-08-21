@@ -21,7 +21,7 @@ export default () => {
 
     dispatch(addEntity(AppData.Floors, {
       id,
-      label: `Floor ${ id + 1 }`,
+      label: `Floor ${ id }`,
       isHighlighted: false,
       isHidden: false
     }));

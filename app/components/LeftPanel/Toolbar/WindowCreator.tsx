@@ -14,7 +14,7 @@ export default () => {
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows, {
     attributes: [ "id" ]
   }));
-  const activeFloorId = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
+  const activeFloor = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
     attributes: [ "id" ]
   }));
 
@@ -25,14 +25,14 @@ export default () => {
       id,
       width: 25,
       height: 2,
-      xPos: 0,
-      yPos: 0,
-      label: `Window ${ id + 1 }`,
+      xPosition: 0,
+      yPosition: 0,
+      label: `Window ${ id }`,
       orientation: Directions.EAST_WEST,
       isHighlighted: false,
       isLocked: false,
       isHidden: false,
-      floor: activeFloorId,
+      floor: activeFloor.id,
       tag: "blue",
     }));
   };

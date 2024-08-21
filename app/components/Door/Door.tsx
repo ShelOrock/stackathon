@@ -34,7 +34,6 @@ const Door: React.FC<ComponentPropTypes> = ({
   };
 
   const onDragStop = (_e, delta) => {
-    console.log(delta)
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 

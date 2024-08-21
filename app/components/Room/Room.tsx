@@ -4,7 +4,6 @@ import { useAppDispatch } from "../../hooks";
 import RoomHUD from "./RoomHUD";
 
 import {
-  OnDragStopType,
   OnResizeType,
   OnDoubleClickType,
 } from "../../types"
@@ -37,7 +36,7 @@ const Room: React.FC<ComponentPropTypes> = ({
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
   };
 
-  const onDragStop: OnDragStopType = (_e, delta) => {
+  const onDragStop = (_e, delta) => {
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 

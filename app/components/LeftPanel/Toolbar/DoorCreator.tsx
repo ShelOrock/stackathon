@@ -18,7 +18,7 @@ export default () => {
     attributes: [ "id" ]
   } ));
 
-  const activeFloorId = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
+  const activeFloor = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
     attributes: [ "id" ]
   }));
 
@@ -31,12 +31,12 @@ export default () => {
       height: 12,
       xPosition: 0,
       yPosition: 0,
-      label: `Door ${ id + 1 }`,
+      label: `Door ${ id }`,
       orientation: Directions.EAST_WEST,
       isHighlighted: false,
       isLocked: false,
       isHidden: false,
-      floor: activeFloorId,
+      floor: activeFloor.id,
       tag: 'blue'
     }));
   };

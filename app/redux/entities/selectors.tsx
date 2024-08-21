@@ -39,12 +39,14 @@ const selectAppDataActiveId = (state, entityName) => {
   };
 
   return selectedSlice.activeId;
-}
+};
 
 const convertAppDataEntitiesToArray = (entities, ids, {
-  attributes = []
+  attributes = [],
+  filters = {}
 }) => {
-  const selectedEntities = ids.map(id => entities[id]);
+  const filteredIds = filterIds(entities, ids, filters);
+  const selectedEntities = filteredIds.map(id => entities[id]);
   const selectedEntitiesWithFilteredAttributes = filterEntityAttributes(selectedEntities, attributes);
 
   return selectedEntitiesWithFilteredAttributes;
@@ -54,14 +56,34 @@ const convertSelectedIdToEntity = (entities, activeId, {
   attributes = []
 }) => {
   const activeEntity = entities[activeId];
-
+  
   if(!activeEntity) {
     return {};
   };
 
-  const activeEntityWithFilteredAttributes = filterEntityAttributes(activeEntity, attributes);
+  const activeEntityWithFilteredAttributes = reduceEntityAttributes(activeEntity, attributes);
 
   return activeEntityWithFilteredAttributes;
+};
+
+const filterIds = (entities, ids, filters) => {
+  if(!filters) {
+    return ids;
+  };
+
+  const filteredIds = ids.filter(id => {
+    const currentEntity = entities[id];
+
+    if(!currentEntity) {
+      return false;
+    };
+
+    const matchesFilters = Object.entries(filters).every(([ attribute = "", filter = null ]: any) => filter === currentEntity[attribute]);
+
+    return matchesFilters;
+  });
+
+  return filteredIds;
 }
 
 const filterEntityAttributes = (entities, attributes) => {

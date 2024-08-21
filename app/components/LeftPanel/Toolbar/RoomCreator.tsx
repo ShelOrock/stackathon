@@ -14,7 +14,7 @@ export default () => {
   const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms, {
     attributes: [ "id" ]
   } ));
-  const activeFloorId = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
+  const activeFloor = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
     attributes: [ "id" ]
   }));
 
@@ -26,13 +26,13 @@ export default () => {
       width: 100,
       height: 100,
       zAxis: 2,
-      xPos: 0,
-      yPos: 0,
-      label: `Room ${ id + 1 }`,
+      xPosition: 0,
+      yPosition: 0,
+      label: `Room ${ id }`,
       isHighlighted: false,
       isLocked: false,
       isHidden: false,
-      floor: activeFloorId,
+      floor: activeFloor.id,
       tag: "blue",
     }));
   };

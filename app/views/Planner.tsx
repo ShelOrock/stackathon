@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Canvas from "../components/Canvas";
 import LeftPanel from "../components/LeftPanel";
@@ -10,21 +10,37 @@ import Room from "../components/Room";
 import Window from "../components/Window";
 import Door from "../components/Door";
 
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { AppData } from "../enums";
 import { AppDataSelectors } from "../redux/selectors";
+import { addEntity, setActiveId } from "../redux/entities/actions";
 
 const Planner = () => {
+
+  const dispatch = useAppDispatch();
 
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
 
+  const activeFloor = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
+    attributes: [ "id" ]
+  }));
   const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms));
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
-  const activeFloorId = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
-    attributes: [ "id" ]
-  }));
+
+  useEffect(() => {
+    console.log(activeFloor)
+    if(!activeFloor.id) {
+      dispatch(addEntity(AppData.Floors, {
+        id: 1,
+        label: "Floor 1",
+        isHighlighted: false,
+        isHidden: false
+      }));
+      dispatch(setActiveId(AppData.Floors, 1));
+    };
+  }, [activeFloor.id]);
 
   return (
     <Row>
@@ -35,7 +51,7 @@ const Planner = () => {
           componentData={ rooms }
           renderComponent={ room => (
             <Room
-              isDisabled={ room.floor !== activeFloorId }
+              isDisabled={ room.floor !== activeFloor.id }
               { ...room }
             />
           ) }
@@ -44,7 +60,7 @@ const Planner = () => {
           componentData={ doors }
           renderComponent={ door => (
             <Door
-              isDisabled={ door.floor !== activeFloorId }
+              isDisabled={ door.floor !== activeFloor.id }
               { ...door }
             />
           ) }
@@ -53,7 +69,7 @@ const Planner = () => {
           componentData={ windows }
           renderComponent={ window => (
             <Window
-              isDisabled={ window.floor !== activeFloorId }
+              isDisabled={ window.floor !== activeFloor.id }
               { ...window }
             />
           ) }

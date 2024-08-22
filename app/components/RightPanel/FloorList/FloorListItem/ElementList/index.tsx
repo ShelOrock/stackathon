@@ -7,12 +7,12 @@ import WindowList from './WindowList';
 import { FloorTypes } from '../../../../../types';
 import Column from '../../../../Column';
 
-export default (floor: FloorTypes) => {
+export default ({ floorId }) => {
   return (
     <Column>
-      <RoomList { ...floor } />
-      <DoorList { ...floor } />
-      <WindowList { ...floor } />
+      <RoomList floorId={ floorId } />
+      <DoorList floorId={ floorId } />
+      <WindowList floorId={ floorId } />
     </Column>
   )
 };

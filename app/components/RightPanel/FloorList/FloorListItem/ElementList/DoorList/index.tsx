@@ -3,19 +3,18 @@ import { useAppSelector } from '../../../../../../hooks';
 
 import DoorListItem from './DoorListItem';
 
-import { FloorTypes } from '../../../../../../types';
 import ComponentMapping from '../../../../../ComponentMapping';
 import { AppDataSelectors } from '../../../../../../redux/selectors';
 import { AppData } from '../../../../../../enums';
 
-export default (floor: FloorTypes) => {
+export default ({ floorId }) => {
 
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
 
   return (
     <ComponentMapping
       componentData={ doors }
-      renderComponent={ door => floor.index === door.floor && (
+      renderComponent={ door => floorId === door.floor && (
         <DoorListItem { ...door }/>
       ) }
     />

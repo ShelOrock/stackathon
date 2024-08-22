@@ -1,20 +1,22 @@
-import * as React from 'react';
+import React from "react";
 
-import FloorListInterface from './FloorListInterface';
-import ElementList from './ElementList';
-import * as StyledComponents from '../../../StyledComponents';
-const { StyledList: { ListItem } } = StyledComponents;
+import FloorLayer from "./FloorLayer";
+import ElementList from "./ElementList";
 
-import { FloorTypes } from '../../../../types';
-
-export default (floor: FloorTypes) => {
+export default ({
+  id,
+  isHidden,
+  activeFloorId
+}) => {
 
   return (
     <>
-      <ListItem>
-        <FloorListInterface { ...floor } />
-      </ListItem>
-      { !floor.isHidden && <ElementList { ...floor } /> }
+      <FloorLayer
+        id={ id }
+        isHidden={ isHidden }
+        activeFloorId={ activeFloorId }
+      />
+      { !isHidden && <ElementList floorId={ id } /> }
     </>
   )
 };

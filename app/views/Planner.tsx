@@ -30,17 +30,14 @@ const Planner = () => {
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
 
   useEffect(() => {
-    console.log(activeFloor)
-    if(!activeFloor.id) {
-      dispatch(addEntity(AppData.Floors, {
-        id: 1,
-        label: "Floor 1",
-        isHighlighted: false,
-        isHidden: false
-      }));
-      dispatch(setActiveId(AppData.Floors, 1));
-    };
-  }, [activeFloor.id]);
+    dispatch(addEntity(AppData.Floors, {
+      id: 1,
+      label: "Floor 1",
+      isHighlighted: false,
+      isHidden: false
+    }));
+    dispatch(setActiveId(AppData.Floors, 1));
+  }, []);
 
   return (
     <Row>

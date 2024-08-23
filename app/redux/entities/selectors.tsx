@@ -56,7 +56,7 @@ const convertSelectedIdToEntity = (entities, activeId, {
   attributes = []
 }) => {
   const activeEntity = entities[activeId];
-  
+
   if(!activeEntity) {
     return {};
   };
@@ -90,14 +90,14 @@ const filterEntityAttributes = (entities, attributes) => {
   if(!attributes.length) {
     return entities;
   };
-  
+
   return entities.map(entity => reduceEntityAttributes(entity, attributes));
 };
 
 const reduceEntityAttributes = (entity, attributes) => {
   const filteredAttributes = attributes.reduce((accumulator, attribute) => ({
     ...accumulator,
-    [attributes]: entity[attribute]
+    [attribute]: entity[attribute]
   }), {});
 
   return filteredAttributes;

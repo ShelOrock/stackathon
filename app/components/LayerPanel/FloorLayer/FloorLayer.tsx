@@ -1,15 +1,15 @@
 import React from "react";
-import { useAppDispatch } from "../../../../../hooks";
+import { useAppDispatch } from "../../../hooks";
 
-import { AppData } from "../../../../../enums";
-import Row from "../../../../Row";
-import { deleteEntity, resetActiveId, setActiveId, updateEntity } from "../../../../../redux/entities/actions";
+import { AppData } from "../../../enums";
+import Row from "../../Row";
+import { deleteEntity, resetActiveId, setActiveId, updateEntity } from "../../../redux/entities/actions";
 import { ComponentPropTypes } from "./types";
-import Button from "../../../../Button";
+import Button from "../../Button";
 
 const FloorLayer: React.FC<ComponentPropTypes> = ({
   id,
-  isHidden = false,
+  isHidden = true,
   activeFloorId
 }) => {
 
@@ -19,7 +19,7 @@ const FloorLayer: React.FC<ComponentPropTypes> = ({
     dispatch(setActiveId(AppData.Floors, id));
   };
 
-  const handleHideFloor = () => {
+  const handleToggleFloorVisibility = () => {
     dispatch(updateEntity(AppData.Floors, { id, isHidden: !isHidden }));
   };
 
@@ -34,11 +34,10 @@ const FloorLayer: React.FC<ComponentPropTypes> = ({
   return (
     <Row>
       <Button
-        variant={ activeFloorId === id ? "primary" : "secondary" }
         onClick={ handleSetActiveFloor }
       >Floor { id }</Button>
       <Button
-        onClick={ handleHideFloor }
+        onClick={ handleToggleFloorVisibility }
       >{ !isHidden ? <>&#9660;</> : <>&#9654;</> }</Button>
       <Button
         onClick={ handleDeleteFloor }

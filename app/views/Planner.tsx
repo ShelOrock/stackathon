@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import Canvas from "../components/Canvas";
 import LeftPanel from "../components/LeftPanel";
-import RightPanel from "../components/RightPanel";
+import LayerPanel from "../components/LayerPanel";
 import Row from "../components/Row";
 import Grid from "../components/Grid";
 import ComponentMapping from "../components/ComponentMapping";
@@ -72,7 +72,7 @@ const Planner = () => {
           ) }
         />
       </Canvas>
-      <RightPanel />
+      <LayerPanel />
     </Row>
   );
 };

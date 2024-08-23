@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 
 import Canvas from "../components/Canvas";
-import LeftPanel from "../components/LeftPanel";
 import LayerPanel from "../components/LayerPanel";
 import Row from "../components/Row";
 import Grid from "../components/Grid";
@@ -14,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { AppData } from "../enums";
 import { AppDataSelectors } from "../redux/selectors";
 import { addEntity, setActiveId } from "../redux/entities/actions";
+import ToolsPanel from "../components/ToolsPanel";
 
 const Planner = () => {
 
@@ -41,7 +41,7 @@ const Planner = () => {
 
   return (
     <Row>
-      <LeftPanel />
+      <ToolsPanel />
       <Canvas canvasSize={ canvasSize }>
         { gridIsShowing && <Grid canvasSize={ canvasSize } /> }
         <ComponentMapping

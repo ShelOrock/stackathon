@@ -5,15 +5,18 @@ import Column from "../../Column";
 import ComponentMapping from "../../ComponentMapping";
 import EntityLayer from "../EntityLayer";
 import { AppData } from "../../../enums";
-import { useAppSelector } from "../../../hooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { AppDataSelectors } from "../../../redux/selectors";
 import { ComponentPropTypes } from "./types";
+import { deleteEntity, resetActiveId } from "../../../redux/entities/actions";
 
 const LayerGroup: React.FC<ComponentPropTypes> = ({
   id,
   isHidden,
   activeFloorId
 }) => {
+
+  const dispatch = useAppDispatch();
 
   const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms, {
     filters: { floor: id }
@@ -27,12 +30,21 @@ const LayerGroup: React.FC<ComponentPropTypes> = ({
     filters: { floor: id }
   }));
 
+  const handleDeleteFloor = () => {
+    dispatch(deleteEntity(AppData.Floors, id));
+    dispatch(resetActiveId(AppData.Floors));
+    rooms.forEach(room => dispatch(deleteEntity(AppData.Rooms, room.id)));
+    doors.forEach(door => dispatch(deleteEntity(AppData.Doors, door.id)));
+    windows.forEach(window => dispatch(deleteEntity(AppData.Windows, window.id)));
+  };
+
   return (
     <Column>
       <FloorLayer
         id={ id }
         isHidden={ isHidden }
         activeFloorId={ activeFloorId }
+        handleDeleteFloor={ handleDeleteFloor }
       />
       { !isHidden && (
         <Column>

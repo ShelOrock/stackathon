@@ -5,7 +5,7 @@ import Button from "../../Button";
 import ComponentMapping from "../../ComponentMapping";
 import { PillButton } from "../../StyledComponents/StyledButton";
 import { useAppDispatch, useIndexData } from "../../../hooks";
-import { deleteEntity, updateEntity } from "../../../redux/entities/actions";
+import { entityActions } from "../../../redux/actions";
 import { ComponentPropTypes } from "./types";
 
 const UNTITLED_ELEMENT = "Untitled Element";
@@ -33,23 +33,23 @@ const EntityLayer: React.FC<ComponentPropTypes> = ({
   const { indexedData: indexedTagOptions } = useIndexData(TAG_OPTIONS, "tagOption");
 
   const handleToggleEntityHighlight = () => {
-    dispatch(updateEntity(appDataType, { id, isHighlighted: !isHighlighted }));
+    dispatch(entityActions.updateEntity(appDataType, { id, isHighlighted: !isHighlighted }));
   };
 
   const handleToggleEntityLock = () => {
-    dispatch(updateEntity(appDataType, { id, isLocked: !isLocked }));
+    dispatch(entityActions.updateEntity(appDataType, { id, isLocked: !isLocked }));
   };
 
   const handleToggleEntityHidden = () => {
-    dispatch(updateEntity(appDataType, { id, isHidden: !isHidden }));
+    dispatch(entityActions.updateEntity(appDataType, { id, isHidden: !isHidden }));
   };
 
   const handleSetEntityTag = tag => {
-    dispatch(updateEntity(appDataType, { id, tag }));
+    dispatch(entityActions.updateEntity(appDataType, { id, tag }));
   };
 
   const handleDeleteEntity = () => {
-    dispatch(deleteEntity(appDataType, id));
+    dispatch(entityActions.deleteEntity(appDataType, id));
   };
 
   return (

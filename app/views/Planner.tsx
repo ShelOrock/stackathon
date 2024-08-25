@@ -12,7 +12,7 @@ import Door from "../components/Door";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { AppData } from "../enums";
 import { AppDataSelectors } from "../redux/selectors";
-import { addEntity, setActiveId } from "../redux/entities/actions";
+import { entityActions } from "../redux/actions";
 import ToolsPanel from "../components/ToolsPanel";
 
 const Planner = () => {
@@ -30,13 +30,13 @@ const Planner = () => {
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
 
   useEffect(() => {
-    dispatch(addEntity(AppData.Floors, {
+    dispatch(entityActions.addEntity(AppData.Floors, {
       id: 1,
       label: "Floor 1",
       isHighlighted: false,
       isHidden: false
     }));
-    dispatch(setActiveId(AppData.Floors, 1));
+    dispatch(entityActions.setActiveId(AppData.Floors, 1));
   }, []);
 
   return (

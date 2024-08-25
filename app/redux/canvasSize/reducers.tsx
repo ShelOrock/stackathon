@@ -2,9 +2,9 @@ import canvasSizeActionTypes from './constants';
 
 import { ReduxTypes } from '../../types';
 
-const initialState: ReduxTypes.StateType<number> = 600;
+const initialState: ReduxTypes.ReducerTypes.StateType<number> = 600;
 
-export const canvasSize: ReduxTypes.ReducerFunctionType<typeof initialState, number, number> = (state = initialState, action) => {
+const canvasSize: ReduxTypes.ReducerTypes.ReducerFunctionType<typeof initialState, number, number> = (state = initialState, action) => {
   switch(action.type) {
     case canvasSizeActionTypes.SET_CANVAS_SIZE:
       return action.payload;
@@ -16,3 +16,5 @@ export const canvasSize: ReduxTypes.ReducerFunctionType<typeof initialState, num
       return state;
   };
 };
+
+export default canvasSize;

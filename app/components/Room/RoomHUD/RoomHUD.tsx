@@ -7,7 +7,7 @@ import StyledRoomHUD from "./styles";
 import { ComponentPropTypes } from "./types";
 import Column from "../../Column";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
-import { deleteEntity, updateEntity } from "../../../redux/entities/actions";
+import { entityActions } from "../../../redux/actions";
 import Button from "../../Button";
 import { InputField } from "../../StyledComponents/StyledForm";
 
@@ -29,15 +29,15 @@ const RoomHUD: React.FC<ComponentPropTypes> = ({
         <Column>
           <Row>
             <Button
-              onClick={ () => dispatch(deleteEntity(AppData.Rooms, id)) }
+              onClick={ () => dispatch(entityActions.deleteEntity(AppData.Rooms, id)) }
               variant="tertiary"
             >X</Button>
             <Button
-              onClick={ () => dispatch(updateEntity(AppData.Rooms, { id, isLocked: !isLocked })) }
+              onClick={ () => dispatch(entityActions.updateEntity(AppData.Rooms, { id, isLocked: !isLocked })) }
               variant="tertiary"
             >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
             <Button
-              onClick={ () => dispatch(updateEntity(AppData.Rooms, { id, isHidden: !isHidden })) }
+              onClick={ () => dispatch(entityActions.updateEntity(AppData.Rooms, { id, isHidden: !isHidden })) }
             >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
           </Row>
           { elementLabelsIsShowing && (
@@ -46,7 +46,7 @@ const RoomHUD: React.FC<ComponentPropTypes> = ({
               name="label"
               placeholder={ `Room ${ id + 1 }`}
               value={ label }
-              onChange={ e => dispatch(updateEntity(AppData.Rooms, { id, label: e.target.value })) }
+              onChange={ e => dispatch(entityActions.updateEntity(AppData.Rooms, { id, label: e.target.value })) }
             />
           ) }
         </Column>

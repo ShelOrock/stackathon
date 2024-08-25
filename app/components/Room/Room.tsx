@@ -7,7 +7,7 @@ import { ReactTypes } from "../../types"
 import DraggableComponent from "../DraggableComponent";
 import { ComponentPropTypes } from "./types";
 import StyledRoom from "./styles";
-import { updateEntity } from "../../redux/entities/actions";
+import { entityActions } from "../../redux/actions";
 import { AppData } from "../../enums";
 
 const Room: React.FC<ComponentPropTypes> = ({
@@ -37,7 +37,7 @@ const Room: React.FC<ComponentPropTypes> = ({
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 
-    dispatch(updateEntity(AppData.Rooms, {
+    dispatch(entityActions.updateEntity(AppData.Rooms, {
       id,
       xPosition,
       yPosition
@@ -54,7 +54,7 @@ const Room: React.FC<ComponentPropTypes> = ({
     const width = snapCoordinateToGrid(parseInt(ref.style.width), GRID_SNAP);
     const height = snapCoordinateToGrid(parseInt(ref.style.height), GRID_SNAP);
 
-    dispatch(updateEntity(AppData.Rooms, {
+    dispatch(entityActions.updateEntity(AppData.Rooms, {
       id,
       width,
       height,
@@ -63,7 +63,7 @@ const Room: React.FC<ComponentPropTypes> = ({
     }));
   };
 
-  const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => dispatch(updateEntity(AppData.Rooms, { id, isHighlighted: !isHighlighted }))
+  const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => dispatch(entityActions.updateEntity(AppData.Rooms, { id, isHighlighted: !isHighlighted }))
 
   const evaluateRoomColor = (isDisabled, isHighlighted, tag): string => {
     if(isDisabled) {

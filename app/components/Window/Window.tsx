@@ -6,7 +6,7 @@ import StyledWindow from "./styles";
 import DraggableComponent from "../DraggableComponent";
 import WindowHUD from "./WindowHUD";
 
-import { updateEntity } from "../../redux/entities/actions";
+import { entityActions } from "../../redux/actions";
 
 import { AppData, Directions } from "../../enums";
 import { ReactTypes } from "../../types";
@@ -38,7 +38,7 @@ const Window: React.FC<ComponentPropTypes> = ({
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 
-    dispatch(updateEntity(AppData.Windows, {
+    dispatch(entityActions.updateEntity(AppData.Windows, {
       id,
       xPosition,
       yPosition
@@ -47,7 +47,7 @@ const Window: React.FC<ComponentPropTypes> = ({
 
   const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => {
     if(orientation === Directions.NORTH_SOUTH) {
-      dispatch(updateEntity(AppData.Windows, {
+      dispatch(entityActions.updateEntity(AppData.Windows, {
         id,
         width: height,
         height: width,
@@ -58,7 +58,7 @@ const Window: React.FC<ComponentPropTypes> = ({
     };
 
     if(orientation === Directions.EAST_WEST) {
-      dispatch(updateEntity(AppData.Windows, {
+      dispatch(entityActions.updateEntity(AppData.Windows, {
         id,
         width: height,
         height: width,

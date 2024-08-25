@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from "react";
 const { useRef } = React;
-import * as THREE from 'three';
-import { useAppSelector } from '../../../hooks';
+import * as THREE from "three";
+import { useAppSelector } from "../../../hooks";
 
 export default () => {
 

@@ -1,18 +1,18 @@
-import * as React from 'react';
+import React from "react";
 import { useAppDispatch } from "../../../../hooks";
 
-import * as StyledComponents from '../../../StyledComponents';
+import * as StyledComponents from "../../../StyledComponents";
 const { StyledButton: { Button } } = StyledComponents;
 
-import { resetSunPosition } from '../../../../redux/sunPosition/actions';
+import { resetSunPosition } from "../../../../redux/sunPosition/actions";
 
-import { OnClickType } from '../../../../types';
+import { ReactTypes } from "../../../../types";
 
 export default () => {
 
   const dispatch = useAppDispatch();
   
-  const handleOnClick: OnClickType = () => dispatch(resetSunPosition());
+  const handleOnClick: ReactTypes.HandlerTypes.OnClickType = () => dispatch(resetSunPosition());
 
   return <Button onClick={ handleOnClick }>Reset Sun</Button>
 }

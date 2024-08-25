@@ -1,13 +1,13 @@
-import { StyledPropTypes } from "../../types";
+import { StylesTypes } from "../../types";
 
-interface ComponentPropTypes {
+interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
   canvasSize: number;
   children: React.ReactNode;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes, "children"> {};
 
-interface StyledElementPropTypes extends StyledPropTypes<StylingPropTypes> {};
+interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};
 
 export {
   ComponentPropTypes,

@@ -1,7 +1,10 @@
-import * as React from "react";
+import React from "react";
 
-export type InputOnChangeType = (e: React.ChangeEvent<HTMLInputElement>) => void;
+type InputOnChangeType = (e: React.ChangeEvent<HTMLInputElement>) => void;
 
-export type OnClickType = () => void;
+type OnClickType = () => void;
 
-export type OnDoubleClickType = () => void;
+export {
+  InputOnChangeType,
+  OnClickType,
+};

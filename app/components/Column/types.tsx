@@ -1,6 +1,6 @@
-import { StyledPropTypes } from "../../types";
+import { StylesTypes } from "../../types";
 
-interface ComponentPropTypes {
+interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
   justifyContent?: string;
   alignItems?: string;
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface ComponentPropTypes {
 
 interface StylingPropTypes extends Omit<ComponentPropTypes, "children"> {};
 
-interface StyledElementPropTypes extends StyledPropTypes<StylingPropTypes> {};
+interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};
 
 export {
   ComponentPropTypes,

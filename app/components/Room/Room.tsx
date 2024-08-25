@@ -3,10 +3,7 @@ import { useAppDispatch } from "../../hooks";
 
 import RoomHUD from "./RoomHUD";
 
-import {
-  OnResizeType,
-  OnDoubleClickType,
-} from "../../types"
+import { ReactTypes } from "../../types"
 import DraggableComponent from "../DraggableComponent";
 import { ComponentPropTypes } from "./types";
 import StyledRoom from "./styles";
@@ -47,7 +44,7 @@ const Room: React.FC<ComponentPropTypes> = ({
     }));
   }
 
-  const onResize: OnResizeType = (
+  const onResize: ReactTypes.RndTypes.OnResizeType = (
     _e,
     _direction,
     ref,
@@ -66,7 +63,7 @@ const Room: React.FC<ComponentPropTypes> = ({
     }));
   };
 
-  const onDoubleClick: OnDoubleClickType = () => dispatch(updateEntity(AppData.Rooms, { id, isHighlighted: !isHighlighted }))
+  const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => dispatch(updateEntity(AppData.Rooms, { id, isHighlighted: !isHighlighted }))
 
   const evaluateRoomColor = (isDisabled, isHighlighted, tag): string => {
     if(isDisabled) {

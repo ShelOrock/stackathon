@@ -1,9 +1,13 @@
-export interface FloorTypes {
-  index?: number;
+interface FloorTypes {
+  id?: number;
+  xPosition: number;
+  yPosition: number;
   label?: string;
   isCurrent?: boolean;
   isHidden?: boolean;
   isHighlighted?: boolean;
 };
 
-export type FloorsType = FloorTypes[];
+export { 
+  FloorTypes
+};

@@ -1,4 +1,3 @@
-import { ReduxTypes } from "..";
 import { AppData, UIData } from "../../enums";
 
 interface ActionTypes<PayloadType = {}> {

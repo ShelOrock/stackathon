@@ -1,34 +1,34 @@
-import * as React from 'react';
+import React from "react";
 const { useRef } = React;
-import * as THREE from 'three';
+import * as THREE from "three";
 
-import { Door3DTypes } from '../../../../types';
-import { Directions } from '../../../../enums';
+import { EntityTypes } from "../../../../types";
+import { Directions } from "../../../../enums";
 
-export default (door: Door3DTypes) => {
+export default (door: EntityTypes.DoorTypes.DoorMeshType) => {
 
   const mesh = useRef<THREE.Mesh>(null!);
   const SCALE_FACTOR: number = 10;
 
-  const translateXCoordinatesTo3D = (door: Door3DTypes): number => {
+  const translateXCoordinatesTo3D = (door: EntityTypes.DoorTypes.DoorMeshType): number => {
     if(door.orientation == Directions.NORTH_SOUTH) {
-     return ((door.xPos - door.width / 2) + door.width / 2) / SCALE_FACTOR;
+     return ((door.xPosition - door.width / 2) + door.width / 2) / SCALE_FACTOR;
     };
     if(door.orientation == Directions.EAST_WEST) {
-     return (door.xPos + door.width / 2) / SCALE_FACTOR;
+     return (door.xPosition + door.width / 2) / SCALE_FACTOR;
     };
   };
 
-  const translateYCoordinatesTo3D = (door: Door3DTypes): number => {
+  const translateYCoordinatesTo3D = (door: EntityTypes.DoorTypes.DoorMeshType): number => {
     if(door.orientation == Directions.NORTH_SOUTH) {
-     return ((door.yPos + door.width / 2) + door.width / 2) / SCALE_FACTOR;
+     return ((door.yPosition + door.width / 2) + door.width / 2) / SCALE_FACTOR;
     };
     if(door.orientation == Directions.EAST_WEST) {
-      return ((door.yPos - door.width / 2) + door.width / 2) / SCALE_FACTOR;
+      return ((door.yPosition - door.width / 2) + door.width / 2) / SCALE_FACTOR;
     };
   };
 
-  const evaluateRotation = (door: Door3DTypes): [number, number, number] => {
+  const evaluateRotation = (door: EntityTypes.DoorTypes.DoorMeshType): [number, number, number] => {
     switch(door.orientation) {
       case Directions.NORTH_SOUTH:
         return [0, Math.PI / 2, 0];
@@ -41,7 +41,7 @@ export default (door: Door3DTypes) => {
     };
   };
 
-  const evaluteDoorDimensions = (door: Door3DTypes): [number, number, number] => {
+  const evaluteDoorDimensions = (door: EntityTypes.DoorTypes.DoorMeshType): [number, number, number] => {
     switch(door.orientation) {
       case Directions.NORTH_SOUTH:
         return [
@@ -85,7 +85,7 @@ export default (door: Door3DTypes) => {
 
   const meshMaterialProps: MeshMaterialPropTypes = {
     side: THREE.DoubleSide,
-    color: 'black',
+    color: "black",
   };
 
   return (

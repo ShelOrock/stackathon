@@ -1,4 +1,4 @@
-import { OnDoubleClickType } from '.';
+import { HandlerTypes } from ".";
 
 interface PositionPropTypes {
   x: number;
@@ -10,17 +10,17 @@ interface SizePropTypes {
   height: number;
 };
 
-export type OnDragStopType = (e: any, delta) => void;
+type OnDragStopType = (e: any, delta) => void;
 
-export type OnResizeType = (
+type OnResizeType = (
   e: MouseEvent | TouchEvent,
   direction: any,
-  ref: React.ElementRef<'div'>,
+  ref: React.ElementRef<"div">,
   delta,
   position,
 ) => void;
 
-export interface RndPropTypes {
+interface RndPropTypes {
   dragGrid: [ number, number ];
   resizeGrid?: [ number, number ];
   enableResizing?: boolean;
@@ -28,8 +28,15 @@ export interface RndPropTypes {
   size: SizePropTypes;
   onDragStop: OnDragStopType;
   onResize?: OnResizeType;
-  onDoubleClick?: OnDoubleClickType;
+  onDoubleClick?: HandlerTypes.OnClickType;
   disableDragging?: boolean;
   enabledResize?: boolean;
-  style?: { [key: string]: string };
+};
+
+export {
+  PositionPropTypes,
+  SizePropTypes,
+  OnDragStopType,
+  OnResizeType,
+  RndPropTypes
 };

@@ -1,7 +1,7 @@
+import { StylesTypes } from "../../types";
 import { Directions } from "../../enums";
-import { StyledPropTypes } from "../../types";
 
-interface ComponentPropTypes {
+interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
   id: number;
   label: string;
   isDisabled: boolean;
@@ -33,7 +33,7 @@ interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "yPos"
 > {};
 
-interface StyledElementPropTypes extends StyledPropTypes<StylingPropTypes> {};
+interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};
 
 export {
   ComponentPropTypes,

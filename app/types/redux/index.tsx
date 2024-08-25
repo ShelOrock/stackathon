@@ -1,11 +1,3 @@
-import { RootState, AppDispatchType } from './store';
-import * as ActionTypes from './actions';
-import { StateType, ReducerFunctionType } from './reducers';
-
-export { 
-  RootState,
-  AppDispatchType,
-  ActionTypes,
-  StateType,
-  ReducerFunctionType,
-};
+export * as StoreTypes from "./store";
+export * as ActionTypes from "./actions";
+export * as ReducerTypes from "./reducers";

@@ -3,7 +3,7 @@ import React from 'react';
 import Column from '../Column';
 import Button from '../Button';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { findMissingId } from '../../utils';
+import { functions } from '../../utilities';
 import { AppDataSelectors } from '../../redux/selectors';
 import { AppData, Directions, UIData } from '../../enums';
 import { addEntity, setActiveId } from '../../redux/entities/actions';
@@ -109,7 +109,7 @@ export default () => {
   }));
 
   const handleCreateEntity = (appDataType, entities, defaultEntity): void => {
-    const id = findMissingId(entities);
+    const id = functions.findMissingId(entities);
 
     dispatch(addEntity(appDataType, {
       id,
@@ -120,7 +120,7 @@ export default () => {
   };
 
   const handleCreateFloor = () => {
-    const id = findMissingId(floors);
+    const id = functions.findMissingId(floors);
 
     dispatch(addEntity(AppData.Floors, {
       id,

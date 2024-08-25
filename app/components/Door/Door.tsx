@@ -7,9 +7,9 @@ import DoorHUD from "./DoorHUD";
 import DraggableComponent from "../DraggableComponent";
 
 import { AppData, Directions } from "../../enums";
-import { OnDoubleClickType } from "../../types";
 import { ComponentPropTypes } from "./types";
 import { updateEntity } from "../../redux/entities/actions";
+import { ReactTypes } from "../../types";
 
 const Door: React.FC<ComponentPropTypes> = ({
   id,
@@ -44,7 +44,7 @@ const Door: React.FC<ComponentPropTypes> = ({
     }));
   };
 
-  const onDoubleClick: OnDoubleClickType = () => {
+  const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => {
     if(orientation === Directions.NORTH_SOUTH) {
       dispatch(updateEntity(AppData.Doors, {
         id,

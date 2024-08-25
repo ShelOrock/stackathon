@@ -9,7 +9,7 @@ import WindowHUD from "./WindowHUD";
 import { updateEntity } from "../../redux/entities/actions";
 
 import { AppData, Directions } from "../../enums";
-import { OnDoubleClickType, OnDragStopType } from "../../types";
+import { ReactTypes } from "../../types";
 import { ComponentPropTypes } from "./types";
 
 const Window: React.FC<ComponentPropTypes> = ({
@@ -34,7 +34,7 @@ const Window: React.FC<ComponentPropTypes> = ({
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
   };
 
-  const onDragStop: OnDragStopType = (_e, delta) => {
+  const onDragStop: ReactTypes.RndTypes.OnDragStopType = (_e, delta) => {
     const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
     const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
 
@@ -45,7 +45,7 @@ const Window: React.FC<ComponentPropTypes> = ({
     }));
   };
 
-  const onDoubleClick: OnDoubleClickType = () => {
+  const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => {
     if(orientation === Directions.NORTH_SOUTH) {
       dispatch(updateEntity(AppData.Windows, {
         id,

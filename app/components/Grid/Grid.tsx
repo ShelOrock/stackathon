@@ -1,13 +1,13 @@
-import * as React from 'react';
+import React from "react";
 
-import { useIndexData } from '../../hooks';
+import { useIndexData } from "../../hooks";
 
-import ComponentMapping from '../ComponentMapping';
-import VerticalGridLine from './VerticalGridLine';
-import Row from '../Row';
-import HorizonGridLine from './HorizonGridLine';
+import ComponentMapping from "../ComponentMapping";
+import VerticalGridLine from "./VerticalGridLine";
+import Row from "../Row";
+import HorizonGridLine from "./HorizonGridLine";
 
-import { ComponentPropTypes } from './types';
+import { ComponentPropTypes } from "./types";
 
 const Grid: React.FC<ComponentPropTypes> = ({ canvasSize }) => {
 

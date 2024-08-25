@@ -1,10 +1,15 @@
-import SunPositionActionTypes from './constants';
+import SunPositionActionTypes from "./constants";
 
-import { ReduxTypes } from '../../types';
+import { ReduxTypes } from "../../types";
 
-export const setSunPosition: ReduxTypes.ActionTypes.UnknownActionFunctionType<string> = payload => ({
+const setSunPosition: ReduxTypes.ActionTypes.UnknownActionFunctionType<string> = payload => ({
   type: SunPositionActionTypes.SET_SUN_POSITION,
   payload
 });
 
-export const resetSunPosition: ReduxTypes.ActionTypes.UnknownActionFunctionType<string> = () => ({ type: SunPositionActionTypes.RESET_SUN_POSITION })
+const resetSunPosition: ReduxTypes.ActionTypes.UnknownActionFunctionType<string> = () => ({ type: SunPositionActionTypes.RESET_SUN_POSITION });
+
+export {
+  setSunPosition,
+  resetSunPosition
+};

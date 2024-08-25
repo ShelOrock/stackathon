@@ -1,21 +1,15 @@
+import { EntityTypes } from ".";
 import { Directions } from "../../enums";
 
-export interface WindowTypes {
-  id?: number;
-  label?: string;
-  xPosition?: number;
-  yPosition?: number;
-  width?: number;
-  height?: number;
+interface WindowTypes extends EntityTypes.ElementTypes {
   orientation?: Directions;
-  isHighlighted?: boolean;
-  isLocked?: boolean;
-  isHidden?: boolean;
-  isDisabled?: boolean;
   floor?: number;
   tag?: string;
 };
 
-export type WindowsType = WindowTypes[];
+type WindowMeshType = WindowTypes & JSX.IntrinsicElements["mesh"];
 
-export type Window3DTypes = WindowTypes & JSX.IntrinsicElements['mesh'];
+export {
+  WindowTypes,
+  WindowMeshType
+};

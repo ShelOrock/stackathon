@@ -1,6 +1,6 @@
-import { StyledPropTypes } from "../../../types";
+import { StylesTypes } from "../../../types";
 
-interface ComponentPropTypes {
+interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
   id: number;
   label: string;
   isHidden: boolean;
@@ -14,7 +14,7 @@ interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "isLocked"
 > {};
 
-interface StyledElementPropTypes extends StyledPropTypes<StylingPropTypes> {};
+interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};
 
 export { 
   ComponentPropTypes,

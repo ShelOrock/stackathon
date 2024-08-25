@@ -4,11 +4,11 @@ import EntitiesActionTypes from "./constants";
 import { ReduxTypes } from "../../types";
 import { AppData as AppDataSlices } from "../../enums";
 
-const idsInitialState: ReduxTypes.StateType<number[]> = [];
-const entitiesInitialState: ReduxTypes.StateType<{ [id: number]: any }> = {};
-const activeIdInitialState: ReduxTypes.StateType<number> = null;
+const idsInitialState: ReduxTypes.ReducerTypes.StateType<number[]> = [];
+const entitiesInitialState: ReduxTypes.ReducerTypes.StateType<{ [id: number]: any }> = {};
+const activeIdInitialState: ReduxTypes.ReducerTypes.StateType<number> = null;
 
-const appDataSliceInitialState: ReduxTypes.StateType<{
+const appDataSliceInitialState: ReduxTypes.ReducerTypes.StateType<{
   ids: typeof idsInitialState,
   entities: typeof entitiesInitialState,
   activeId: typeof activeIdInitialState
@@ -18,7 +18,7 @@ const appDataSliceInitialState: ReduxTypes.StateType<{
   activeId: activeIdInitialState
 };
 
-const ids: ReduxTypes.ReducerFunctionType<typeof idsInitialState, number[], any> = (state = idsInitialState, action) => {
+const ids: ReduxTypes.ReducerTypes.ReducerFunctionType<typeof idsInitialState, number[], any> = (state = idsInitialState, action) => {
   switch(action.type) {
     case EntitiesActionTypes.ADD_ENTITY:
       return [ ...state, action.payload.id ];
@@ -35,7 +35,7 @@ const ids: ReduxTypes.ReducerFunctionType<typeof idsInitialState, number[], any>
   };
 };
 
-const entities: ReduxTypes.ReducerFunctionType<typeof entitiesInitialState, { [id: number]: any }, any> = (state = entitiesInitialState, action) => {
+const entities: ReduxTypes.ReducerTypes.ReducerFunctionType<typeof entitiesInitialState, { [id: number]: any }, any> = (state = entitiesInitialState, action) => {
   switch(action.type) {
     case EntitiesActionTypes.ADD_ENTITY:
       return {
@@ -72,7 +72,7 @@ const entities: ReduxTypes.ReducerFunctionType<typeof entitiesInitialState, { [i
   };
 };
 
-const activeId: ReduxTypes.ReducerFunctionType<typeof activeIdInitialState, number, number> = (state = activeIdInitialState, action) => {
+const activeId: ReduxTypes.ReducerTypes.ReducerFunctionType<typeof activeIdInitialState, number, number> = (state = activeIdInitialState, action) => {
   switch(action.type) {
     case EntitiesActionTypes.SET_ACTIVE_ID:
       return action.payload;

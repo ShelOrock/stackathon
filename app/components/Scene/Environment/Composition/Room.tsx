@@ -1,12 +1,12 @@
-import * as React from 'react';
+import React from "react";
 const { useRef } = React;
-import * as THREE from 'three';
+import * as THREE from "three";
 
-import RoomHUD from './RoomHUD';
+import RoomHUD from "./RoomHUD";
 
-import { Room3DTypes } from '../../../../types';
+import { EntityTypes } from "../../../../types";
 
-export default (room: Room3DTypes) => {
+export default (room: EntityTypes.RoomTypes.RoomMeshType) => {
 
   const mesh = useRef<THREE.Mesh>(null!);
   const SCALE_FACTOR: number = 10;
@@ -25,9 +25,9 @@ export default (room: Room3DTypes) => {
   const meshProps: MeshPropTypes = {
     ref: mesh,
     position: [
-      translateCoordinatesTo3D(room.xPos, room.width),
+      translateCoordinatesTo3D(room.xPosition, room.width),
       10 * (room.floor + 1) - 5,
-      translateCoordinatesTo3D(room.yPos, room.height)
+      translateCoordinatesTo3D(room.yPosition, room.height)
     ],
     castShadow: true,
     receiveShadow: true
@@ -45,7 +45,7 @@ export default (room: Room3DTypes) => {
   }
 
   const meshMaterialProps: meshMaterialPropTypes = {
-    color: '#cccccc',
+    color: "#cccccc",
     metalness: 0.2
   }
 

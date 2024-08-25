@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useAppSelector } from '../../../hooks';
+import React from "react";
+import { useAppSelector } from "../../../hooks";
 
 export default () => {
 

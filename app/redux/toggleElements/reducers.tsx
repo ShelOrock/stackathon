@@ -5,10 +5,10 @@ import ToggleElementActionTypes from "./constants";
 import { ReduxTypes } from "../../types";
 import { UIData } from "../../enums";
 
-const initialState: ReduxTypes.StateType<boolean> = true as boolean;
-const toggleElementIntialState: ReduxTypes.StateType<{ isShowing: typeof initialState }> = { isShowing: initialState }
+const initialState: ReduxTypes.ReducerTypes.StateType<boolean> = true as boolean;
+const toggleElementIntialState: ReduxTypes.ReducerTypes.StateType<{ isShowing: typeof initialState }> = { isShowing: initialState }
 
-const toggleElements: ReduxTypes.ReducerFunctionType<typeof initialState, boolean, boolean> = (state = initialState, action) => {
+const toggleElements: ReduxTypes.ReducerTypes.ReducerFunctionType<typeof initialState, boolean, boolean> = (state = initialState, action) => {
   switch(action.type) {
     case ToggleElementActionTypes.SET_TOGGLE_ELEMENT:
       return action.payload;

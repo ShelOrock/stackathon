@@ -8,7 +8,7 @@ import Button from '../../Button';
 import { ComponentPropTypes } from './types';
 import { InputField } from '../../StyledComponents/StyledForm';
 import StyledDoorHUD from './styles';
-import { deleteEntity, updateEntity } from '../../../redux/entities/actions';
+import { entityActions } from '../../../redux/actions';
 import { AppData } from '../../../enums';
 
 const DoorHUD: React.FC<ComponentPropTypes> = ({
@@ -29,15 +29,15 @@ const DoorHUD: React.FC<ComponentPropTypes> = ({
         <Column>
           <Row>
             <Button
-              onClick={ () => dispatch(deleteEntity(AppData.Doors, id)) }
+              onClick={ () => dispatch(entityActions.deleteEntity(AppData.Doors, id)) }
               variant="tertiary"
             >X</Button>
             <Button
-              onClick={ () => dispatch(updateEntity(AppData.Doors, { id, isLocked: !isLocked })) }
+              onClick={ () => dispatch(entityActions.updateEntity(AppData.Doors, { id, isLocked: !isLocked })) }
               variant="tertiary"
             >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
             <Button
-              onClick={ () => dispatch(updateEntity(AppData.Doors, { id, isHidden: !isHidden })) }
+              onClick={ () => dispatch(entityActions.updateEntity(AppData.Doors, { id, isHidden: !isHidden })) }
               variant="tertiary"
             >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
           </Row>
@@ -47,7 +47,7 @@ const DoorHUD: React.FC<ComponentPropTypes> = ({
               name="label"
               placeholder={ `Door ${ id + 1 }` }
               value={ label }
-              onChange={ e => dispatch(updateEntity(AppData.Doors, { id, label: e.target.value })) }
+              onChange={ e => dispatch(entityActions.updateEntity(AppData.Doors, { id, label: e.target.value })) }
             />
           ) }
         </Column>

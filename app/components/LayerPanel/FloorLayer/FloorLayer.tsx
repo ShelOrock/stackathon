@@ -3,7 +3,7 @@ import { useAppDispatch } from "../../../hooks";
 
 import { AppData } from "../../../enums";
 import Row from "../../Row";
-import { setActiveId, updateEntity } from "../../../redux/entities/actions";
+import { entityActions } from "../../../redux/actions";
 import { ComponentPropTypes } from "./types";
 import Button from "../../Button";
 
@@ -17,11 +17,11 @@ const FloorLayer: React.FC<ComponentPropTypes> = ({
   const dispatch = useAppDispatch();
 
   const handleSetActiveFloor = () => {
-    dispatch(setActiveId(AppData.Floors, id));
+    dispatch(entityActions.setActiveId(AppData.Floors, id));
   };
 
   const handleToggleFloorVisibility = () => {
-    dispatch(updateEntity(AppData.Floors, { id, isHidden: !isHidden }));
+    dispatch(entityActions.updateEntity(AppData.Floors, { id, isHidden: !isHidden }));
   };
 
   return (

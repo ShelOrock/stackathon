@@ -1,16 +1,4 @@
-import { StyledPropTypes } from "../../types";
-
-type OnDragStopType = (e: MouseEvent | TouchEvent, delta: any) => void;
-
-type OnResizeType = (
-  e: MouseEvent | TouchEvent,
-  direction: any,
-  ref: React.ElementRef<"div">,
-  delta: any,
-  position: any
-) => void;
-
-type OnDoubleClickType = () => void;
+import { ReactTypes, StylesTypes } from "../../types";
 
 interface ComponentPropTypes {
   disableDragging?: boolean;
@@ -21,9 +9,9 @@ interface ComponentPropTypes {
   yPosition: number;
   width: number;
   height: number;
-  onDragStop?: OnDragStopType; // TODO
-  onResize?: OnResizeType;
-  onDoubleClick?: OnDoubleClickType;
+  onDragStop?: ReactTypes.RndTypes.OnDragStopType;
+  onResize?: ReactTypes.RndTypes.OnResizeType;
+  onDoubleClick?: ReactTypes.HandlerTypes.OnClickType;
   children: React.ReactNode;
 };
 
@@ -43,7 +31,7 @@ interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "children"
 > {};
 
-interface StyledElementPropTypes extends StyledPropTypes<StylingPropTypes> {
+interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {
   $isDisabled: boolean;
 };
 

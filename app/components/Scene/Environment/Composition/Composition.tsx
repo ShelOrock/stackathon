@@ -1,19 +1,13 @@
-import * as React from 'react';
-import { useStore } from 'react-redux';
+import * as React from "react";
 
-import Room from './Room';
-import Door from './Door';
-import Window from './Window';
+import Room from "./Room";
+import Door from "./Door";
+import Window from "./Window";
 
-import {
-  RoomTypes,
-  DoorTypes,
-  WindowTypes,
-} from '../../../../types';
-import { useAppSelector } from '../../../../hooks';
-import { AppDataSelectors } from '../../../../redux/selectors';
-import { AppData } from '../../../../enums';
-import ComponentMapping from '../../../ComponentMapping';
+import { useAppSelector } from "../../../../hooks";
+import { AppDataSelectors } from "../../../../redux/selectors";
+import { AppData } from "../../../../enums";
+import ComponentMapping from "../../../ComponentMapping";
 
 export default () => {
 

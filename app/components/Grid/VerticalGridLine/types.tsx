@@ -1,12 +1,12 @@
-import { StyledPropTypes } from "../../../types";
+import { StylesTypes } from "../../../types";
 
-interface ComponentPropTypes {
+interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
   column: number;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes, ""> {};
 
-interface StyledElementPropTypes extends StyledPropTypes<StylingPropTypes> {};
+interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};
 
 export {
   ComponentPropTypes,

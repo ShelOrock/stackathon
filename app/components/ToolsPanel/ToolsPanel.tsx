@@ -3,10 +3,10 @@ import React from 'react';
 import Column from '../Column';
 import Button from '../Button';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { findMissingId } from '../../utils';
+import { functions } from '../../utilities';
 import { AppDataSelectors } from '../../redux/selectors';
 import { AppData, Directions, UIData } from '../../enums';
-import { addEntity, setActiveId } from '../../redux/entities/actions';
+import { entityActions } from '../../redux/actions';
 import { setCanvasSize } from '../../redux/canvasSize/actions';
 import Row from '../Row';
 import { toggleElementsActions } from '../../redux/actions';
@@ -109,9 +109,9 @@ export default () => {
   }));
 
   const handleCreateEntity = (appDataType, entities, defaultEntity): void => {
-    const id = findMissingId(entities);
+    const id = functions.findMissingId(entities);
 
-    dispatch(addEntity(appDataType, {
+    dispatch(entityActions.addEntity(appDataType, {
       id,
       label: `${ appDataType } ${ id }`,
       floor: activeFloor.id,
@@ -120,15 +120,15 @@ export default () => {
   };
 
   const handleCreateFloor = () => {
-    const id = findMissingId(floors);
+    const id = functions.findMissingId(floors);
 
-    dispatch(addEntity(AppData.Floors, {
+    dispatch(entityActions.addEntity(AppData.Floors, {
       id,
       label: `Floor ${ id }`,
       floor: activeFloor.id,
       ...DEFAULT_FLOOR
     }));
-    dispatch(setActiveId(AppData.Floors, id));
+    dispatch(entityActions.setActiveId(AppData.Floors, id));
   };
 
   return (

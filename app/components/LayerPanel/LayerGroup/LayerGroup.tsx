@@ -8,7 +8,7 @@ import { AppData } from "../../../enums";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { AppDataSelectors } from "../../../redux/selectors";
 import { ComponentPropTypes } from "./types";
-import { deleteEntity, resetActiveId } from "../../../redux/entities/actions";
+import { entityActions } from "../../../redux/actions";
 
 const LayerGroup: React.FC<ComponentPropTypes> = ({
   id,
@@ -31,11 +31,11 @@ const LayerGroup: React.FC<ComponentPropTypes> = ({
   }));
 
   const handleDeleteFloor = () => {
-    dispatch(deleteEntity(AppData.Floors, id));
-    dispatch(resetActiveId(AppData.Floors));
-    rooms.forEach(room => dispatch(deleteEntity(AppData.Rooms, room.id)));
-    doors.forEach(door => dispatch(deleteEntity(AppData.Doors, door.id)));
-    windows.forEach(window => dispatch(deleteEntity(AppData.Windows, window.id)));
+    dispatch(entityActions.deleteEntity(AppData.Floors, id));
+    dispatch(entityActions.resetActiveId(AppData.Floors));
+    rooms.forEach(room => dispatch(entityActions.deleteEntity(AppData.Rooms, room.id)));
+    doors.forEach(door => dispatch(entityActions.deleteEntity(AppData.Doors, door.id)));
+    windows.forEach(window => dispatch(entityActions.deleteEntity(AppData.Windows, window.id)));
   };
 
   return (

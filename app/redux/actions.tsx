@@ -1,14 +1,4 @@
-import * as canvasSizeActions from './canvasSize/actions';
-import * as toggleHUDActions from './toggleHUD/actions';
-import * as toggleLabelsActions from './toggleLabels/actions';
-import * as sunPositionActions from './sunPosition/actions';
-
-import * as toggleElementsActions from "./toggleElements/actions";
-
-export {
-  canvasSizeActions,
-  toggleHUDActions,
-  toggleLabelsActions,
-  sunPositionActions,
-  toggleElementsActions
-};
+export * as canvasSizeActions from './canvasSize/actions';
+export * as sunPositionActions from './sunPosition/actions';
+export * as entityActions from "./entities/actions";
+export * as toggleElementsActions from "./toggleElements/actions";

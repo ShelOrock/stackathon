@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 const { useRef } = React;
-import * as THREE from 'three';
+import * as THREE from "three";
 
-import { Window3DTypes } from '../../../../types';
-import { Directions } from '../../../../enums';
+import { EntityTypes } from "../../../../types";
+import { Directions } from "../../../../enums";
 
-export default (window: Window3DTypes) => {
+export default (window: EntityTypes.WindowTypes.WindowMeshType) => {
 
   const mesh = useRef<THREE.Mesh>(null!);
   const SCALE_FACTOR: number = 10;
 
-  const translateXCoordinatesTo3D = (window: Window3DTypes): number => {
+  const translateXCoordinatesTo3D = (window: EntityTypes.WindowTypes.WindowMeshType): number => {
     if(window.orientation == Directions.NORTH_SOUTH) {
       return ((window.xPosition - window.width / 2) + window.width / 2) / SCALE_FACTOR;
     };
@@ -19,7 +19,7 @@ export default (window: Window3DTypes) => {
     };
   };
 
-  const translateYCoordinatesTo3D = (window: Window3DTypes): number => {
+  const translateYCoordinatesTo3D = (window: EntityTypes.WindowTypes.WindowMeshType): number => {
     if(window.orientation == Directions.NORTH_SOUTH) {
       return ((window.yPosition + window.width / 2) + window.height / 2) / SCALE_FACTOR;
     };
@@ -28,7 +28,7 @@ export default (window: Window3DTypes) => {
     };
   };
 
-  const evaluateRotation = (window: Window3DTypes): [number, number, number] => {
+  const evaluateRotation = (window: EntityTypes.WindowTypes.WindowMeshType): [number, number, number] => {
     switch(window.orientation) {
       case Directions.NORTH_SOUTH:
         return [0, Math.PI / 2, 0];
@@ -41,7 +41,7 @@ export default (window: Window3DTypes) => {
     };
   };
 
-  const evaluateWindowDimensions = (window: Window3DTypes): [number, number, number] => {
+  const evaluateWindowDimensions = (window: EntityTypes.WindowTypes.WindowMeshType): [number, number, number] => {
     switch(window.orientation) {
       case Directions.NORTH_SOUTH:
         return [
@@ -85,7 +85,7 @@ export default (window: Window3DTypes) => {
 
   const meshMaterialProps: MeshMaterialPropTypes = {
     side: THREE.DoubleSide,
-    color: 'black',
+    color: "black",
   };
 
   return (

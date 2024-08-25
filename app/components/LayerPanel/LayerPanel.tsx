@@ -4,7 +4,7 @@ import Column from '../Column';
 import Row from '../Row';
 import { LinkButton } from '../StyledComponents/StyledButton';
 import Button from '../Button';
-import { resetActiveId, resetEntities } from '../../redux/entities/actions';
+import { entityActions } from '../../redux/actions';
 import { AppData } from '../../enums';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import ComponentMapping from '../ComponentMapping';
@@ -16,11 +16,11 @@ const LayerPanel = () => {
   const dispatch = useAppDispatch();
 
   const handleResetPlanner = () => {
-    dispatch(resetEntities(AppData.Floors));
-    dispatch(resetActiveId(AppData.Floors));
-    dispatch(resetEntities(AppData.Rooms));
-    dispatch(resetEntities(AppData.Doors));
-    dispatch(resetEntities(AppData.Windows));
+    dispatch(entityActions.resetEntities(AppData.Floors));
+    dispatch(entityActions.resetActiveId(AppData.Floors));
+    dispatch(entityActions.resetEntities(AppData.Rooms));
+    dispatch(entityActions.resetEntities(AppData.Doors));
+    dispatch(entityActions.resetEntities(AppData.Windows));
   };
 
   const floors = useAppSelector(AppDataSelectors.selectAppData(AppData.Floors, {

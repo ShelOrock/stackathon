@@ -1,23 +1,14 @@
+import { EntityTypes } from ".";
 import { Directions } from "../../enums";
 
-export interface DoorTypes {
-  id?: number;
-  xPosition?: number;
-  yPosition?: number;
-  xPos?: number; // TODO: Delete
-  yPos?: number; // TODO: Delete
-  width?: number;
-  height?: number;
-  label?: string;
-  orientation?: Directions;
-  isHighlighted?: boolean;
-  isLocked?: boolean;
-  isHidden?: boolean;
-  isDisabled?: boolean;
-  floor?: number;
-  tag?: string;
+interface DoorTypes extends EntityTypes.ElementTypes {
+  orientation: Directions;
+  floor: number;
 };
 
-export type DoorsType = DoorTypes[];
+type DoorMeshType = DoorTypes & JSX.IntrinsicElements["mesh"];
 
-export type Door3DTypes = DoorTypes & JSX.IntrinsicElements["mesh"];
+export {
+  DoorTypes,
+  DoorMeshType
+};

@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import Environment from './Environment/Environment';
-import Controls from './UserInterface/Controls';
+import Environment from "./Environment/Environment";
+import Controls from "./UserInterface/Controls";
 
 export default () => {
   return (

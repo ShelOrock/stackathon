@@ -1,5 +1,10 @@
-import { ReduxTypes } from '..';
+import { ReduxTypes } from "..";
 
-export type StateType<StateTypes> = StateTypes;
+type StateType<StateTypes> = StateTypes;
 
-export type ReducerFunctionType<StateTypes, ReturnType, PayloadType = {}> = (state: StateType<StateTypes>, action: ReduxTypes.ActionTypes.ActionTypes<PayloadType>) => ReturnType;
+type ReducerFunctionType<StateTypes, ReturnType, PayloadType = {}> = (state: StateType<StateTypes>, action: ReduxTypes.ActionTypes.ActionTypes<PayloadType>) => ReturnType;
+
+export {
+  StateType,
+  ReducerFunctionType
+};

@@ -1,16 +1,10 @@
-import {
-  RoomsType,
-  DoorsType,
-  WindowsType
-} from './types';
-
-export const sortArray = (array: number[] = []): void => {
+const sortArray = (array: number[] = []): void => {
   array.sort((a: number, b: number) => a - b);
 };
 
 const findDifference = (a, b) => a - b;
 
-export const findMissingId = (array: RoomsType | DoorsType | WindowsType = []): number => {
+const findMissingId = (array = []): number => {
 
   const arrayIds = array.map(item => item.id);
 
@@ -40,4 +34,9 @@ export const findMissingId = (array: RoomsType | DoorsType | WindowsType = []): 
   };
 
   return result + 1;
+};
+
+export { 
+  sortArray,
+  findMissingId
 };

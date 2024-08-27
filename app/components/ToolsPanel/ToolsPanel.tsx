@@ -5,7 +5,7 @@ import Button from '../Button';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { functions } from '../../utilities';
 import { AppDataSelectors } from '../../redux/selectors';
-import { AppData, CanvasSize, Directions, UIData } from '../../enums';
+import { AppData, CanvasSizes, Directions, UIData } from '../../enums';
 import { entityActions } from '../../redux/actions';
 import { setCanvasSize } from '../../redux/canvasSize/actions';
 import Row from '../Row';
@@ -127,7 +127,10 @@ const ToolsPanel = () => {
   };
 
   return (
-    <Column>
+    <Column
+      $mt={ SpacingPropTypes.sm }
+      $padding={ SpacingPropTypes.sm }
+    >
       <Column>
         <Button
           onClick={ () => handleToggleElement(UIData.Grid, !gridIsShowing) }
@@ -147,17 +150,17 @@ const ToolsPanel = () => {
         >Toggle Labels</Button>
         <Row $mt={ SpacingPropTypes.sm }>
           <Button
-            onClick={ () => dispatch(setCanvasSize(CanvasSize.small)) }
+            onClick={ () => dispatch(setCanvasSize(CanvasSizes.small)) }
             $mr={ SpacingPropTypes.xs }
             $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
           >Small</Button>
           <Button
-            onClick={ () => dispatch(setCanvasSize(CanvasSize.medium)) }
+            onClick={ () => dispatch(setCanvasSize(CanvasSizes.medium)) }
             $mr={ SpacingPropTypes.xs }
             $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
           >Medium</Button>
           <Button
-            onClick={ () => dispatch(setCanvasSize(CanvasSize.large)) }
+            onClick={ () => dispatch(setCanvasSize(CanvasSizes.large)) }
             $mr={ SpacingPropTypes.xs }
             $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
           >Large</Button>

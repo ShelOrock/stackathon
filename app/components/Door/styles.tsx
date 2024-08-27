@@ -9,11 +9,23 @@ const StyledDoor = styled.div<StyledElementPropTypes>`
   top: 0;
   left: 0;
   transform: ${({ $width, $height, $orientation }) => $orientation === Directions.NORTH_SOUTH ? `translate(-${ $width / 2 }px, 0)` : `translate(0, -${ $height / 2 }px)` };
-  border: 6px solid ${ ({ theme, $variant}) => theme.colors[$variant].base };
+  border-width: 6px;
+  border-style: solid;
   box-sizing: border-box;
   width: ${ ({ $width }) => $width };
   height: ${ ({ $height }) => $height };
-  background-color: ${ ({ theme, $variant }) => theme.colors[$variant].base };
+
+  border-color: ${ ({ theme, $tag, $isDisabled, $isHighlighted }) => {
+    if($isDisabled) {
+      return theme.colors.disabled;
+    };
+
+    if($isHighlighted) {
+      return theme.colors[$tag].default;
+    }
+
+    return theme.colors.black;
+  } };
 `;
 
 export default StyledDoor;

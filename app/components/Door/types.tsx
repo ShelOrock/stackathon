@@ -14,19 +14,15 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   xPosition: number;
   yPosition: number;
   tag: string;
-  variant?: string;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "id"
   | "label"
-  | "isDisabled"
   | "isHidden"
-  | "isHighlighted"
   | "isLocked"
   | "xPosition"
   | "yPosition"
-  | "tag"
 > {};
 
 interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};

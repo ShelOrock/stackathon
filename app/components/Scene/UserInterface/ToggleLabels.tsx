@@ -1,13 +1,11 @@
 import React from "react";
 import { useAppSelector, useAppDispatch } from "../../../hooks";
 
-import * as StyledComponents from "../../StyledComponents"
-const { StyledButton: { Button } } = StyledComponents;
-
 import { toggleElementsActions } from "../../../redux/actions";
 
 import { ReactTypes } from "../../../types";
 import { UIData } from "../../../enums";
+import Button from "../../Button";
 
 export default () => {
 

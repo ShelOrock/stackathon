@@ -16,17 +16,13 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   xPos: number;
   yPos: number;
   tag: string;
-  variant?: string;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "id"
   | "label"
-  | "isDisabled"
   | "isHidden"
-  | "isHighlighted"
   | "isLocked"
-  | "tag"
   | "xPosition"
   | "yPosition"
   | "xPos"

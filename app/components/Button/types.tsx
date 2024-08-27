@@ -5,8 +5,9 @@ interface ComponentPropTypes extends
   StylesTypes.MarginPropTypes,
   StylesTypes.PaddingPropTypes {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  variant?: string; // TODO
   isDisabled?: boolean;
+  variant?: string; // TODO
+  color?: string; // TODO
   children: React.ReactNode;
 };
 

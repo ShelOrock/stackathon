@@ -38,6 +38,7 @@ const LayerPanel = () => {
         <Button
           onClick={ handleResetPlanner }
           variant="tertiary"
+          color="red"
           $mt={ SpacingPropTypes.xs }
           $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.md } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.md }
         >Reset</Button>

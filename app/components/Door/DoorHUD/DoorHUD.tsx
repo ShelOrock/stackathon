@@ -31,14 +31,17 @@ const DoorHUD: React.FC<ComponentPropTypes> = ({
             <Button
               onClick={ () => dispatch(entityActions.deleteEntity(AppData.Doors, id)) }
               variant="tertiary"
+              color="red"
             >X</Button>
             <Button
               onClick={ () => dispatch(entityActions.updateEntity(AppData.Doors, { id, isLocked: !isLocked })) }
               variant="tertiary"
+              color="primary"
             >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
             <Button
               onClick={ () => dispatch(entityActions.updateEntity(AppData.Doors, { id, isHidden: !isHidden })) }
               variant="tertiary"
+              color="primary"
             >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
           </Row>
           { elementLabelsIsShowing && (

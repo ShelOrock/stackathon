@@ -68,18 +68,6 @@ const Door: React.FC<ComponentPropTypes> = ({
     };
   };
 
-  const evaluateDoorColor = (isDisabled, isHighlighted, tag): string => {
-    if(isDisabled) {
-      return "disabled";
-
-    } else if(isHighlighted) {
-      return tag;
-
-    } else {
-      return "black";
-    };
-  };
-
   return (
     !isHidden && (
       <DraggableComponent
@@ -105,7 +93,9 @@ const Door: React.FC<ComponentPropTypes> = ({
           $width={ width }
           $height={ height }
           $orientation={ orientation }
-          $variant={ evaluateDoorColor(isDisabled, isHighlighted, tag) }
+          $isDisabled={ isDisabled }
+          $isHighlighted={ isHighlighted }
+          $tag={ tag }
         />
       </DraggableComponent>
     )

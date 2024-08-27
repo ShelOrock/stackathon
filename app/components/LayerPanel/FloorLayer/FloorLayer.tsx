@@ -32,15 +32,21 @@ const FloorLayer: React.FC<ComponentPropTypes> = ({
     >
       <Button
         onClick={ handleSetActiveFloor }
+        variant="primary"
+        color="blue"
         $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
         $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.md } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.md }
       >Floor { id }</Button>
       <Button
+        variant="primary"
+        color="blue"
         onClick={ handleToggleFloorVisibility }
         $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
         $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
       >{ !isHidden ? <>&#9660;</> : <>&#9654;</> }</Button>
       <Button
+        variant="tertiary"
+        color="red"
         onClick={ handleDeleteFloor }
         $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
         $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }

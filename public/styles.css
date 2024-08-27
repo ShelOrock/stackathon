@@ -1,45 +1,5 @@
 html {
     box-sizing: border-box;
     font-family: 'Titillium Web', sans-serif;
-    background-color: lightgrey;
-}
-
-.quad {
-    width: 100px;
-    height: 100px;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.home-container {
-    display: flex;
-    align-items: flex-end;
-}
-
-.button-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 200px;
-    padding: 1rem;
-    position: absolute;
-    top: 500px;
-    left: 1000px;
-}
-
-.button-container > div {
-    margin: 1rem;
-}
-
-.canvas-container {
-    width: 100%;
-}
-
-.interface {
-    z-index: 1;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
+    background-color: #C0C0C0;
 }

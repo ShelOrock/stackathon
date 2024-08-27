@@ -22,7 +22,6 @@ const Room: React.FC<ComponentPropTypes> = ({
   xPosition,
   yPosition,
   tag,
-  variant
 }) => {
 
   const GRID_SNAP: number = 25;
@@ -65,18 +64,6 @@ const Room: React.FC<ComponentPropTypes> = ({
 
   const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => dispatch(entityActions.updateEntity(AppData.Rooms, { id, isHighlighted: !isHighlighted }))
 
-  const evaluateRoomColor = (isDisabled, isHighlighted, tag): string => {
-    if(isDisabled) {
-      return "disabled";
-
-    } else if (isHighlighted) {
-      return tag;
-
-    } else {
-      return "black";
-    };
-  };
-
   return (
     !isHidden && (
       <DraggableComponent
@@ -103,7 +90,9 @@ const Room: React.FC<ComponentPropTypes> = ({
         <StyledRoom 
           $width={ width }
           $height={ height }
-          $variant={ evaluateRoomColor(isDisabled, isHighlighted, tag) }
+          $isDisabled={ isDisabled }
+          $isHighlighted={ isHighlighted }
+          $tag={ tag }
         />
       </DraggableComponent>
     )

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import * as utilities from "../../utilities";
 
 import { StyledElementPropTypes } from "./types";
 
@@ -17,6 +18,9 @@ const StyledButton = styled.button<StyledElementPropTypes>`
   &hover: {
     background-color: ${ ({ theme, $variant }) => theme.colors[$variant].hover };
   }
+
+  ${ ({ ...spacingProps }) => utilities.styles.createMargins(spacingProps) };
+  ${ ({ ...spacingProps }) => utilities.styles.createPaddings(spacingProps) };
 `;
 
 export default StyledButton;

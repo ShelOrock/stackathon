@@ -7,6 +7,7 @@ import { PillButton } from "../../StyledComponents/StyledButton";
 import { useAppDispatch, useIndexData } from "../../../hooks";
 import { entityActions } from "../../../redux/actions";
 import { ComponentPropTypes } from "./types";
+import { SpacingPropTypes } from "../../../types/styles";
 
 const UNTITLED_ELEMENT = "Untitled Element";
 
@@ -53,14 +54,20 @@ const EntityLayer: React.FC<ComponentPropTypes> = ({
   };
 
   return (
-    <Row>
+    <Row $mt={ SpacingPropTypes.xs }>
       <Button 
         onClick={ handleToggleEntityHighlight }
+        $mr={ SpacingPropTypes.xs }
+        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.md } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.md }
       >{ label }</Button>
       <Button
         onClick={ handleToggleEntityLock }
+        $mr={ SpacingPropTypes.xs }
+        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
       >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
       <Button
+        $mr={ SpacingPropTypes.xs }
+        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
         onClick={ handleToggleEntityHidden }
       >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
       <ComponentMapping
@@ -75,6 +82,8 @@ const EntityLayer: React.FC<ComponentPropTypes> = ({
       />
       <Button
         onClick={ handleDeleteEntity }
+        $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
+        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
       >X</Button>
     </Row>
   );

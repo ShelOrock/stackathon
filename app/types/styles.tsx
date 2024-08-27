@@ -13,19 +13,19 @@ enum SpacingPropTypes {
 };
 
 interface MarginPropTypes {
-  margin?: SpacingPropTypes;
-  mt?: SpacingPropTypes;
-  mr?: SpacingPropTypes;
-  mb?: SpacingPropTypes;
-  ml?: SpacingPropTypes;
+  $margin?: SpacingPropTypes;
+  $mt?: SpacingPropTypes;
+  $mr?: SpacingPropTypes;
+  $mb?: SpacingPropTypes;
+  $ml?: SpacingPropTypes;
 };
 
 interface PaddingPropTypes {
-  padding?: SpacingPropTypes;
-  pt?: SpacingPropTypes;
-  pr?: SpacingPropTypes;
-  pb?: SpacingPropTypes;
-  pl?: SpacingPropTypes;
+  $padding?: SpacingPropTypes;
+  $pt?: SpacingPropTypes;
+  $pr?: SpacingPropTypes;
+  $pb?: SpacingPropTypes;
+  $pl?: SpacingPropTypes;
 };
 
 export {

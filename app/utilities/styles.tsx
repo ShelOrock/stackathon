@@ -8,6 +8,7 @@ const createMargins = ({
   $mr = NO_SPACING,
   $mb = NO_SPACING,
   $ml = NO_SPACING,
+  ..._props // Remove all other props for typescript
 }) => (
   css`
     ${ ({ theme }) => `
@@ -16,7 +17,7 @@ const createMargins = ({
       ${ `margin-right: ${ theme.spacing[$mr] };` }
       ${ `margin-bottom: ${ theme.spacing[$mb] };` }
       ${ `margin-left: ${ theme.spacing[$ml] };` }
-    ` }
+    ` };
   `
 );
 
@@ -26,6 +27,7 @@ const createPaddings = ({
   $pr = NO_SPACING,
   $pb = NO_SPACING,
   $pl = NO_SPACING,
+  ..._props // Remove all other props for typescript
 }) => (
   css`
     ${ ({ theme }) => `
@@ -34,7 +36,7 @@ const createPaddings = ({
       ${ `padding-right: ${ theme.spacing[$pr] };` }
       ${ `padding-bottom: ${ theme.spacing[$pb] };` }
       ${ `padding-left: ${ theme.spacing[$pl] };` }
-    ` }
+    ` };
   `
 );
 

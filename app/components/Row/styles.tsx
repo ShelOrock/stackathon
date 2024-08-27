@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import * as utilities from "../../utilities";
+
 import { StyledElementPropTypes } from './types';
 
 const StyledRow = styled.div<StyledElementPropTypes>`
@@ -7,6 +9,9 @@ const StyledRow = styled.div<StyledElementPropTypes>`
   flex-direction: row;
   justify-content: ${ ({ $justifyContent }) => $justifyContent };
   align-items: ${ ({ $alignItems }) => $alignItems };
+
+  ${ ({ ...spacingProps }) => utilities.styles.createMargins(spacingProps) };
+  ${ ({ ...spacingProps }) => utilities.styles.createPaddings(spacingProps) };
 `;
 
 export default StyledRow;

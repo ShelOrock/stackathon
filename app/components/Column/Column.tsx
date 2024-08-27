@@ -7,11 +7,13 @@ import { ComponentPropTypes } from "./types";
 const Column: React.FC<ComponentPropTypes> = ({
   justifyContent = "flex-start",
   alignItems = "flex-start",
-  children
+  children,
+  ...spacingProps
 }) => (
   <StyledColumn
     $justifyContent={ justifyContent }
     $alignItems={ alignItems }
+    { ...spacingProps }
   >{ children }</StyledColumn>
 );
 

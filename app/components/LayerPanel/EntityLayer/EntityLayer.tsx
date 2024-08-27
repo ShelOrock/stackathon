@@ -57,18 +57,24 @@ const EntityLayer: React.FC<ComponentPropTypes> = ({
     <Row $mt={ SpacingPropTypes.xs }>
       <Button 
         onClick={ handleToggleEntityHighlight }
+        variant="primary"
+        color={ tag }
         $mr={ SpacingPropTypes.xs }
         $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.md } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.md }
       >{ label }</Button>
       <Button
         onClick={ handleToggleEntityLock }
         $mr={ SpacingPropTypes.xs }
+        variant="primary"
+        color={ tag }
         $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
       >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
       <Button
+        onClick={ handleToggleEntityHidden }
+        variant="primary"
+        color={ tag }
         $mr={ SpacingPropTypes.xs }
         $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
-        onClick={ handleToggleEntityHidden }
       >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
       <ComponentMapping
         componentData={ indexedTagOptions }
@@ -82,6 +88,8 @@ const EntityLayer: React.FC<ComponentPropTypes> = ({
       />
       <Button
         onClick={ handleDeleteEntity }
+        variant="tertiary"
+        color="red"
         $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
         $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
       >X</Button>

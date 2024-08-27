@@ -6,15 +6,17 @@ import { ComponentPropTypes } from "./types";
 
 const Button: React.FC<ComponentPropTypes> = ({
   onClick,
-  variant = "default",
+  color = "blue",
+  variant = "primary",
   isDisabled = false,
   children,
   ...spacingProps
 }) => (
   <StyledButton
     onClick={ onClick }
-    $variant={ variant }
     $isDisabled={ isDisabled }
+    $color={ color }
+    $variant={ variant }
     { ...spacingProps }
   >{ children }</StyledButton>
 );

@@ -7,7 +7,7 @@ const StyledVerticalGridLine = styled.div<StyledElementPropTypes>`
   height: 25;
   position: absolute;
   top: ${ ({ $row }) => $row * 25 };
-  outline: 1px solid #EEE;
+  outline: 1px solid ${ ({ theme }) => theme.colors.neutral.default };
 `;
 
 export default StyledVerticalGridLine;

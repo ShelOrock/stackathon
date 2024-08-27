@@ -1,12 +1,10 @@
 import React from "react";
 import { useAppDispatch } from "../../../../hooks";
 
-import * as StyledComponents from "../../../StyledComponents";
-const { StyledButton: { Button } } = StyledComponents;
-
 import { resetSunPosition } from "../../../../redux/sunPosition/actions";
 
 import { ReactTypes } from "../../../../types";
+import Button from "../../../Button";
 
 export default () => {
 

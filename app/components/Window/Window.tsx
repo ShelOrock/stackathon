@@ -24,7 +24,7 @@ const Window: React.FC<ComponentPropTypes> = ({
   orientation,
   xPosition,
   yPosition,
-  tag,
+  tag = "blue",
 }) => {
   const GRID_SNAP: number = 25;
 
@@ -69,18 +69,6 @@ const Window: React.FC<ComponentPropTypes> = ({
     };
   }
 
-  const evaluateWindowColor = (isDisabled, isHighlighted, tag): string => {
-    if(isDisabled) {
-      return "disabled";
-
-    } else if (isHighlighted) {
-      return tag;
-
-    } else {
-      return "black";
-    };
-  };
-
   return (
     !isHidden && (
       <DraggableComponent
@@ -106,7 +94,9 @@ const Window: React.FC<ComponentPropTypes> = ({
           $width={ width }
           $height={ height }
           $orientation={ orientation }
-          $variant={ evaluateWindowColor(isDisabled, isHighlighted, tag ) }
+          $isDisabled={ isDisabled }
+          $isHighlighted={ isHighlighted }
+          $tag={ tag }
         />
       </DraggableComponent>
     )

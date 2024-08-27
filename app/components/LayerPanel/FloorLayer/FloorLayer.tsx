@@ -6,6 +6,7 @@ import Row from "../../Row";
 import { entityActions } from "../../../redux/actions";
 import { ComponentPropTypes } from "./types";
 import Button from "../../Button";
+import { SpacingPropTypes } from "../../../types/styles";
 
 const FloorLayer: React.FC<ComponentPropTypes> = ({
   id,
@@ -25,15 +26,24 @@ const FloorLayer: React.FC<ComponentPropTypes> = ({
   };
 
   return (
-    <Row>
+    <Row
+      alignItems="center"
+      $mt={ SpacingPropTypes.sm }
+    >
       <Button
         onClick={ handleSetActiveFloor }
+        $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
+        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.md } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.md }
       >Floor { id }</Button>
       <Button
         onClick={ handleToggleFloorVisibility }
+        $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
+        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
       >{ !isHidden ? <>&#9660;</> : <>&#9654;</> }</Button>
       <Button
         onClick={ handleDeleteFloor }
+        $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
+        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
       >X</Button>
     </Row>
   );

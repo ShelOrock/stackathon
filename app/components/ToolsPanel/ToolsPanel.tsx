@@ -5,17 +5,12 @@ import Button from '../Button';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { functions } from '../../utilities';
 import { AppDataSelectors } from '../../redux/selectors';
-import { AppData, Directions, UIData } from '../../enums';
+import { AppData, CanvasSize, Directions, UIData } from '../../enums';
 import { entityActions } from '../../redux/actions';
 import { setCanvasSize } from '../../redux/canvasSize/actions';
 import Row from '../Row';
 import { toggleElementsActions } from '../../redux/actions';
-
-enum CanvasSize {
-  small = 300,
-  medium = 400,
-  large = 600
-};
+import { SpacingPropTypes } from '../../types/styles';
 
 const BLUE_TAG = "blue";
 enum DefaultEntityPositions {
@@ -80,7 +75,7 @@ const DEFAULT_WINDOW = {
   tag: BLUE_TAG,
 };
 
-export default () => {
+const ToolsPanel = () => {
 
   const dispatch = useAppDispatch();
 
@@ -137,38 +132,62 @@ export default () => {
         <Button
           onClick={ () => handleToggleElement(UIData.Grid, !gridIsShowing) }
           variant="primary"
+          $mt={ SpacingPropTypes.xs }
+          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
         >Toggle Grid</Button>
         <Button
           onClick={ () => handleToggleElement(UIData.ElementActions, !elementActionsIsShowing) }
+          $mt={ SpacingPropTypes.xs }
+          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
         >Toggle HUD</Button>
-        <Button onClick={ () => handleToggleElement(UIData.ElementLabels, !elementLabelsIsShowing) }>Toggle Labels</Button>
-        <Row>
+        <Button
+          onClick={ () => handleToggleElement(UIData.ElementLabels, !elementLabelsIsShowing) }
+          $mt={ SpacingPropTypes.xs }
+          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+        >Toggle Labels</Button>
+        <Row $mt={ SpacingPropTypes.sm }>
           <Button
             onClick={ () => dispatch(setCanvasSize(CanvasSize.small)) }
+            $mr={ SpacingPropTypes.xs }
+            $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
           >Small</Button>
           <Button
             onClick={ () => dispatch(setCanvasSize(CanvasSize.medium)) }
+            $mr={ SpacingPropTypes.xs }
+            $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
           >Medium</Button>
           <Button
             onClick={ () => dispatch(setCanvasSize(CanvasSize.large)) }
+            $mr={ SpacingPropTypes.xs }
+            $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
           >Large</Button>
         </Row>
       </Column>
-      <Column>
+      <Column $mt={ SpacingPropTypes.sm }>
         <Button
           onClick={ handleCreateFloor }
           variant="primary"
+          $mt={ SpacingPropTypes.xs }
+          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
         >+ Add Floor</Button>
         <Button
           onClick={ () => handleCreateEntity(AppData.Rooms, rooms, DEFAULT_ROOM) }
+          $mt={ SpacingPropTypes.xs }
+          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
         >+ Create a new room</Button>
         <Button
           onClick={ () => handleCreateEntity(AppData.Doors, doors, DEFAULT_DOOR) }
+          $mt={ SpacingPropTypes.xs }
+          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
         >+ Create new door</Button>
         <Button
           onClick={ () => handleCreateEntity(AppData.Windows, windows, DEFAULT_WINDOW) }
+          $mt={ SpacingPropTypes.xs }
+          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
         >+ Create new Window</Button>
       </Column>
     </Column>
   );
 };
+
+export default ToolsPanel;

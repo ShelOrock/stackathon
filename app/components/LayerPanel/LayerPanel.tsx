@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import ComponentMapping from '../ComponentMapping';
 import { AppDataSelectors } from '../../redux/selectors';
 import LayerGroup from './LayerGroup';
+import { SpacingPropTypes } from '../../types/styles';
 
 const LayerPanel = () => {
 
@@ -37,6 +38,8 @@ const LayerPanel = () => {
         <Button
           onClick={ handleResetPlanner }
           variant="tertiary"
+          $mt={ SpacingPropTypes.xs }
+          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.md } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.md }
         >Reset</Button>
       </Row>
       <ComponentMapping

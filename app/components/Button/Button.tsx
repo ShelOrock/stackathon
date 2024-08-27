@@ -8,12 +8,14 @@ const Button: React.FC<ComponentPropTypes> = ({
   onClick,
   variant = "default",
   isDisabled = false,
-  children
+  children,
+  ...spacingProps
 }) => (
   <StyledButton
     onClick={ onClick }
     $variant={ variant }
     $isDisabled={ isDisabled }
+    { ...spacingProps }
   >{ children }</StyledButton>
 );
 

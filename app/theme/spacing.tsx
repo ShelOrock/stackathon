@@ -1,6 +1,6 @@
 const spacing = {
   none: "0px", // none
-  xs: "4px", // extra-small
+  xs: "2px", // extra-small
   sm: "8px", // small
   md: "16px", // medium
   lg: "32px", // large

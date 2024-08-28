@@ -4,7 +4,7 @@ import { StyledElementPropTypes } from './types';
 
 const StyledCanvas = styled.div<StyledElementPropTypes>`
   background-color: ${ ({ theme }) => theme.colors.white };
-  margin: 4rem auto 2rem;
+  margin: 8px;
   width: ${ ({ $canvasSize }) => $canvasSize };
   height: ${ ({ $canvasSize }) => $canvasSize };
   position: relative;

@@ -1,14 +1,13 @@
 import React from "react";
 import { useAppDispatch } from "../../hooks";
 
-import RoomHUD from "./RoomHUD";
-
 import { ReactTypes } from "../../types"
 import DraggableComponent from "../DraggableComponent";
 import { ComponentPropTypes } from "./types";
 import StyledRoom from "./styles";
 import { entityActions } from "../../redux/actions";
 import { AppData } from "../../enums";
+import FloatingTools from "../FloatingTools";
 
 const Room: React.FC<ComponentPropTypes> = ({
   id,
@@ -80,11 +79,13 @@ const Room: React.FC<ComponentPropTypes> = ({
         onDoubleClick={ onDoubleClick }
       >
         { !isDisabled && (
-          <RoomHUD
+          <FloatingTools
+            appDataType={ AppData.Rooms }
             id={ id }
             label={ label }
             isHidden={ isHidden }
             isLocked={ isLocked }
+            tag={ tag }
           />
         ) }
         <StyledRoom 

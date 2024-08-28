@@ -4,12 +4,11 @@ import FloorLayer from "../FloorLayer";
 import Column from "../../Column";
 import ComponentMapping from "../../ComponentMapping";
 import EntityLayer from "../EntityLayer";
-import { AppData } from "../../../enums";
+import { AppData, Styles } from "../../../enums";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { AppDataSelectors } from "../../../redux/selectors";
 import { ComponentPropTypes } from "./types";
 import { entityActions } from "../../../redux/actions";
-import { SpacingPropTypes } from "../../../types/styles";
 
 const LayerGroup: React.FC<ComponentPropTypes> = ({
   id,
@@ -40,7 +39,7 @@ const LayerGroup: React.FC<ComponentPropTypes> = ({
   };
 
   return (
-    <Column $mt={ SpacingPropTypes.sm }>
+    <Column>
       <FloorLayer
         id={ id }
         isHidden={ isHidden }
@@ -48,7 +47,7 @@ const LayerGroup: React.FC<ComponentPropTypes> = ({
         handleDeleteFloor={ handleDeleteFloor }
       />
       { !isHidden && (
-        <Column $mt={ SpacingPropTypes.xs } $ml={ SpacingPropTypes.sm }>
+        <Column $mt={ Styles.Spacings.xs } $ml={ Styles.Spacings.sm }>
           <ComponentMapping
             componentData={ rooms }
             renderComponent={ room => id === room.floor && (

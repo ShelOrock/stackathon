@@ -10,7 +10,7 @@ import Window from "../components/Window";
 import Door from "../components/Door";
 
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { AppData } from "../enums";
+import { AppData, DefaultLabels, Styles } from "../enums";
 import { AppDataSelectors } from "../redux/selectors";
 import { entityActions } from "../redux/actions";
 import ToolsPanel from "../components/ToolsPanel";
@@ -20,7 +20,7 @@ const Planner = () => {
   const DEFAULT_FLOOR_NUMBER = 1;
   const DEFAULT_FLOOR = {
     id: DEFAULT_FLOOR_NUMBER,
-    label: `Floor ${ DEFAULT_FLOOR_NUMBER }`,
+    label: `${ DefaultLabels.UntitledFloor } ${ DEFAULT_FLOOR_NUMBER }`,
     isHighlighted: false,
     isHidden: false
   };
@@ -43,7 +43,7 @@ const Planner = () => {
   }, []);
 
   return (
-    <Row>
+    <Row justifyContent={ Styles.JustifyContent.spaceBetween }>
       <ToolsPanel />
       <Canvas canvasSize={ canvasSize }>
         { gridIsShowing && <Grid canvasSize={ canvasSize } /> }

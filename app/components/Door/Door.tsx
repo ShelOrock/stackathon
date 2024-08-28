@@ -3,13 +3,13 @@ import { useAppDispatch } from "../../hooks";
 
 import StyledDoor from "./styles";
 
-import DoorHUD from "./DoorHUD";
 import DraggableComponent from "../DraggableComponent";
 
 import { AppData, Directions } from "../../enums";
 import { ComponentPropTypes } from "./types";
 import { entityActions } from "../../redux/actions";
 import { ReactTypes } from "../../types";
+import FloatingTools from "../FloatingTools";
 
 const Door: React.FC<ComponentPropTypes> = ({
   id,
@@ -82,11 +82,13 @@ const Door: React.FC<ComponentPropTypes> = ({
         disableDragging={ isLocked || isDisabled }
       >
         { !isDisabled && (
-          <DoorHUD
+          <FloatingTools
+            appDataType={ AppData.Doors }
             id={ id }
             label={ label }
             isHidden={ isHidden }
             isLocked={ isLocked }
+            tag={ tag }
           /> 
         ) }
         <StyledDoor 

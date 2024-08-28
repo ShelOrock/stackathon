@@ -1,36 +1,27 @@
+import { Styles } from "../enums";
+
 type StyledPropTypes<ComponentPropTypes> = {
   [ Property in keyof ComponentPropTypes as `$${ string & Property }`]: ComponentPropTypes[Property];
 };
 
-enum SpacingPropTypes {
-  none = "none",
-  xs = "xs",
-  sm = "sm",
-  md = "md",
-  lg = "lg",
-  xl = "xl",
-  default = "default"
-};
-
 interface MarginPropTypes {
-  $margin?: SpacingPropTypes;
-  $mt?: SpacingPropTypes;
-  $mr?: SpacingPropTypes;
-  $mb?: SpacingPropTypes;
-  $ml?: SpacingPropTypes;
+  $margin?: Styles.Spacings;
+  $mt?: Styles.Spacings;
+  $mr?: Styles.Spacings;
+  $mb?: Styles.Spacings;
+  $ml?: Styles.Spacings;
 };
 
 interface PaddingPropTypes {
-  $padding?: SpacingPropTypes;
-  $pt?: SpacingPropTypes;
-  $pr?: SpacingPropTypes;
-  $pb?: SpacingPropTypes;
-  $pl?: SpacingPropTypes;
+  $padding?: Styles.Spacings;
+  $pt?: Styles.Spacings;
+  $pr?: Styles.Spacings;
+  $pb?: Styles.Spacings;
+  $pl?: Styles.Spacings;
 };
 
 export {
   StyledPropTypes,
-  SpacingPropTypes,
   MarginPropTypes,
   PaddingPropTypes
 };

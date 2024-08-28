@@ -1,8 +1,8 @@
 import { AppData } from "../../../enums";
 
 interface ComponentPropTypes {
-  id: number;
   appDataType: AppData;
+  id: number;
   label: string;
   isHighlighted: boolean;
   isLocked: boolean;

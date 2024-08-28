@@ -3,35 +3,40 @@ import React from "react";
 import Row from "../../Row";
 import Button from "../../Button";
 import ComponentMapping from "../../ComponentMapping";
-import { PillButton } from "../../StyledComponents/StyledButton";
 import { useAppDispatch, useIndexData } from "../../../hooks";
 import { entityActions } from "../../../redux/actions";
 import { ComponentPropTypes } from "./types";
-import { SpacingPropTypes } from "../../../types/styles";
+import { Styles } from "../../../enums";
+
+import * as Emojis from "../../Emojis";
+import Tag from "../../Tag";
 
 const UNTITLED_ELEMENT = "Untitled Element";
+const DEFAULT_TAG_VALUE = "";
 
 const EntityLayer: React.FC<ComponentPropTypes> = ({
-  id,
   appDataType,
+  id,
   label = UNTITLED_ELEMENT,
   isHighlighted = false,
   isLocked = false,
   isHidden = false,
-  tag = ""
+  tag = DEFAULT_TAG_VALUE
 }) => {
 
   const dispatch = useAppDispatch();
 
   const TAG_OPTIONS = [
-    "blue",
-    "green",
-    "yellow",
-    "red",
-    "purple"
+    Styles.Colors.blue,
+    Styles.Colors.green,
+    Styles.Colors.yellow,
+    Styles.Colors.red,
+    Styles.Colors.purple
   ];
 
-  const { indexedData: indexedTagOptions } = useIndexData(TAG_OPTIONS, "tagOption");
+  const TAG_OPTION_KEY = "tagOption";
+
+  const { indexedData: indexedTagOptions } = useIndexData(TAG_OPTIONS, TAG_OPTION_KEY);
 
   const handleToggleEntityHighlight = () => {
     dispatch(entityActions.updateEntity(appDataType, { id, isHighlighted: !isHighlighted }));
@@ -54,44 +59,49 @@ const EntityLayer: React.FC<ComponentPropTypes> = ({
   };
 
   return (
-    <Row $mt={ SpacingPropTypes.xs }>
+    <Row
+      alignItems={ Styles.AlignItems.center }
+      justifyContent={ Styles.JustifyContent.center }
+      $mt={ Styles.Spacings.xs }
+    >
       <Button 
         onClick={ handleToggleEntityHighlight }
-        variant="primary"
+        variant={ isHighlighted ? Styles.ButtonVariants.primary : Styles.ButtonVariants.secondary }
         color={ tag }
-        $mr={ SpacingPropTypes.xs }
-        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.md } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.md }
+        $mr={ Styles.Spacings.xs }
+        $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.md } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.md }
       >{ label }</Button>
       <Button
         onClick={ handleToggleEntityLock }
-        $mr={ SpacingPropTypes.xs }
-        variant="primary"
+        $mr={ Styles.Spacings.xs }
+        variant={ Styles.ButtonVariants.primary }
         color={ tag }
-        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
-      >{ isLocked ? <>&#128274;</> : <>&#128275;</> }</Button>
+        $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
+      >{ isLocked ? <Emojis.Locked /> : <Emojis.Unlocked /> }</Button>
       <Button
         onClick={ handleToggleEntityHidden }
-        variant="primary"
+        variant={ Styles.ButtonVariants.primary }
         color={ tag }
-        $mr={ SpacingPropTypes.xs }
-        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
-      >{ isHidden ? <>&#127770;</> : <>&#127774;</> }</Button>
+        $mr={ Styles.Spacings.xs }
+        $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
+      >{ isHidden ? <Emojis.Hidden /> : <Emojis.Unhidden /> }</Button>
       <ComponentMapping
         componentData={ indexedTagOptions }
         renderComponent={ ({ tagOption }) => (
-          <PillButton
-            variant={ tagOption }
+          <Tag
             onClick={ () => handleSetEntityTag(tagOption) }
-            active={ tagOption === tag }
+            color={ tagOption }
+            variant={ tagOption === tag ? Styles.ButtonVariants.primary : Styles.ButtonVariants.secondary }
+            $mr={ Styles.Spacings.xs }
           />
         ) }
       />
       <Button
         onClick={ handleDeleteEntity }
-        variant="tertiary"
-        color="red"
-        $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
-        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+        variant={ Styles.ButtonVariants.tertiary }
+        color={ Styles.Colors.red }
+        $mt={ Styles.Spacings.xs } $mr={ Styles.Spacings.xs }
+        $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
       >X</Button>
     </Row>
   );

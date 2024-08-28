@@ -1,12 +1,12 @@
 import React from "react";
 import { useAppDispatch } from "../../../hooks";
 
-import { AppData } from "../../../enums";
+import { AppData, DefaultLabels, Styles } from "../../../enums";
 import Row from "../../Row";
 import { entityActions } from "../../../redux/actions";
 import { ComponentPropTypes } from "./types";
 import Button from "../../Button";
-import { SpacingPropTypes } from "../../../types/styles";
+import * as Emojis from "../../Emojis";
 
 const FloorLayer: React.FC<ComponentPropTypes> = ({
   id,
@@ -27,29 +27,29 @@ const FloorLayer: React.FC<ComponentPropTypes> = ({
 
   return (
     <Row
-      alignItems="center"
-      $mt={ SpacingPropTypes.sm }
+      alignItems={ Styles.AlignItems.center }
+      $mt={ Styles.Spacings.sm }
     >
       <Button
         onClick={ handleSetActiveFloor }
-        variant="primary"
-        color="blue"
-        $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
-        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.md } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.md }
-      >Floor { id }</Button>
+        variant={ id === activeFloorId ? Styles.ButtonVariants.primary : Styles.ButtonVariants.secondary }
+        color={ Styles.Colors.blue }
+        $mt={ Styles.Spacings.xs } $mr={ Styles.Spacings.xs }
+        $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.md } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.md }
+      >{ DefaultLabels.UntitledFloor } { id }</Button>
       <Button
-        variant="primary"
-        color="blue"
+        variant={ Styles.ButtonVariants.primary }
+        color={ Styles.Colors.blue }
         onClick={ handleToggleFloorVisibility }
-        $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
-        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
-      >{ !isHidden ? <>&#9660;</> : <>&#9654;</> }</Button>
+        $mt={ Styles.Spacings.xs } $mr={ Styles.Spacings.xs }
+        $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
+      >{ isHidden ? <Emojis.Hidden /> : <Emojis.Unhidden /> }</Button>
       <Button
-        variant="tertiary"
-        color="red"
+        variant={ Styles.ButtonVariants.tertiary }
+        color={ Styles.Colors.red }
         onClick={ handleDeleteFloor }
-        $mt={ SpacingPropTypes.xs } $mr={ SpacingPropTypes.xs }
-        $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+        $mt={ Styles.Spacings.xs } $mr={ Styles.Spacings.xs }
+        $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
       >X</Button>
     </Row>
   );

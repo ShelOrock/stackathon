@@ -1,22 +1,27 @@
-import { StylesTypes } from "../../../types";
+import { AppData } from "../../enums";
+import { StylesTypes } from "../../types";
 
 interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
+  appDataType: AppData;
   id: number;
   label: string;
   isHidden: boolean;
   isLocked: boolean;
+  tag?: string;
 };
 
-interface StylingPropTypes extends Omit<ComponentPropTypes, 
+interface StylingPropTypes extends Omit<ComponentPropTypes,
+  | "appDataType"
   | "id"
   | "label"
   | "isHidden"
   | "isLocked"
+  | "tag"
 > {};
 
 interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};
 
-export { 
+export {
   ComponentPropTypes,
   StyledElementPropTypes
 };

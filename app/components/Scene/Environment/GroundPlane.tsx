@@ -1,6 +1,6 @@
 import React from "react";
 const { useRef } = React;
-import * as THREE from "three";
+import THREE, { PlaneGeometry } from "three";
 import { useAppSelector } from "../../../hooks";
 
 export default () => {
@@ -24,7 +24,7 @@ export default () => {
 
   return (
     <mesh { ...meshProps }>
-      <planeBufferGeometry args={ [200, 200] } />
+      <planeGeometry args={[ 200, 200]} />
       <meshBasicMaterial color={ `rgb(${ 234 - Math.floor(numericalSunPosition * 1.25) }, ${ 209 - Math.floor(numericalSunPosition * 1.25) }, ${ 175 - Math.floor(numericalSunPosition * 1.25) })` } />
     </mesh>
   );

@@ -1,16 +1,16 @@
 import React from 'react';
 
-import Column from '../Column';
 import Row from '../Row';
 import { LinkButton } from '../StyledComponents/StyledButton';
 import Button from '../Button';
 import { entityActions } from '../../redux/actions';
-import { AppData } from '../../enums';
+import { AppData, Styles } from '../../enums';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import ComponentMapping from '../ComponentMapping';
 import { AppDataSelectors } from '../../redux/selectors';
 import LayerGroup from './LayerGroup';
-import { SpacingPropTypes } from '../../types/styles';
+import Paper from '../Paper';
+import Column from '../Column';
 
 const LayerPanel = () => {
 
@@ -32,26 +32,36 @@ const LayerPanel = () => {
   }));
 
   return (
-    <Column>
-      <Row>
-        <LinkButton to='/3D'>Build it</LinkButton>
-        <Button
-          onClick={ handleResetPlanner }
-          variant="tertiary"
-          color="red"
-          $mt={ SpacingPropTypes.xs }
-          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.md } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.md }
-        >Reset</Button>
-      </Row>
-      <ComponentMapping
-        componentData={ floors }
-        renderComponent={ floor => (
-          <LayerGroup
-            activeFloorId={ activeFloor.id }
-            { ...floor }
-          />
-         )}
-      />
+    <Column alignItems={ Styles.AlignItems.stretch }>
+      <Paper
+        $mt={ Styles.Spacings.sm }
+        $padding={ Styles.Spacings.sm }
+      >
+        <Row alignItems={ Styles.AlignItems.center }>
+          <LinkButton to='/3D'>Build it</LinkButton>
+          <Button
+            onClick={ handleResetPlanner }
+            variant={ Styles.ButtonVariants.tertiary }
+            color={ Styles.Colors.red }
+            $mt={ Styles.Spacings.xs }
+            $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.md } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.md }
+          >Reset</Button>
+        </Row>
+      </Paper>
+      <Paper
+        $mt={ Styles.Spacings.sm }
+        $padding={ Styles.Spacings.sm }
+      >
+        <ComponentMapping
+          componentData={ floors }
+          renderComponent={ floor => (
+            <LayerGroup
+              activeFloorId={ activeFloor.id }
+              { ...floor }
+            />
+          )}
+        />
+      </Paper>
     </Column>
   );
 };

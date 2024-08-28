@@ -18,7 +18,7 @@ const StyledButton = styled.button<StyledElementPropTypes>`
         if($isDisabled) {
           return theme.colors.disabled;
         };
-console.log(theme.colors[$color])
+
         return theme.colors[$color].default;
 
       case Styles.ButtonVariants.secondary:
@@ -59,7 +59,7 @@ console.log(theme.colors[$color])
     };
   } };
 
-  &hover: {
+  &:hover {
     background-color: ${ ({ theme, $variant, $color, $isDisabled }) => {
       switch($variant) {
         case Styles.ButtonVariants.primary:

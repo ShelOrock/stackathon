@@ -1,20 +1,20 @@
 import { StylesTypes } from "../../types";
 
-interface ComponentPropTypes extends
-  StylesTypes.MarginPropTypes,
-  StylesTypes.PaddingPropTypes {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  isDisabled?: boolean;
-  variant?: string; // TODO
-  color?: string; // TODO
-  children: React.ReactNode;
+interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
+  name: string;
+  value: string;
+  placeholder?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  color?: string;
 };
 
 interface StylingPropTypes extends
   Omit<ComponentPropTypes,
-  | "onClick"
-  | "children"
->,
+    | "name"
+    | "value"
+    | "placeholder"
+    | "onChange"
+  >,
   StylesTypes.MarginPropTypes,
   StylesTypes.PaddingPropTypes {};
 

@@ -1,18 +1,14 @@
-import { StylesTypes } from "../../../types";
+import { StylesTypes } from "../../types";
 
 interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
-  id: number;
-  label: string;
-  isHidden: boolean;
-  isLocked: boolean;
+  width?: string;
+  children: React.ReactNode;
 };
 
-interface StylingPropTypes extends Omit<ComponentPropTypes,
-  | "id"
-  | "label"
-  | "isHidden"
-  | "isLocked"
-> {};
+interface StylingPropTypes extends
+  Omit<ComponentPropTypes, "children">,
+  StylesTypes.MarginPropTypes,
+  StylesTypes.PaddingPropTypes {};
 
 interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};
 

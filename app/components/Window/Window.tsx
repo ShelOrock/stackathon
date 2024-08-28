@@ -1,16 +1,16 @@
-import * as React from "react";
+import React from "react";
 import { useAppDispatch } from "../../hooks";
 
 import StyledWindow from "./styles";
 
 import DraggableComponent from "../DraggableComponent";
-import WindowHUD from "./WindowHUD";
 
 import { entityActions } from "../../redux/actions";
 
-import { AppData, Directions } from "../../enums";
+import { AppData, Directions, Styles } from "../../enums";
 import { ReactTypes } from "../../types";
 import { ComponentPropTypes } from "./types";
+import FloatingTools from "../FloatingTools";
 
 const Window: React.FC<ComponentPropTypes> = ({
   id,
@@ -24,7 +24,7 @@ const Window: React.FC<ComponentPropTypes> = ({
   orientation,
   xPosition,
   yPosition,
-  tag = "blue",
+  tag = Styles.Colors.blue,
 }) => {
   const GRID_SNAP: number = 25;
 
@@ -83,11 +83,13 @@ const Window: React.FC<ComponentPropTypes> = ({
         disableDragging={ isLocked || isDisabled }
       >
         { !isDisabled && (
-          <WindowHUD 
+          <FloatingTools
+            appDataType={ AppData.Windows }
             id={ id }
             label={ label }
             isHidden={ isHidden }
             isLocked={ isLocked }
+            tag={ tag }
           />
         ) }
         <StyledWindow 

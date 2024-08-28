@@ -5,12 +5,12 @@ import Button from '../Button';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { functions } from '../../utilities';
 import { AppDataSelectors } from '../../redux/selectors';
-import { AppData, CanvasSizes, Directions, UIData } from '../../enums';
+import { AppData, CanvasSizes, Directions, UIData, Styles, DefaultLabels } from '../../enums';
 import { entityActions } from '../../redux/actions';
 import { setCanvasSize } from '../../redux/canvasSize/actions';
 import Row from '../Row';
 import { toggleElementsActions } from '../../redux/actions';
-import { SpacingPropTypes } from '../../types/styles';
+import Paper from '../Paper';
 
 const BLUE_TAG = "blue";
 enum DefaultEntityPositions {
@@ -103,12 +103,16 @@ const ToolsPanel = () => {
     attributes: [ "id" ]
   }));
 
-  const handleCreateEntity = (appDataType, entities, defaultEntity): void => {
+  const handleCreateEntity = (appDataType, {
+    entities,
+    defaultEntity,
+    defaultLabel,
+  }): void => {
     const id = functions.findMissingId(entities);
 
     dispatch(entityActions.addEntity(appDataType, {
       id,
-      label: `${ appDataType } ${ id }`,
+      label: `${ defaultLabel } ${ id }`,
       floor: activeFloor.id,
       ...defaultEntity
     }));
@@ -119,7 +123,7 @@ const ToolsPanel = () => {
 
     dispatch(entityActions.addEntity(AppData.Floors, {
       id,
-      label: `Floor ${ id }`,
+      label: `${ DefaultLabels.UntitledFloor } ${ id }`,
       floor: activeFloor.id,
       ...DEFAULT_FLOOR
     }));
@@ -127,69 +131,81 @@ const ToolsPanel = () => {
   };
 
   return (
-    <Column
-      $mt={ SpacingPropTypes.sm }
-      $padding={ SpacingPropTypes.sm }
+    <Paper
+      $mt={ Styles.Spacings.sm }
+      $padding={ Styles.Spacings.sm }
     >
       <Column>
         <Button
           onClick={ () => handleToggleElement(UIData.Grid, !gridIsShowing) }
-          variant="primary"
-          $mt={ SpacingPropTypes.xs }
-          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+          variant={ Styles.ButtonVariants.primary }
+          $mt={ Styles.Spacings.xs }
+          $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >Toggle Grid</Button>
         <Button
           onClick={ () => handleToggleElement(UIData.ElementActions, !elementActionsIsShowing) }
-          $mt={ SpacingPropTypes.xs }
-          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+          $mt={ Styles.Spacings.xs }
+          $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >Toggle HUD</Button>
         <Button
           onClick={ () => handleToggleElement(UIData.ElementLabels, !elementLabelsIsShowing) }
-          $mt={ SpacingPropTypes.xs }
-          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+          $mt={ Styles.Spacings.xs }
+          $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >Toggle Labels</Button>
-        <Row $mt={ SpacingPropTypes.sm }>
+        <Row $mt={ Styles.Spacings.sm }>
           <Button
             onClick={ () => dispatch(setCanvasSize(CanvasSizes.small)) }
-            $mr={ SpacingPropTypes.xs }
-            $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+            $mr={ Styles.Spacings.xs }
+            $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
           >Small</Button>
           <Button
             onClick={ () => dispatch(setCanvasSize(CanvasSizes.medium)) }
-            $mr={ SpacingPropTypes.xs }
-            $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+            $mr={ Styles.Spacings.xs }
+            $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
           >Medium</Button>
           <Button
             onClick={ () => dispatch(setCanvasSize(CanvasSizes.large)) }
-            $mr={ SpacingPropTypes.xs }
-            $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+            $mr={ Styles.Spacings.xs }
+            $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
           >Large</Button>
         </Row>
       </Column>
-      <Column $mt={ SpacingPropTypes.sm }>
+      <Column $mt={ Styles.Spacings.sm }>
         <Button
           onClick={ handleCreateFloor }
-          variant="primary"
-          $mt={ SpacingPropTypes.xs }
-          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+          variant={ Styles.ButtonVariants.primary }
+          $mt={ Styles.Spacings.xs }
+          $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >+ Add Floor</Button>
         <Button
-          onClick={ () => handleCreateEntity(AppData.Rooms, rooms, DEFAULT_ROOM) }
-          $mt={ SpacingPropTypes.xs }
-          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+          onClick={ () => handleCreateEntity(AppData.Rooms, {
+            entities: rooms,
+            defaultEntity: DEFAULT_ROOM,
+            defaultLabel: DefaultLabels.UntitledRoom,
+          }) }
+          $mt={ Styles.Spacings.xs }
+          $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >+ Create a new room</Button>
         <Button
-          onClick={ () => handleCreateEntity(AppData.Doors, doors, DEFAULT_DOOR) }
-          $mt={ SpacingPropTypes.xs }
-          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+          onClick={ () => handleCreateEntity(AppData.Doors, {
+            entities: doors,
+            defaultEntity: DEFAULT_DOOR,
+            defaultLabel: DefaultLabels.UntitledDoor,
+          }) }
+          $mt={ Styles.Spacings.xs }
+          $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >+ Create new door</Button>
         <Button
-          onClick={ () => handleCreateEntity(AppData.Windows, windows, DEFAULT_WINDOW) }
-          $mt={ SpacingPropTypes.xs }
-          $pt={ SpacingPropTypes.xs } $pr={ SpacingPropTypes.sm } $pb={ SpacingPropTypes.xs } $pl={ SpacingPropTypes.sm }
+          onClick={ () => handleCreateEntity(AppData.Windows, {
+            entities: windows,
+            defaultEntity: DEFAULT_WINDOW,
+            defaultLabel: DefaultLabels.UntitledWindow,
+          }) }
+          $mt={ Styles.Spacings.xs }
+          $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >+ Create new Window</Button>
       </Column>
-    </Column>
+    </Paper>
   );
 };
 

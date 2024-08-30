@@ -1,0 +1,5 @@
+interface ComponentPropTypes {};
+
+export {
+  ComponentPropTypes,
+};

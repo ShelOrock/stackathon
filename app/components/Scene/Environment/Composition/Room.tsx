@@ -3,24 +3,21 @@ import * as THREE from "three";
 
 import RoomHUD from "./RoomHUD";
 
-import { EntityTypes } from "../../../../types";
 import Mesh from "../../../Mesh";
+import BoxGeometry from "../../../BoxGeometry";
 
-export default (room: EntityTypes.RoomTypes.RoomMeshType) => {
+const Room = ({
+  width,
+  height = 10,
+  depth,
+  xPosition,
+  yPosition,
+  zPosition,
+  label
+}) => {
 
   const ref = useRef<THREE.Mesh>(null!);
-  const SCALE_FACTOR: number = 10;
   const ROTATION_0_DEGREES: number = 0;
-
-  const translateCoordinatesTo3D = (position: number, dimension: number): number => {
-    return (position + dimension / 2) / SCALE_FACTOR;
-  };
-
-  const roomDimensions: [number, number, number] = [
-    room.width / SCALE_FACTOR,
-    10,
-    room.height / SCALE_FACTOR
-  ];
 
   interface meshMaterialPropTypes {
     color: string;
@@ -36,9 +33,9 @@ export default (room: EntityTypes.RoomTypes.RoomMeshType) => {
     <Mesh
       innerRef={ ref }
       position={ [
-        translateCoordinatesTo3D(room.xPosition, room.width),
-        10 * (room.floor) - 5,
-        translateCoordinatesTo3D(room.yPosition, room.height)
+        xPosition,
+        yPosition,
+        zPosition
       ] }
       rotation={ [
         ROTATION_0_DEGREES,
@@ -48,9 +45,15 @@ export default (room: EntityTypes.RoomTypes.RoomMeshType) => {
       castShadow
       receiveShadow
     >
-      <boxGeometry args={ roomDimensions }/>
+      <BoxGeometry
+        width={ width }
+        height={ height }
+        depth={ depth }
+      />
       <meshPhongMaterial { ...meshMaterialProps } />
-      <RoomHUD { ...room }/>
+      <RoomHUD label={ label } />
     </Mesh>
   );
 };
+
+export default Room;

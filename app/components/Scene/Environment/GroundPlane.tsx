@@ -1,5 +1,4 @@
-import React from "react";
-const { useRef } = React;
+import React, { useRef } from "react";
 import THREE from "three";
 import { useAppSelector } from "../../../hooks";
 import Mesh from "../../Mesh";

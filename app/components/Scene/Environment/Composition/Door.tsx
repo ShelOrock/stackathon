@@ -1,11 +1,11 @@
-import React from "react";
-const { useRef } = React;
+import React, { useRef } from "react";
 import * as THREE from "three";
 
 import { EntityTypes } from "../../../../types";
 import { Directions } from "../../../../enums";
+import Mesh from "../../../Mesh";
 
-export default (door: EntityTypes.DoorTypes.DoorMeshType) => {
+const DoorMesh = (door: EntityTypes.DoorTypes.DoorMeshType) => {
 
   const mesh = useRef<THREE.Mesh>(null!);
   const SCALE_FACTOR: number = 10;
@@ -89,9 +89,20 @@ export default (door: EntityTypes.DoorTypes.DoorMeshType) => {
   };
 
   return (
-    <mesh { ...meshProps }>
+    <Mesh
+      innerRef={ mesh }
+      position={ [
+        translateXCoordinatesTo3D(door),
+        10 * (door.floor + 1) - 7,
+        translateYCoordinatesTo3D(door)
+      ] }
+      rotation={ evaluateRotation(door) }
+      receiveShadow={ false }
+    >
       <boxGeometry args={ evaluteDoorDimensions(door) } />
       <meshStandardMaterial { ...meshMaterialProps } />
-    </mesh>
-  )
-}
+    </Mesh>
+  );
+};
+
+export default DoorMesh;

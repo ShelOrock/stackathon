@@ -10,7 +10,7 @@ export default () => {
   return (
     <Sky
       distance={ 450000 }
-      sunPosition={ [0, 1, parseInt(sunPosition)] }
+      sunPosition={ [parseInt(sunPosition), Math.cos((parseInt(sunPosition) * 1.8) * (Math.PI / 180)) * 50, 0] }
       inclination={ 0.5 }
       azimuth={ 0.75 }
     />

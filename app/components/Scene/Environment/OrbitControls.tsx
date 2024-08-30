@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 const { useRef } = React;
 import { useThree, extend } from "@react-three/fiber"
 import { OrbitControls } from "three-stdlib";

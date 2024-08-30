@@ -19,7 +19,7 @@
     "@mui/material": "^5.15.6",
     "@mui/styled-engine-sc": "^6.0.0-alpha.13",
     "@react-three/drei": "^9.96.5",
-    "@react-three/fiber": "^8.15.15",
+    "@react-three/fiber": "^8.17.6",
     "@reduxjs/toolkit": "^2.1.0",
     "chalk": "^2.4.2",
     "express": "^4.17.1",

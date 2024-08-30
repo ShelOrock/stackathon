@@ -17,14 +17,6 @@ import ToolsPanel from "../components/ToolsPanel";
 
 const Planner = () => {
 
-  const DEFAULT_FLOOR_NUMBER = 1;
-  const DEFAULT_FLOOR = {
-    id: DEFAULT_FLOOR_NUMBER,
-    label: `${ DefaultLabels.UntitledFloor } ${ DEFAULT_FLOOR_NUMBER }`,
-    isHighlighted: false,
-    isHidden: false
-  };
-
   const dispatch = useAppDispatch();
 
   const canvasSize = useAppSelector(state => state.canvasSize);
@@ -36,11 +28,6 @@ const Planner = () => {
   const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms));
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
-
-  useEffect(() => {
-    dispatch(entityActions.addEntity(AppData.Floors, DEFAULT_FLOOR));
-    dispatch(entityActions.setActiveId(AppData.Floors, DEFAULT_FLOOR_NUMBER));
-  }, []);
 
   return (
     <Row justifyContent={ Styles.JustifyContent.spaceBetween }>

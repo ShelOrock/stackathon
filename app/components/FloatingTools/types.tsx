@@ -1,4 +1,4 @@
-import { AppData } from "../../enums";
+import { AppData, Styles } from "../../enums";
 import { StylesTypes } from "../../types";
 
 interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
@@ -7,7 +7,7 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   label: string;
   isHidden: boolean;
   isLocked: boolean;
-  tag?: string;
+  tag?: Styles.Colors;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,

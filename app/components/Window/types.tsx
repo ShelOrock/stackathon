@@ -1,5 +1,5 @@
 import { StylesTypes } from "../../types";
-import { Directions } from "../../enums";
+import { Directions, Styles } from "../../enums";
 
 interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
   id: number;
@@ -15,7 +15,7 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   yPosition: number;
   xPos: number;
   yPos: number;
-  tag: string;
+  tag: Styles.Colors;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,

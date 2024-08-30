@@ -9,35 +9,40 @@ export default (window: EntityTypes.WindowTypes.WindowMeshType) => {
 
   const mesh = useRef<THREE.Mesh>(null!);
   const SCALE_FACTOR: number = 10;
+  const TRANSLATION_FACTOR: number = 2;
+  const ROTATION_90_DEGREES: number = Math.PI / 2;
+  const ROTATION_0_DEGREES: number = 0;
+  const WINDOW_THICKNESS: number = 2.5;
+  const DEFAULT_DIMENSION: number = 0;
 
   const translateXCoordinatesTo3D = (window: EntityTypes.WindowTypes.WindowMeshType): number => {
     if(window.orientation == Directions.NORTH_SOUTH) {
-      return ((window.xPosition - window.width / 2) + window.width / 2) / SCALE_FACTOR;
+      return ((window.xPosition - window.width / TRANSLATION_FACTOR) + window.width / TRANSLATION_FACTOR) / SCALE_FACTOR;
     };
     if(window.orientation == Directions.EAST_WEST) {
-      return (window.xPosition + window.width / 2) / SCALE_FACTOR
+      return (window.xPosition + window.width / TRANSLATION_FACTOR) / SCALE_FACTOR
     };
   };
 
   const translateYCoordinatesTo3D = (window: EntityTypes.WindowTypes.WindowMeshType): number => {
     if(window.orientation == Directions.NORTH_SOUTH) {
-      return ((window.yPosition + window.width / 2) + window.height / 2) / SCALE_FACTOR;
+      return ((window.yPosition + window.width / TRANSLATION_FACTOR) + window.height / TRANSLATION_FACTOR) / SCALE_FACTOR;
     };
     if(window.orientation == Directions.EAST_WEST) {
-      return ((window.yPosition - window.width / 2) + window.width / 2) / SCALE_FACTOR;
+      return ((window.yPosition - window.width / TRANSLATION_FACTOR) + window.width / TRANSLATION_FACTOR) / SCALE_FACTOR;
     };
   };
 
   const evaluateRotation = (window: EntityTypes.WindowTypes.WindowMeshType): [number, number, number] => {
     switch(window.orientation) {
       case Directions.NORTH_SOUTH:
-        return [0, Math.PI / 2, 0];
+        return [ROTATION_0_DEGREES, ROTATION_90_DEGREES, ROTATION_0_DEGREES];
 
       case Directions.EAST_WEST:
-        return [0, 0, 0];
+        return [ROTATION_0_DEGREES, ROTATION_0_DEGREES, ROTATION_0_DEGREES];
 
       default: 
-        return [0, 0, 0];
+        return [ROTATION_0_DEGREES, ROTATION_0_DEGREES, ROTATION_0_DEGREES];
     };
   };
 
@@ -46,19 +51,19 @@ export default (window: EntityTypes.WindowTypes.WindowMeshType) => {
       case Directions.NORTH_SOUTH:
         return [
           window.height / SCALE_FACTOR,
-          2.5,
+          WINDOW_THICKNESS,
           window.width / SCALE_FACTOR
         ];
 
       case Directions.EAST_WEST:
         return [
           window.width / SCALE_FACTOR,
-          2.5,
+          WINDOW_THICKNESS,
           window.height / SCALE_FACTOR
         ];
 
       default:
-        return [0, 0, 0];
+        return [DEFAULT_DIMENSION, DEFAULT_DIMENSION, DEFAULT_DIMENSION];
     };
   };
 

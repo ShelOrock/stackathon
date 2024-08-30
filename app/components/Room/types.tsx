@@ -1,3 +1,4 @@
+import { Styles } from "../../enums";
 import { StylesTypes } from "../../types";
 
 interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
@@ -11,7 +12,7 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   width: number;
   xPosition: number;
   yPosition: number;
-  tag: string;
+  tag: Styles.Colors.blue;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,

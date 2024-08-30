@@ -4,12 +4,16 @@ import { useAppSelector } from "../../../hooks";
 export default () => {
 
   const { sunPosition } = useAppSelector(state => state);
+  
   return (
     <>
-      <ambientLight />
+      <ambientLight
+        color="#EEE"
+        intensity={ 0.6 }
+      />
       <directionalLight
         castShadow
-        position={[0, 1, parseInt(sunPosition)]} color="#DDD" />
+        position={ [parseInt(sunPosition), Math.cos((parseInt(sunPosition) * 1.8) * (Math.PI / 180)) * 50, 0] } color="#DDD" />
     </>
   );
 };

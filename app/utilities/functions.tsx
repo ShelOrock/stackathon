@@ -38,5 +38,5 @@ const findMissingId = (array = []): number => {
 
 export { 
   sortArray,
-  findMissingId
+  findMissingId,
 };

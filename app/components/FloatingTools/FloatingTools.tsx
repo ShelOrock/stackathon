@@ -59,13 +59,13 @@ const FloatingTools: React.FC<ComponentPropTypes> = ({
             <Button
               onClick={ handleToggleEntityLock }
               variant={ Styles.ButtonVariants.secondary }
-              color={ Styles.Colors.blue }
+              color={ tag }
               $mr={ Styles.Spacings.xs }
             >{ isLocked ? <Emojis.Locked /> : <Emojis.Unlocked /> }</Button>
             <Button
               onClick={ handleToggleEntityHighlight }
               variant={ Styles.ButtonVariants.secondary }
-              color={ Styles.Colors.blue }
+              color={ tag }
               $mr={ Styles.Spacings.xs }
             >{ isHidden ? <Emojis.Hidden /> : <Emojis.Unhidden /> }</Button>
           </Row>

@@ -3,11 +3,12 @@ import React from "react";
 import StyledButton from "./styles";
 
 import { ComponentPropTypes } from "./types";
+import { Styles } from "../../enums";
 
 const Button: React.FC<ComponentPropTypes> = ({
   onClick,
-  color = "blue",
-  variant = "primary",
+  color = Styles.Colors.blue,
+  variant = Styles.ButtonVariants.primary,
   isDisabled = false,
   children,
   ...spacingProps

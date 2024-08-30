@@ -1,13 +1,13 @@
-import * as React from "react";
+import React from "react";
 
 import Room from "./Room";
-import Door from "./Door";
 import Window from "./Window";
 
 import { useAppSelector } from "../../../../hooks";
 import { AppDataSelectors } from "../../../../redux/selectors";
 import { AppData } from "../../../../enums";
 import ComponentMapping from "../../../ComponentMapping";
+import DoorMesh from "./Door";
 
 export default () => {
 
@@ -26,7 +26,7 @@ export default () => {
       <ComponentMapping
         componentData={ doors }
         renderComponent={ door => (
-          <Door { ...door } />
+          <DoorMesh { ...door } />
         ) }
       />
       <ComponentMapping

@@ -12,7 +12,6 @@ import * as Emojis from "../../Emojis";
 import Tag from "../../Tag";
 
 const UNTITLED_ELEMENT = "Untitled Element";
-const DEFAULT_TAG_VALUE = "";
 
 const EntityLayer: React.FC<ComponentPropTypes> = ({
   appDataType,
@@ -21,7 +20,7 @@ const EntityLayer: React.FC<ComponentPropTypes> = ({
   isHighlighted = false,
   isLocked = false,
   isHidden = false,
-  tag = DEFAULT_TAG_VALUE
+  tag = Styles.Colors.blue
 }) => {
 
   const dispatch = useAppDispatch();

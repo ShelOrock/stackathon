@@ -15,6 +15,7 @@ export default () => {
 
   return (
     <Canvas
+
       shadows
       camera={{ position: [80, 50, 90] as any }
     }>

@@ -1,4 +1,4 @@
-import { AppData } from "../../../enums";
+import { AppData, Styles } from "../../../enums";
 
 interface ComponentPropTypes {
   appDataType: AppData;
@@ -7,7 +7,7 @@ interface ComponentPropTypes {
   isHighlighted: boolean;
   isLocked: boolean;
   isHidden: boolean;
-  tag: string;
+  tag: Styles.Colors;
 };
 
 export {

@@ -1,21 +1,21 @@
-import { Styles } from "../../enums";
 import { StylesTypes } from "../../types";
 
 interface ComponentPropTypes extends
   StylesTypes.MarginPropTypes,
   StylesTypes.PaddingPropTypes {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  isDisabled?: boolean;
-  variant?: Styles.ButtonVariants;
-  color?: Styles.Colors;
-  children: React.ReactNode;
+  min: string;
+  max: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 interface StylingPropTypes extends
   Omit<ComponentPropTypes,
-  | "onClick"
-  | "children"
->,
+  | "min"
+  | "max"
+  | "value"
+  | "onChange"
+  >,
   StylesTypes.MarginPropTypes,
   StylesTypes.PaddingPropTypes {};
 

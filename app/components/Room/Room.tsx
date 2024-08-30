@@ -6,7 +6,7 @@ import DraggableComponent from "../DraggableComponent";
 import { ComponentPropTypes } from "./types";
 import StyledRoom from "./styles";
 import { entityActions } from "../../redux/actions";
-import { AppData } from "../../enums";
+import { AppData, Styles } from "../../enums";
 import FloatingTools from "../FloatingTools";
 
 const Room: React.FC<ComponentPropTypes> = ({
@@ -20,7 +20,7 @@ const Room: React.FC<ComponentPropTypes> = ({
   width,
   xPosition,
   yPosition,
-  tag,
+  tag = Styles.Colors.blue,
 }) => {
 
   const GRID_SNAP: number = 25;

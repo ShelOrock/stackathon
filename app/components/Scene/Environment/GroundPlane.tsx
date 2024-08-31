@@ -1,10 +1,9 @@
-import React from "react";
-const { useRef } = React;
+import React, { useRef } from "react";
 import THREE from "three";
 import { useAppSelector } from "../../../hooks";
 import Mesh from "../../Mesh";
 
-export default () => {
+const GroundPlane = () => {
 
   const TRANSLATION_0_UNITS: number = 0;
   const ROTATION_0_DEGREES: number = 0;
@@ -18,8 +17,12 @@ export default () => {
   return (
     <Mesh
       innerRef={ ref }
-      position={ [ TRANSLATION_0_UNITS, TRANSLATION_0_UNITS, TRANSLATION_0_UNITS ]}
-      rotation={ [ ROTATION_90_DEGREES, ROTATION_0_DEGREES, ROTATION_0_DEGREES ] }
+      xPosition={ TRANSLATION_0_UNITS }
+      yPosition={ TRANSLATION_0_UNITS }
+      zPosition={ TRANSLATION_0_UNITS }
+      xRotation={ ROTATION_90_DEGREES }
+      yRotation={ ROTATION_0_DEGREES }
+      zRotation={ ROTATION_0_DEGREES }
       receiveShadow
     >
       <planeGeometry args={[ 200, 200 ]} />
@@ -27,3 +30,5 @@ export default () => {
     </Mesh>
   );
 };
+
+export default GroundPlane;

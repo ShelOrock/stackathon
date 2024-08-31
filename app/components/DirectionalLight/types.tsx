@@ -1,16 +1,14 @@
 import THREE from "three";
 
 interface ComponentPropTypes {
-  innerRef: React.Ref<THREE.Mesh>;
+  innerRef?: React.Ref<THREE.Mesh>;
+  intensity?: number;
   xPosition: number;
   yPosition: number;
   zPosition: number;
-  xRotation: number;
-  yRotation: number;
-  zRotation: number;
   castShadow?: boolean;
-  receiveShadow?: boolean;
-  children: React.ReactNode;
+  color?: string;
+  showHelper?: boolean;
 };
 
 export {

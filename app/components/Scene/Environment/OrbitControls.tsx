@@ -1,13 +1,9 @@
-import React, { useRef } from "react";
-import { useThree, extend } from "@react-three/fiber"
-import { OrbitControls } from "three-stdlib";
+import React from "react";
+import { extend } from "@react-three/fiber"
+import { OrbitControls } from "@react-three/drei";
 
 extend({ OrbitControls });
 
 export default () => {
-
-  const three = useThree();
-  const controls = useRef();
-  
-  return <orbitControls ref={ controls } args={ [three.camera, three.gl.domElement] } />
+  return <OrbitControls />
 };

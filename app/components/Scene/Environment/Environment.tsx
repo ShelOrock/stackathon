@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactReduxContext } from "react-redux"
 import { Canvas } from "@react-three/fiber";
-import { PerspectiveCamera, useContextBridge } from "@react-three/drei";
+import { useContextBridge } from "@react-three/drei";
 
 import Sky from "./Sky";
 import OrbitControls from "./OrbitControls"
@@ -16,10 +16,9 @@ export default () => {
   return (
     <Canvas
       shadows
-      camera={{ position: [ 80, 0, 90 ] as [ number, number, number] }
-    }>
+      camera={{ position: [ 80, 80, 80 ] as [ number, number, number] } }
+    >
       <ContextBridge>
-        <PerspectiveCamera/>
         <Sky />
         <OrbitControls />
         <Lighting />

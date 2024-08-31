@@ -1,12 +1,13 @@
 import THREE from "three";
 
-type Position = [ number, number, number ];
-type Rotation = [ number, number, number ];
-
 interface ComponentPropTypes {
   innerRef: React.Ref<THREE.Mesh>;
-  position: Position;
-  rotation: Rotation;
+  xPosition: number;
+  yPosition: number;
+  zPosition: number;
+  xRotation: number;
+  yRotation: number;
+  zRotation: number;
   castShadow?: boolean;
   receiveShadow?: boolean;
   children: React.ReactNode;

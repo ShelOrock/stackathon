@@ -1,11 +1,10 @@
-import React from "react";
-const { useRef } = React;
+import React, { useRef } from "react";
 import * as THREE from "three";
 
 import { EntityTypes } from "../../../../types";
 import { Directions } from "../../../../enums";
 
-export default (window: EntityTypes.WindowTypes.WindowMeshType) => {
+const Window = (window: EntityTypes.WindowTypes.WindowMeshType) => {
 
   const mesh = useRef<THREE.Mesh>(null!);
   const SCALE_FACTOR: number = 10;
@@ -100,3 +99,5 @@ export default (window: EntityTypes.WindowTypes.WindowMeshType) => {
     </mesh>
   )
 };
+
+export default Window;

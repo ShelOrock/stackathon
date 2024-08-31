@@ -9,6 +9,8 @@ const DoorMesh = (door: EntityTypes.DoorTypes.DoorMeshType) => {
 
   const mesh = useRef<THREE.Mesh>(null!);
   const SCALE_FACTOR: number = 10;
+  const ROTATION_0_DEGREES = 0;
+  const ROTATION_90_DEGREES = Math.PI / 2
 
   const translateXCoordinatesTo3D = (door: EntityTypes.DoorTypes.DoorMeshType): number => {
     if(door.orientation == Directions.NORTH_SOUTH) {
@@ -25,19 +27,6 @@ const DoorMesh = (door: EntityTypes.DoorTypes.DoorMeshType) => {
     };
     if(door.orientation == Directions.EAST_WEST) {
       return ((door.yPosition - door.width / 2) + door.width / 2) / SCALE_FACTOR;
-    };
-  };
-
-  const evaluateRotation = (door: EntityTypes.DoorTypes.DoorMeshType): [number, number, number] => {
-    switch(door.orientation) {
-      case Directions.NORTH_SOUTH:
-        return [0, Math.PI / 2, 0];
-
-      case Directions.EAST_WEST:
-        return [0, 0, 0];
-
-      default: 
-        return [0, 0, 0];
     };
   };
 
@@ -62,25 +51,9 @@ const DoorMesh = (door: EntityTypes.DoorTypes.DoorMeshType) => {
     };
   };
 
-  interface MeshPropTypes {
-    ref: typeof mesh;
-    position: [number, number, number];
-    rotation: [number, number, number];
-  };
-
   interface MeshMaterialPropTypes {
     side: typeof THREE.DoubleSide;
     color: string;
-  };
-
-  const meshProps: MeshPropTypes = {
-    ref: mesh,
-    position: [
-      translateXCoordinatesTo3D(door),
-      10 * (door.floor + 1) - 7,
-      translateYCoordinatesTo3D(door)
-    ],
-    rotation: evaluateRotation(door),
   };
 
   const meshMaterialProps: MeshMaterialPropTypes = {
@@ -91,12 +64,12 @@ const DoorMesh = (door: EntityTypes.DoorTypes.DoorMeshType) => {
   return (
     <Mesh
       innerRef={ mesh }
-      position={ [
-        translateXCoordinatesTo3D(door),
-        10 * (door.floor + 1) - 7,
-        translateYCoordinatesTo3D(door)
-      ] }
-      rotation={ evaluateRotation(door) }
+      xPosition={ translateXCoordinatesTo3D(door) }
+      yPosition={ 10 * (door.floor + 1) - 7 }
+      zPosition={ translateYCoordinatesTo3D(door) }
+      xRotation={ ROTATION_0_DEGREES }
+      yRotation={ door.orientation === Directions.NORTH_SOUTH ? ROTATION_90_DEGREES : ROTATION_0_DEGREES }
+      zRotation={ ROTATION_0_DEGREES }
       receiveShadow={ false }
     >
       <boxGeometry args={ evaluteDoorDimensions(door) } />

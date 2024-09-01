@@ -103,5 +103,6 @@ export default combineReducers({
   rooms: createAppDataSlice(AppDataSlices.Rooms),
   doors: createAppDataSlice(AppDataSlices.Doors),
   windows: createAppDataSlice(AppDataSlices.Windows),
-  floors: createAppDataSlice(AppDataSlices.Floors)
+  floors: createAppDataSlice(AppDataSlices.Floors),
+  roofs: createAppDataSlice(AppDataSlices.Roofs)
 });

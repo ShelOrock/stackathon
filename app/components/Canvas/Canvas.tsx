@@ -1,11 +1,14 @@
 import React from "react";
 
-import StyledCanvas from "./styles";
+import StyledStage from "./styles";
 
 import { ComponentPropTypes } from "./types";
 
-const Canvas: React.FC<ComponentPropTypes> = ({ canvasSize, children }) => (
-  <StyledCanvas $canvasSize={ canvasSize }>{ children }</StyledCanvas>
+const Stage: React.FC<ComponentPropTypes> = ({ canvasSize, children }) => (
+  <StyledStage
+    width={ canvasSize }
+    height={ canvasSize }
+  >{ children }</StyledStage>
 );
 
-export default Canvas;
+export default Stage;

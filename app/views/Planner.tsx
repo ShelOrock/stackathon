@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import { Layer, Line, Rect, Text } from "react-konva";
 
-import Canvas from "../components/Canvas";
+import Stage from "../components/Canvas";
 import LayerPanel from "../components/LayerPanel";
 import Row from "../components/Row";
 import Grid from "../components/Grid";
@@ -9,15 +10,20 @@ import Room from "../components/Room";
 import Window from "../components/Window";
 import Door from "../components/Door";
 
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { AppData, DefaultLabels, Styles } from "../enums";
+import { useAppSelector } from "../hooks";
+import { AppData, Styles } from "../enums";
 import { AppDataSelectors } from "../redux/selectors";
-import { entityActions } from "../redux/actions";
 import ToolsPanel from "../components/ToolsPanel";
 
 const Planner = () => {
 
-  const dispatch = useAppDispatch();
+  // const canvasRef = useRef(null);
+
+  // useEffect(() => {
+  //   const context = canvasRef.current.getContext("2d");
+  //   context.fillStyle = "#000";
+  //   context.fillRect(5, 5, 100, 100)
+  // }, []);
 
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
@@ -32,14 +38,32 @@ const Planner = () => {
   return (
     <Row justifyContent={ Styles.JustifyContent.spaceBetween }>
       <ToolsPanel />
-      <Canvas canvasSize={ canvasSize }>
-        { gridIsShowing && <Grid canvasSize={ canvasSize } /> }
+      <Stage canvasSize={ canvasSize }>
+        <Layer>
+          <Grid canvasSize={ canvasSize }/>
+          <ComponentMapping
+            componentData={ rooms }
+            renderComponent={ room => (
+              <Room
+                isDisabled={ room.floor !== activeFloor.id }
+                { ...room }
+                rooms={ rooms }
+              />
+            ) }
+          />
+        </Layer>
+      </Stage>
+      {/* <Canvas canvasSize={ canvasSize }
+        innerRef={ canvasRef }
+      /> */}
+        {/* { gridIsShowing && <Grid canvasSize={ canvasSize } /> }
         <ComponentMapping
           componentData={ rooms }
           renderComponent={ room => (
             <Room
               isDisabled={ room.floor !== activeFloor.id }
               { ...room }
+              rooms={ rooms }
             />
           ) }
         />
@@ -60,8 +84,7 @@ const Planner = () => {
               { ...window }
             />
           ) }
-        />
-      </Canvas>
+        /> */}
       <LayerPanel />
     </Row>
   );

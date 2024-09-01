@@ -9,6 +9,7 @@ interface ComponentPropTypes {
   yPosition: number;
   width: number;
   height: number;
+  onDrag?: ReactTypes.RndTypes.OnDragType;
   onDragStop?: ReactTypes.RndTypes.OnDragStopType;
   onResize?: ReactTypes.RndTypes.OnResizeType;
   onDoubleClick?: ReactTypes.HandlerTypes.OnClickType;
@@ -25,6 +26,7 @@ interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "yPosition"
   | "width"
   | "height"
+  | "onDrag"
   | "onDragStop"
   | "onResize"
   | "onDoubleClick"

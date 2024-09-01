@@ -13,6 +13,7 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   xPosition: number;
   yPosition: number;
   tag: Styles.Colors.blue;
+  rooms: any[];
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,
@@ -22,6 +23,7 @@ interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "isLocked"
   | "xPosition"
   | "yPosition"
+  | "rooms"
 > {};
 
 interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};

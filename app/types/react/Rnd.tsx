@@ -10,6 +10,8 @@ interface SizePropTypes {
   height: number;
 };
 
+type OnDragType = (e: any, delta) => void;
+
 type OnDragStopType = (e: any, delta) => void;
 
 type OnResizeType = (
@@ -36,6 +38,7 @@ interface RndPropTypes {
 export {
   PositionPropTypes,
   SizePropTypes,
+  OnDragType,
   OnDragStopType,
   OnResizeType,
   RndPropTypes

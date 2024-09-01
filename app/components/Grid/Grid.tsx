@@ -1,11 +1,9 @@
 import React from "react";
+import { Line } from "react-konva";
 
 import { useIndexData } from "../../hooks";
 
 import ComponentMapping from "../ComponentMapping";
-import VerticalGridLine from "./VerticalGridLine";
-import Row from "../Row";
-import HorizonGridLine from "./HorizonGridLine";
 
 import { ComponentPropTypes } from "./types";
 
@@ -18,20 +16,28 @@ const Grid: React.FC<ComponentPropTypes> = ({ canvasSize }) => {
   const { indexedData: indexedGridArray } = useIndexData(gridArray, "gridLine");
 
   return (
-    <Row>
+    <>
       <ComponentMapping
         componentData={ indexedGridArray }
         renderComponent={ ({ gridLine }) => (
-          <VerticalGridLine column={ gridLine } />
+          <Line
+            points={[ 0, gridLine * DIVISION_SIZE, 600, gridLine * DIVISION_SIZE ]}
+            strokeWidth={ gridLine % 4 === 0 ? 2 : 1 }
+            stroke="lightgray"
+          />
         ) }
       />
       <ComponentMapping
         componentData={ indexedGridArray }
         renderComponent={ ({ gridLine }) => (
-          <HorizonGridLine row={ gridLine } />
-        )}
+          <Line
+            points={[ gridLine * DIVISION_SIZE, 0, gridLine * DIVISION_SIZE, 600 ]}
+            strokeWidth={ gridLine % 4 === 0 ? 2 : 1 }
+            stroke="lightgray"
+          />
+        ) }
       />
-    </Row>
+    </>
   );
 };
 

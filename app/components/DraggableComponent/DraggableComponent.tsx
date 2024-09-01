@@ -12,24 +12,27 @@ const DraggableComponent: React.FC<ComponentPropTypes> = ({
   yPosition,
   width,
   height,
+  onDrag,
   onDragStop,
   onResize,
   onDoubleClick,
   children
 }) => (
   <StyledDraggableComponent
+    bounds="parent"
     disableDragging={ disableDragging }
     dragGrid={ dragGrid }
     enableResizing={ enableResizing }
     resizeGrid={ resizeGrid }
-    position={{
+    position={ {
       x: xPosition,
       y: yPosition
-    }}
-    size={{
+    } }
+    size={ {
       width,
       height
-    }}
+    } }
+    onDrag={ onDrag }
     onDragStop={ onDragStop }
     onResize={ onResize }
     onDoubleClick={ onDoubleClick }

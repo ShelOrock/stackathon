@@ -8,6 +8,7 @@ import StyledRoom from "./styles";
 import { entityActions } from "../../redux/actions";
 import { AppData, Styles } from "../../enums";
 import FloatingTools from "../FloatingTools";
+import { Rect } from "react-konva";
 
 const Room: React.FC<ComponentPropTypes> = ({
   id,
@@ -21,6 +22,7 @@ const Room: React.FC<ComponentPropTypes> = ({
   xPosition,
   yPosition,
   tag = Styles.Colors.blue,
+  rooms
 }) => {
 
   const GRID_SNAP: number = 25;
@@ -29,6 +31,20 @@ const Room: React.FC<ComponentPropTypes> = ({
 
   const snapCoordinateToGrid = (deltaCoordinate, gridSnap) => {
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
+  };
+
+  const onDrag = (e) => {
+    const abs = e.target.absolutePosition();
+
+    abs.x = snapCoordinateToGrid(abs.x, GRID_SNAP);
+    abs.y = snapCoordinateToGrid(abs.y, GRID_SNAP);
+    e.target.absolutePosition(abs);
+
+    dispatch(entityActions.updateEntity(AppData.Rooms, {
+      id,
+      xPosition: abs.x,
+      yPosition: abs.y
+    }));
   };
 
   const onDragStop = (_e, delta) => {
@@ -64,40 +80,37 @@ const Room: React.FC<ComponentPropTypes> = ({
   const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => dispatch(entityActions.updateEntity(AppData.Rooms, { id, isHighlighted: !isHighlighted }))
 
   return (
-    !isHidden && (
-      <DraggableComponent
-        disableDragging={ isLocked || isDisabled }
-        dragGrid={ [ GRID_SNAP, GRID_SNAP ] }
-        enableResizing={ !isLocked && !isDisabled }
-        resizeGrid={ [ GRID_SNAP, GRID_SNAP ] }
-        xPosition={ xPosition }
-        yPosition={ yPosition }
-        width={ width }
-        height={ height }
-        onDragStop={ onDragStop }
-        onResize={ onResize }
-        onDoubleClick={ onDoubleClick }
-      >
-        { !isDisabled && (
-          <FloatingTools
-            appDataType={ AppData.Rooms }
-            id={ id }
-            label={ label }
-            isHidden={ isHidden }
-            isLocked={ isLocked }
-            tag={ tag }
-          />
-        ) }
-        <StyledRoom 
-          $width={ width }
-          $height={ height }
-          $isDisabled={ isDisabled }
-          $isHighlighted={ isHighlighted }
-          $tag={ tag }
-        />
-      </DraggableComponent>
-    )
-  );
+<>
+    {/* !isDisabled && (
+      <FloatingTools
+        appDataType={ AppData.Rooms }
+        id={ id }
+        label={ label }
+        isHidden={ isHidden }
+        isLocked={ isLocked }
+        tag={ tag }
+      />
+    ) */}
+    <Rect
+      x={ xPosition }
+      y={ yPosition }
+      width={ width }
+      height={ height }
+      fill={ "transparent" }
+      stroke={ tag }
+      strokeWidth={ 2 }
+      draggable
+      onDragMove={ onDrag }
+    />
+    {/* <StyledRoom 
+      $width={ width }
+      $height={ height }
+      $isDisabled={ isDisabled }
+      $isHighlighted={ isHighlighted }
+      $tag={ tag }
+    /> */}
+    </>
+  )
 };
 
 export default Room;

@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 
 import { StyledElementPropTypes } from './types';
+import { Stage } from 'react-konva';
 
-const StyledCanvas = styled.div<StyledElementPropTypes>`
+const StyledStage = styled(Stage)<StyledElementPropTypes>`
   background-color: ${ ({ theme }) => theme.colors.white };
   margin: 8px;
-  width: ${ ({ $canvasSize }) => $canvasSize };
-  height: ${ ({ $canvasSize }) => $canvasSize };
-  position: relative;
 `;
 
-export default StyledCanvas;
+export default StyledStage;

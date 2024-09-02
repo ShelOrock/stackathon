@@ -33,28 +33,58 @@ const Room: React.FC<ComponentPropTypes> = ({
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
   };
 
-  const onDrag = (e) => {
-    const abs = e.target.absolutePosition();
+  const onDrag = e => {
 
-    abs.x = snapCoordinateToGrid(abs.x, GRID_SNAP);
-    abs.y = snapCoordinateToGrid(abs.y, GRID_SNAP);
-    e.target.absolutePosition(abs);
+    const elementPosition = e.target.absolutePosition();
 
-    dispatch(entityActions.updateEntity(AppData.Rooms, {
-      id,
-      xPosition: abs.x,
-      yPosition: abs.y
-    }));
+    rooms.forEach(room => {
+      if(room.id !== id) {
+        if(
+          elementPosition.x + width > room.xPosition &&
+          elementPosition.x < room.xPosition + room.width && 
+          elementPosition.y + height > room.yPosition &&
+          elementPosition.y < room.yPosition + room.height
+        ) {
+          if(elementPosition.x + width > room.xPosition) {
+            elementPosition.x = room.xPosition - width;
+            e.target.absolutePosition(elementPosition);
+          };
+
+          if(elementPosition.x < room.xPosition + room.width) {
+            elementPosition.x = room.xPosition + room.width;
+            e.target.absolutePosition(elementPosition);
+          };
+
+          if(elementPosition.y + height > room.yPosition) {
+            elementPosition.y = room.yPosition - height;
+            e.target.absolutePosition(elementPosition);
+          };
+
+          if(elementPosition.y < room.yPosition + room.height) {
+            elementPosition.y = room.yPosition + room.height;
+            e.target.absolutePosition(elementPosition);
+          };
+
+        };
+      }
+    });
+
+    elementPosition.x = snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
+    elementPosition.y = snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
+    e.target.absolutePosition(elementPosition);
   };
 
-  const onDragStop = (_e, delta) => {
-    const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
-    const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
+  const onDragStop = e => {
+    const elementPosition = e.target.absolutePosition();
+
+    elementPosition.x = snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
+    elementPosition.y = snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
+    e.target.absolutePosition(elementPosition);
 
     dispatch(entityActions.updateEntity(AppData.Rooms, {
       id,
-      xPosition,
-      yPosition
+      xPosition: elementPosition.x,
+      yPosition: elementPosition.y
     }));
   }
 
@@ -101,6 +131,7 @@ const Room: React.FC<ComponentPropTypes> = ({
       strokeWidth={ 2 }
       draggable
       onDragMove={ onDrag }
+      onDragEnd={ onDragStop }
     />
     {/* <StyledRoom 
       $width={ width }

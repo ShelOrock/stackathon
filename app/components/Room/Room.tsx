@@ -33,45 +33,58 @@ const Room: React.FC<ComponentPropTypes> = ({
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
   };
 
+  const detectCollision = (
+    collidingObject,
+    stationaryObject
+  ) => (
+    collidingObject.x + collidingObject.width > stationaryObject.x &&
+    collidingObject.x < stationaryObject.x + stationaryObject.width && 
+    collidingObject.y + collidingObject.height > stationaryObject.y &&
+    collidingObject.y < stationaryObject.y + stationaryObject.height
+  );
+
   const onDrag = e => {
 
     const elementPosition = e.target.absolutePosition();
+    const collidingObject = {
+      x: elementPosition.x,
+      y: elementPosition.y,
+      width,
+      height
+    };
+
+    if(elementPosition.x < 0 || elementPosition.x > 600 - width || elementPosition.y < 0 || elementPosition.y > 600 - height) {
+      elementPosition.x = xPosition;
+      elementPosition.y = yPosition;
+      e.target.absolutePosition(elementPosition);
+    }
 
     rooms.forEach(room => {
       if(room.id !== id) {
-        if(
-          elementPosition.x + width > room.xPosition &&
-          elementPosition.x < room.xPosition + room.width && 
-          elementPosition.y + height > room.yPosition &&
-          elementPosition.y < room.yPosition + room.height
-        ) {
-          if(elementPosition.x + width > room.xPosition) {
-            elementPosition.x = room.xPosition - width;
-            e.target.absolutePosition(elementPosition);
-          };
 
-          if(elementPosition.x < room.xPosition + room.width) {
-            elementPosition.x = room.xPosition + room.width;
-            e.target.absolutePosition(elementPosition);
-          };
-
-          if(elementPosition.y + height > room.yPosition) {
-            elementPosition.y = room.yPosition - height;
-            e.target.absolutePosition(elementPosition);
-          };
-
-          if(elementPosition.y < room.yPosition + room.height) {
-            elementPosition.y = room.yPosition + room.height;
-            e.target.absolutePosition(elementPosition);
-          };
-
+        const stationaryObject = {
+          x: room.xPosition,
+          y: room.yPosition,
+          width: room.width,
+          height: room.height
         };
-      }
-    });
 
+        if(detectCollision(collidingObject, stationaryObject)) {
+          elementPosition.x = xPosition;
+          elementPosition.y = yPosition;
+          e.target.absolutePosition(elementPosition);
+        };
+      };
+    });
+    
     elementPosition.x = snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
     elementPosition.y = snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
     e.target.absolutePosition(elementPosition);
+    dispatch(entityActions.updateEntity(AppData.Rooms, {
+      id,
+      xPosition: elementPosition.x,
+      yPosition: elementPosition.y
+    }));
   };
 
   const onDragStop = e => {
@@ -127,7 +140,7 @@ const Room: React.FC<ComponentPropTypes> = ({
       width={ width }
       height={ height }
       fill={ "transparent" }
-      stroke={ tag }
+      stroke={ isHighlighted ? tag : "black" }
       strokeWidth={ 2 }
       draggable
       onDragMove={ onDrag }

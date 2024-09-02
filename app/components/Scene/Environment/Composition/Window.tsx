@@ -1,10 +1,9 @@
 import React, { useRef } from "react";
 import * as THREE from "three";
 
-import { EntityTypes } from "../../../../types";
 import { Directions } from "../../../../enums";
 
-const Window = (window: EntityTypes.WindowTypes.WindowMeshType) => {
+const Window = (window) => {
 
   const mesh = useRef<THREE.Mesh>(null!);
   const SCALE_FACTOR: number = 10;
@@ -14,7 +13,7 @@ const Window = (window: EntityTypes.WindowTypes.WindowMeshType) => {
   const WINDOW_THICKNESS: number = 2.5;
   const DEFAULT_DIMENSION: number = 0;
 
-  const translateXCoordinatesTo3D = (window: EntityTypes.WindowTypes.WindowMeshType): number => {
+  const translateXCoordinatesTo3D = (window): number => {
     if(window.orientation == Directions.NORTH_SOUTH) {
       return ((window.xPosition - window.width / TRANSLATION_FACTOR) + window.width / TRANSLATION_FACTOR) / SCALE_FACTOR;
     };
@@ -23,7 +22,7 @@ const Window = (window: EntityTypes.WindowTypes.WindowMeshType) => {
     };
   };
 
-  const translateYCoordinatesTo3D = (window: EntityTypes.WindowTypes.WindowMeshType): number => {
+  const translateYCoordinatesTo3D = (window): number => {
     if(window.orientation == Directions.NORTH_SOUTH) {
       return ((window.yPosition + window.width / TRANSLATION_FACTOR) + window.height / TRANSLATION_FACTOR) / SCALE_FACTOR;
     };
@@ -32,7 +31,7 @@ const Window = (window: EntityTypes.WindowTypes.WindowMeshType) => {
     };
   };
 
-  const evaluateRotation = (window: EntityTypes.WindowTypes.WindowMeshType): [number, number, number] => {
+  const evaluateRotation = (window): [number, number, number] => {
     switch(window.orientation) {
       case Directions.NORTH_SOUTH:
         return [ROTATION_0_DEGREES, ROTATION_90_DEGREES, ROTATION_0_DEGREES];
@@ -45,7 +44,7 @@ const Window = (window: EntityTypes.WindowTypes.WindowMeshType) => {
     };
   };
 
-  const evaluateWindowDimensions = (window: EntityTypes.WindowTypes.WindowMeshType): [number, number, number] => {
+  const evaluateWindowDimensions = (window): [number, number, number] => {
     switch(window.orientation) {
       case Directions.NORTH_SOUTH:
         return [

@@ -3,7 +3,8 @@ enum Colors {
   green = "green",
   red = "red",
   yellow = "yellow",
-  purple = "purple"
+  purple = "purple",
+  gray = "gray"
 };
 
 export default Colors;

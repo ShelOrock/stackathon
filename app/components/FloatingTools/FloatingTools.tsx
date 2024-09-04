@@ -18,7 +18,9 @@ const FloatingTools: React.FC<ComponentPropTypes> = ({
   label,
   isLocked,
   isHidden,
-  tag = Styles.Colors.blue
+  tag = Styles.Colors.blue,
+  xPosition,
+  yPosition
 }) => {
 
   const dispatch = useAppDispatch();
@@ -44,7 +46,7 @@ const FloatingTools: React.FC<ComponentPropTypes> = ({
 
   return (
     elementActionsIsShowing && (
-      <StyledFloatingTools>
+      <StyledFloatingTools $xPosition={ xPosition } $yPosition={ yPosition }>
         <Column>
           <Row
             alignItems={ Styles.AlignItems.center }

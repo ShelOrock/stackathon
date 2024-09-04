@@ -17,14 +17,6 @@ import ToolsPanel from "../components/ToolsPanel";
 
 const Planner = () => {
 
-  // const canvasRef = useRef(null);
-
-  // useEffect(() => {
-  //   const context = canvasRef.current.getContext("2d");
-  //   context.fillStyle = "#000";
-  //   context.fillRect(5, 5, 100, 100)
-  // }, []);
-
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
 
@@ -32,6 +24,9 @@ const Planner = () => {
     attributes: [ "id" ]
   }));
   const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms));
+  const activeFloorRooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms, {
+    filters: { floor: activeFloor.id }
+  }));
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
 
@@ -47,7 +42,16 @@ const Planner = () => {
               <Room
                 isDisabled={ room.floor !== activeFloor.id }
                 { ...room }
-                rooms={ rooms }
+                rooms={ activeFloorRooms }
+              />
+            ) }
+          />
+          <ComponentMapping
+            componentData={ doors }
+            renderComponent={ door => (
+              <Door
+                isDisabled={ door.floor !== activeFloor.id }
+                { ...door }
               />
             ) }
           />

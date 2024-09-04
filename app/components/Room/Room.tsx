@@ -1,14 +1,14 @@
-import React from "react";
-import { useAppDispatch } from "../../hooks";
+import React, { useEffect, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
-import { ReactTypes } from "../../types"
-import DraggableComponent from "../DraggableComponent";
+import { ReactTypes, StylesTypes } from "../../types"
 import { ComponentPropTypes } from "./types";
-import StyledRoom from "./styles";
 import { entityActions } from "../../redux/actions";
 import { AppData, Styles } from "../../enums";
 import FloatingTools from "../FloatingTools";
-import { Rect } from "react-konva";
+import { Group, Rect, Transformer } from "react-konva";
+import { Html } from "react-konva-utils";
+import theme from "../../theme";
 
 const Room: React.FC<ComponentPropTypes> = ({
   id,
@@ -24,10 +24,22 @@ const Room: React.FC<ComponentPropTypes> = ({
   tag = Styles.Colors.blue,
   rooms
 }) => {
-
   const GRID_SNAP: number = 25;
+  const CANVAS_MINIMUM_SIZE = 0;
+
+  const currentRoom = useRef(null);
+  const transformers = useRef(null);
+
+  useEffect(() => {
+    if(!currentRoom) {
+      transformers.current.nodes([currentRoom.current]);
+      transformers.current.getLayer().batchDraw();
+    }
+  }, [currentRoom]);
 
   const dispatch = useAppDispatch();
+
+  const canvasSize = useAppSelector(state => state.canvasSize);
 
   const snapCoordinateToGrid = (deltaCoordinate, gridSnap) => {
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
@@ -43,7 +55,14 @@ const Room: React.FC<ComponentPropTypes> = ({
     collidingObject.y < stationaryObject.y + stationaryObject.height
   );
 
-  const onDrag = e => {
+  const detectCanvasBoundaries = (collidingObject) => (
+    collidingObject.x < CANVAS_MINIMUM_SIZE ||
+    collidingObject.x > canvasSize - width ||
+    collidingObject.y < CANVAS_MINIMUM_SIZE ||
+    collidingObject.y > canvasSize - height
+  );
+
+  const onDragMove = e => {
 
     const elementPosition = e.target.absolutePosition();
     const collidingObject = {
@@ -53,7 +72,7 @@ const Room: React.FC<ComponentPropTypes> = ({
       height
     };
 
-    if(elementPosition.x < 0 || elementPosition.x > 600 - width || elementPosition.y < 0 || elementPosition.y > 600 - height) {
+    if(detectCanvasBoundaries(collidingObject)) {
       elementPosition.x = xPosition;
       elementPosition.y = yPosition;
       e.target.absolutePosition(elementPosition);
@@ -99,61 +118,78 @@ const Room: React.FC<ComponentPropTypes> = ({
       xPosition: elementPosition.x,
       yPosition: elementPosition.y
     }));
-  }
+  };
 
-  const onResize: ReactTypes.RndTypes.OnResizeType = (
-    _e,
-    _direction,
-    ref,
-    _delta,
-    position
-  ) => {
-    const width = snapCoordinateToGrid(parseInt(ref.style.width), GRID_SNAP);
-    const height = snapCoordinateToGrid(parseInt(ref.style.height), GRID_SNAP);
+  const onTransform = () => {
+    const node = currentRoom.current;
+    const scaleX = node.scaleX();
+    const scaleY = node.scaleY();
 
     dispatch(entityActions.updateEntity(AppData.Rooms, {
       id,
-      width,
-      height,
-      xPosition: position.x,
-      yPosition: position.y
+      xPosition: snapCoordinateToGrid(node.x(), GRID_SNAP),
+      yPosition: snapCoordinateToGrid(node.y(), GRID_SNAP),
+      width: snapCoordinateToGrid(node.width() * scaleX, GRID_SNAP),
+      height: snapCoordinateToGrid(node.height() * scaleY, GRID_SNAP)
     }));
   };
 
-  const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => dispatch(entityActions.updateEntity(AppData.Rooms, { id, isHighlighted: !isHighlighted }))
-
   return (
-<>
-    {/* !isDisabled && (
-      <FloatingTools
-        appDataType={ AppData.Rooms }
-        id={ id }
-        label={ label }
-        isHidden={ isHidden }
-        isLocked={ isLocked }
-        tag={ tag }
+    <Group>
+    { !isDisabled && (
+      <Html>
+        <FloatingTools
+          appDataType={ AppData.Rooms }
+          id={ id }
+          label={ label }
+          isHidden={ isHidden }
+          isLocked={ isLocked }
+          tag={ tag }
+          xPosition={ xPosition }
+          yPosition={ yPosition }
+        />
+      </Html>
+    ) }
+      <Rect
+        x={ xPosition }
+        y={ yPosition }
+        width={ width }
+        height={ height }
+        ref={ currentRoom }
+        fill={ "transparent" }
+        stroke={ isDisabled ? theme.colors.disabled : isHighlighted ? theme.colors[tag].default : theme.colors.black }
+        strokeWidth={ 5 }
+        draggable
+        onDragMove={ onDragMove }
+        onDragEnd={ onDragStop }
+        onTransform={ onTransform }
+        
       />
-    ) */}
-    <Rect
-      x={ xPosition }
-      y={ yPosition }
-      width={ width }
-      height={ height }
-      fill={ "transparent" }
-      stroke={ isHighlighted ? tag : "black" }
-      strokeWidth={ 2 }
-      draggable
-      onDragMove={ onDrag }
-      onDragEnd={ onDragStop }
-    />
-    {/* <StyledRoom 
-      $width={ width }
-      $height={ height }
-      $isDisabled={ isDisabled }
-      $isHighlighted={ isHighlighted }
-      $tag={ tag }
-    /> */}
-    </>
+      { !isDisabled && (<Transformer
+        ref={ transformers }
+        boundBoxFunc={ (oldBox, newBox) => {
+
+          if(oldBox.width <= GRID_SNAP || oldBox.height <= GRID_SNAP) {
+            return oldBox;
+          };
+
+          const newX = snapCoordinateToGrid(newBox.x, GRID_SNAP);
+          const newY = snapCoordinateToGrid(newBox.y, GRID_SNAP);
+
+          const dx = newX - snapCoordinateToGrid(newBox.x,GRID_SNAP);
+          const dy = newY - snapCoordinateToGrid(newBox.y, GRID_SNAP);
+
+          newBox.x = newX;
+          newBox.y = newY;
+        
+          newBox.width = snapCoordinateToGrid(newBox.width - dx, GRID_SNAP);
+          newBox.height = snapCoordinateToGrid(newBox.height - dy, GRID_SNAP);
+
+          return newBox;
+        } }
+        rotateEnabled={ false }
+      />) }
+    </Group>
   )
 };
 

@@ -8,6 +8,8 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   isHidden: boolean;
   isLocked: boolean;
   tag?: Styles.Colors;
+  xPosition: number;
+  yPosition: number;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,

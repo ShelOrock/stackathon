@@ -26,7 +26,7 @@ const DEFAULT_ROOM_Z_AXIS = 2;
 
 enum DefaultDoorDimensions {
   width = 25,
-  height = 12
+  height = 6
 };
 
 enum DefaultWindowDimensions {

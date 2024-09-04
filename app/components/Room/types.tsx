@@ -16,19 +16,6 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   rooms: any[];
 };
 
-interface StylingPropTypes extends Omit<ComponentPropTypes,
-  | "id"
-  | "label"
-  | "isHidden"
-  | "isLocked"
-  | "xPosition"
-  | "yPosition"
-  | "rooms"
-> {};
-
-interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};
-
 export {
   ComponentPropTypes,
-  StyledElementPropTypes
 };

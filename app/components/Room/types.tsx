@@ -4,10 +4,10 @@ import { StylesTypes } from "../../types";
 interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
   id: number;
   label: string;
-  isDisabled: boolean;
-  isHidden: boolean;
-  isHighlighted: boolean;
-  isLocked: boolean;
+  isDisabled?: boolean;
+  isHidden?: boolean;
+  isHighlighted?: boolean;
+  isLocked?: boolean;
   height: number;
   width: number;
   xPosition: number;

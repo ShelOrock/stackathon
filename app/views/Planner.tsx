@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { Layer, Line, Rect, Text } from "react-konva";
+import React, { useEffect, useRef, useState } from "react";
+import { Group, Layer, Line, Rect, Text } from "react-konva";
 
 import Stage from "../components/Canvas";
 import LayerPanel from "../components/LayerPanel";
@@ -17,6 +17,8 @@ import ToolsPanel from "../components/ToolsPanel";
 
 const Planner = () => {
 
+  const [ mouse, setMouse ] = useState({ x: 0, y: 0 });
+
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
 
@@ -30,12 +32,39 @@ const Planner = () => {
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
 
+  const ref = useRef(null);
+
+  const onMouseMove = e => {
+    if(e.target.getPointerPosition()) { 
+      setMouse({
+        x: Math.round(e.target.getPointerPosition().x / 25) * 25,
+        y: Math.round(e.target.getPointerPosition().y / 25) * 25
+      });
+    };
+  };
+
   return (
     <Row justifyContent={ Styles.JustifyContent.spaceBetween }>
       <ToolsPanel />
-      <Stage canvasSize={ canvasSize }>
+      <Stage
+        canvasSize={ canvasSize }
+        innerRef={ ref }
+        onMouseMove={ onMouseMove }
+      >
         <Layer>
           <Grid canvasSize={ canvasSize }/>
+          <Group>
+          <Room
+            id={ 1 }
+            label="test"
+            width={ 100 }
+            height={ 100 }
+            xPosition={ mouse.x }
+            yPosition={ mouse.y }
+            tag={ Styles.Colors.blue }
+            rooms={ [] }
+          />
+          </Group>
           <ComponentMapping
             componentData={ rooms }
             renderComponent={ room => (

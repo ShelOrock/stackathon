@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
-import { ReactTypes, StylesTypes } from "../../types"
 import { ComponentPropTypes } from "./types";
 import { entityActions } from "../../redux/actions";
 import { AppData, Styles } from "../../enums";
@@ -13,16 +12,16 @@ import theme from "../../theme";
 const Room: React.FC<ComponentPropTypes> = ({
   id,
   label,
-  isDisabled,
-  isHidden,
-  isHighlighted,
-  isLocked,
+  isDisabled = false, 
+  isHidden = false,
+  isHighlighted = false,
+  isLocked = false,
   height,
   width,
   xPosition,
   yPosition,
   tag = Styles.Colors.blue,
-  rooms
+  rooms,
 }) => {
   const GRID_SNAP: number = 25;
   const CANVAS_MINIMUM_SIZE = 0;
@@ -163,7 +162,6 @@ const Room: React.FC<ComponentPropTypes> = ({
         onDragMove={ onDragMove }
         onDragEnd={ onDragStop }
         onTransform={ onTransform }
-        
       />
       { !isDisabled && (<Transformer
         ref={ transformers }

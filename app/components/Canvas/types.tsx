@@ -1,13 +1,22 @@
+import React from "react";
 import { StylesTypes } from "../../types";
+import { Stage } from "konva/lib/Stage";
 
 interface ComponentPropTypes extends
   StylesTypes.MarginPropTypes,
   StylesTypes.PaddingPropTypes {
   canvasSize: number;
+  innerRef: React.Ref<Stage>;
+  onMouseMove: (e: React.MouseEvent<Stage>) => void;
   children: React.ReactNode;
 };
 
-interface StylingPropTypes extends Omit<ComponentPropTypes, "canvasSize" | "children"> {};
+interface StylingPropTypes extends Omit<ComponentPropTypes,
+  | "canvasSize"
+  | "innerRef"
+  | "onMouseMove"
+  | "children"
+> {};
 
 interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};
 

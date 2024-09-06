@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { functions } from '../../utilities';
 import { AppDataSelectors } from '../../redux/selectors';
 import { AppData, CanvasSizes, Directions, UIData, Styles, DefaultLabels } from '../../enums';
-import { entityActions } from '../../redux/actions';
+import { entityActions, selectedEntityActions } from '../../redux/actions';
 import { setCanvasSize } from '../../redux/canvasSize/actions';
 import Row from '../Row';
 import { toggleElementsActions } from '../../redux/actions';
@@ -79,6 +79,7 @@ const ToolsPanel = () => {
 
   const dispatch = useAppDispatch();
 
+
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
   const elementActionsIsShowing = useAppSelector(state => state.toggleElements.elementActions.isShowing);
   const elementLabelsIsShowing = useAppSelector(state => state.toggleElements.elementLabels.isShowing);
@@ -102,6 +103,10 @@ const ToolsPanel = () => {
   const activeFloor = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
     attributes: [ "id" ]
   }));
+
+  const handleSetEntityPreview = (appDataType) => {
+    dispatch(selectedEntityActions.setSelectedEntity(appDataType));
+  };
 
   const handleCreateEntity = (appDataType, {
     entities,
@@ -178,20 +183,12 @@ const ToolsPanel = () => {
           $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >+ Add Floor</Button>
         <Button
-          onClick={ () => handleCreateEntity(AppData.Rooms, {
-            entities: rooms,
-            defaultEntity: DEFAULT_ROOM,
-            defaultLabel: DefaultLabels.UntitledRoom,
-          }) }
+          onClick={ () => handleSetEntityPreview(AppData.Rooms) }
           $mt={ Styles.Spacings.xs }
           $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >+ Create a new room</Button>
         <Button
-          onClick={ () => handleCreateEntity(AppData.Doors, {
-            entities: doors,
-            defaultEntity: DEFAULT_DOOR,
-            defaultLabel: DefaultLabels.UntitledDoor,
-          }) }
+          onClick={ () => handleSetEntityPreview(AppData.Doors) }
           $mt={ Styles.Spacings.xs }
           $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >+ Create new door</Button>

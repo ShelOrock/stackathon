@@ -10,22 +10,63 @@ import Room from "../components/Room";
 import Window from "../components/Window";
 import Door from "../components/Door";
 
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { AppData, Styles } from "../enums";
 import { AppDataSelectors } from "../redux/selectors";
 import ToolsPanel from "../components/ToolsPanel";
+import { entityActions, selectedEntityActions } from "../redux/actions";
+import * as utilities from "../utilities";
+import RoomPreview from "../components/RoomPreview.tsx/RoomPreview";
+import { Html } from "react-konva-utils";
 
 const Planner = () => {
 
+  const createDefaultEntity = (entity, {
+    id,
+    floorId,
+    xPosition,
+    yPosition,
+  }) => {
+    switch(entity) {
+      case AppData.Rooms:
+        return {
+          id,
+          label: `Untitled Room ${ id }`,
+          floor: floorId,
+          width: 100,
+          height: 100,
+          zAxis: 2,
+          xPosition,
+          yPosition,
+          isHighlighted: false,
+          isLocked: false,
+          isHidden: false,
+          tag: Styles.Colors.blue,
+        };
+      
+      default:
+        console.log("HIT")
+    };
+  };
+
+  const CANVAS_MINIMUM_SIZE = 0;
+  const MOUSE_OFFSET = 50;
+  const GRID_SNAP = 25;
+
+  const dispatch = useAppDispatch();
+
   const [ mouse, setMouse ] = useState({ x: 0, y: 0 });
+  const [ lastMouse, setLastMouse ] = useState({ x: 0, y: 0 });
 
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
+  const selectedEntity = useAppSelector(state => state.selectedEntity);
 
   const activeFloor = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
     attributes: [ "id" ]
   }));
   const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms));
+
   const activeFloorRooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms, {
     filters: { floor: activeFloor.id }
   }));
@@ -34,12 +75,49 @@ const Planner = () => {
 
   const ref = useRef(null);
 
-  const onMouseMove = e => {
-    if(e.target.getPointerPosition()) { 
-      setMouse({
-        x: Math.round(e.target.getPointerPosition().x / 25) * 25,
-        y: Math.round(e.target.getPointerPosition().y / 25) * 25
-      });
+  const detectCollision = (
+    collidingObject,
+    stationaryObject
+  ) => (
+    collidingObject.x + collidingObject.width > stationaryObject.x &&
+    collidingObject.x < stationaryObject.x + stationaryObject.width && 
+    collidingObject.y + collidingObject.height > stationaryObject.y &&
+    collidingObject.y < stationaryObject.y + stationaryObject.height
+  );
+
+  const detectCanvasBoundaries = (collidingObject) => (
+    collidingObject.x < CANVAS_MINIMUM_SIZE ||
+    collidingObject.x > canvasSize - 100 ||
+    collidingObject.y < CANVAS_MINIMUM_SIZE ||
+    collidingObject.y > canvasSize - 100
+  );
+
+  const handleOnMouseMove = e => {
+    const stage = e.target.getStage();
+    const mousePositionX = Math.round(stage.getPointerPosition().x / GRID_SNAP) * GRID_SNAP;
+    const mousePositionY = Math.round(stage.getPointerPosition().y / GRID_SNAP) * GRID_SNAP;
+
+    setMouse({
+      x: mousePositionX,
+      y: mousePositionY
+    });
+  };
+
+  const handleOnClick = e => {
+    const id = utilities.functions.findMissingId(rooms);
+
+    if(selectedEntity) {
+      dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(AppData.Rooms, {
+        id,
+        floorId: activeFloor.id,
+        xPosition: mouse.x - MOUSE_OFFSET,
+        yPosition: mouse.y - MOUSE_OFFSET
+      })));
+
+      if(!e.evt.shiftKey) {
+        dispatch(selectedEntityActions.resetSelectEntity());
+      };
+
     };
   };
 
@@ -49,22 +127,19 @@ const Planner = () => {
       <Stage
         canvasSize={ canvasSize }
         innerRef={ ref }
-        onMouseMove={ onMouseMove }
+        onMouseMove={ handleOnMouseMove }
+        onClick={ handleOnClick }
       >
         <Layer>
           <Grid canvasSize={ canvasSize }/>
-          <Group>
-          <Room
-            id={ 1 }
-            label="test"
-            width={ 100 }
-            height={ 100 }
-            xPosition={ mouse.x }
-            yPosition={ mouse.y }
-            tag={ Styles.Colors.blue }
-            rooms={ [] }
-          />
-          </Group>
+          {
+            selectedEntity === AppData.Rooms ? (
+              <RoomPreview
+                xPosition={ mouse.x }
+                yPosition={ mouse.y }
+              />
+            ) : selectedEntity === AppData.Doors ? <Html><div style={{ backgroundColor: "blue", width: "100px", height: "100px"}}></div></Html> : null
+          }
           <ComponentMapping
             componentData={ rooms }
             renderComponent={ room => (

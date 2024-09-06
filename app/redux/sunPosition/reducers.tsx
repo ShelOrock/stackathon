@@ -1,6 +1,6 @@
 import SunPositionActionTypes from "./constants";
 
-import { ReduxTypes} from "../../types";
+import { ReduxTypes } from "../../types";
 
 const initialState: ReduxTypes.ReducerTypes.StateType<string> = "0";
 

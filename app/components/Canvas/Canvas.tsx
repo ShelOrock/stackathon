@@ -8,6 +8,7 @@ const Stage: React.FC<ComponentPropTypes> = ({
   canvasSize,
   innerRef,
   onMouseMove,
+  onClick,
   children
 }) => (
   <StyledStage
@@ -15,6 +16,7 @@ const Stage: React.FC<ComponentPropTypes> = ({
     width={ canvasSize }
     height={ canvasSize }
     onMouseMove={ onMouseMove }
+    onClick={ onClick }
   >{ children }</StyledStage>
 );
 

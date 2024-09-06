@@ -8,6 +8,7 @@ interface ComponentPropTypes extends
   canvasSize: number;
   innerRef: React.Ref<Stage>;
   onMouseMove: (e: React.MouseEvent<Stage>) => void;
+  onClick: (e: React.MouseEvent<Stage>) => void;
   children: React.ReactNode;
 };
 
@@ -15,6 +16,7 @@ interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "canvasSize"
   | "innerRef"
   | "onMouseMove"
+  | "onClick"
   | "children"
 > {};
 

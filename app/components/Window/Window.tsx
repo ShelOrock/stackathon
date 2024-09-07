@@ -82,7 +82,7 @@ const Window: React.FC<ComponentPropTypes> = ({
         onDoubleClick={ onDoubleClick }
         disableDragging={ isLocked || isDisabled }
       >
-        { !isDisabled && (
+        {/* { !isDisabled && (
           <FloatingTools
             appDataType={ AppData.Windows }
             id={ id }
@@ -91,7 +91,7 @@ const Window: React.FC<ComponentPropTypes> = ({
             isLocked={ isLocked }
             tag={ tag }
           />
-        ) }
+        ) } */}
         <StyledWindow 
           $width={ width }
           $height={ height }

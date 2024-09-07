@@ -18,6 +18,7 @@ import { entityActions, selectedEntityActions } from "../redux/actions";
 import * as utilities from "../utilities";
 import RoomPreview from "../components/RoomPreview.tsx/RoomPreview";
 import { Html } from "react-konva-utils";
+import DoorPreview from "../components/DoorPreview";
 
 const Planner = () => {
 
@@ -43,6 +44,21 @@ const Planner = () => {
           isHidden: false,
           tag: Styles.Colors.blue,
         };
+
+      case AppData.Doors:
+        return {
+          id,
+          label: `Untitled Door ${ id }`,
+          floor: floorId,
+          width: 25,
+          height: 6,
+          xPosition,
+          yPosition,
+          isHighlighted: false,
+          isLocked: false,
+          isHidden: false,
+          tag: Styles.Colors.blue
+        }
       
       default:
         console.log("HIT")
@@ -104,20 +120,33 @@ const Planner = () => {
   };
 
   const handleOnClick = e => {
-    const id = utilities.functions.findMissingId(rooms);
+    let id;
 
-    if(selectedEntity) {
-      dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(AppData.Rooms, {
-        id,
-        floorId: activeFloor.id,
-        xPosition: mouse.x - MOUSE_OFFSET,
-        yPosition: mouse.y - MOUSE_OFFSET
-      })));
+    switch(selectedEntity) {
+      case AppData.Rooms:
+        id = utilities.functions.findMissingId(rooms);
 
-      if(!e.evt.shiftKey) {
-        dispatch(selectedEntityActions.resetSelectEntity());
-      };
+        dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(selectedEntity, {
+          id,
+          floorId: activeFloor.id,
+          xPosition: mouse.x - MOUSE_OFFSET,
+          yPosition: mouse.y - MOUSE_OFFSET
+        })));
+      case AppData.Doors:
+        id = utilities.functions.findMissingId(doors);
+        
+        dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(selectedEntity, {
+          id,
+          floorId: activeFloor.id,
+          xPosition: mouse.x,
+          yPosition: mouse.y
+        })));
+      default:
+        id = 1;
+    };
 
+    if(!e.evt.shiftKey) {
+      dispatch(selectedEntityActions.resetSelectEntity());
     };
   };
 
@@ -138,7 +167,12 @@ const Planner = () => {
                 xPosition={ mouse.x }
                 yPosition={ mouse.y }
               />
-            ) : selectedEntity === AppData.Doors ? <Html><div style={{ backgroundColor: "blue", width: "100px", height: "100px"}}></div></Html> : null
+            ) : selectedEntity === AppData.Doors ? (
+              <DoorPreview
+                xPosition={ mouse.x }
+                yPosition={ mouse.y }
+              />
+            ) : null
           }
           <ComponentMapping
             componentData={ rooms }

@@ -26,6 +26,7 @@ const Door: React.FC<ComponentPropTypes> = ({
   yPosition,
   tag,
 }) => {
+
   const GRID_SNAP: number = 25;
   const CANVAS_MINIMUM_SIZE = 0;
 
@@ -109,8 +110,8 @@ const Door: React.FC<ComponentPropTypes> = ({
           /> 
         ) } */}
         <Rect
-          xPosition={ xPosition }
-          yPosition={ yPosition }
+          x={ xPosition }
+          y={ yPosition }
           width={ width }
           height={ height }
           fill="black"

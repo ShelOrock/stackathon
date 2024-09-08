@@ -1,6 +1,5 @@
 import React from "react";
 import { Rect } from "react-konva";
-import { Styles } from "../../enums";
 
 const RoomPreview = ({
   xPosition,
@@ -17,7 +16,10 @@ const RoomPreview = ({
       y={ yPosition - MOUSE_OFFSET }
       width={ ROOM_PREVIEW_WIDTH }
       height={ ROOM_PREVIEW_HEIGHT }
-      fill={ Styles.Colors.green }
+      fill={ "#8AC926" }
+      stroke={ "#000" }
+      strokeWidth={ 5 }
+      dash={ [ 10, 5 ] }
     />
   );
 };

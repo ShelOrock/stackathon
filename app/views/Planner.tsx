@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Group, Layer, Line, Rect, Text } from "react-konva";
+import { Layer } from "react-konva";
 
 import Stage from "../components/Canvas";
 import LayerPanel from "../components/LayerPanel";
@@ -17,7 +17,6 @@ import ToolsPanel from "../components/ToolsPanel";
 import { entityActions, selectedEntityActions } from "../redux/actions";
 import * as utilities from "../utilities";
 import RoomPreview from "../components/RoomPreview.tsx/RoomPreview";
-import { Html } from "react-konva-utils";
 import DoorPreview from "../components/DoorPreview";
 
 const Planner = () => {
@@ -73,6 +72,7 @@ const Planner = () => {
 
   const [ mouse, setMouse ] = useState({ x: 0, y: 0 });
   const [ lastMouse, setLastMouse ] = useState({ x: 0, y: 0 });
+  const [ isColliding, setIsColliding ] = useState(false);
 
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
@@ -113,11 +113,74 @@ const Planner = () => {
     const mousePositionX = Math.round(stage.getPointerPosition().x / GRID_SNAP) * GRID_SNAP;
     const mousePositionY = Math.round(stage.getPointerPosition().y / GRID_SNAP) * GRID_SNAP;
 
-    setMouse({
-      x: mousePositionX,
-      y: mousePositionY
+    const collidingObject = {
+      x: mousePositionX - MOUSE_OFFSET,
+      y: mousePositionY - MOUSE_OFFSET,
+      width: 100,
+      height: 100
+    }
+
+    if(detectCanvasBoundaries(collidingObject)) {
+
+      setIsColliding(true);
+
+    } else {
+      setLastMouse({
+        x: mouse.x,
+        y: mouse.y
+      });
+
+      setMouse({
+        x: mousePositionX,
+        y: mousePositionY
+      });
+    };
+
+    activeFloorRooms.forEach(room => {
+      const stationaryObject = {
+        x: room.xPosition,
+        y: room.yPosition,
+        width: room.width,
+        height: room.height
+      };
+
+      if(detectCollision(collidingObject, stationaryObject)) {
+        setIsColliding(true);
+
+      } else {
+        setLastMouse({
+          x: mouse.x,
+          y: mouse.y
+        });
+  
+        setMouse({
+          x: mousePositionX,
+          y: mousePositionY
+        });
+      };
     });
   };
+
+  useEffect(() => {
+    if(isColliding) {
+      setMouse({
+        x: lastMouse.x,
+        y: lastMouse.y
+      });
+      setIsColliding(false);
+      // setLastMouse({
+      //   x: mouse.x,
+      //   y: mouse.y
+      // });
+
+      // setMouse({
+      //   x: mousePositionX,
+      //   y: mousePositionY
+      // });
+    } else {
+
+    }
+  }, [isColliding])
 
   const handleOnClick = e => {
     let id;
@@ -125,13 +188,22 @@ const Planner = () => {
     switch(selectedEntity) {
       case AppData.Rooms:
         id = utilities.functions.findMissingId(rooms);
-
-        dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(selectedEntity, {
+        
+        const entity = createDefaultEntity(selectedEntity, {
           id,
           floorId: activeFloor.id,
           xPosition: mouse.x - MOUSE_OFFSET,
           yPosition: mouse.y - MOUSE_OFFSET
-        })));
+        });
+
+        dispatch(entityActions.addEntity(selectedEntity, entity));
+
+        if(!e.evt.shiftKey) {
+          dispatch(selectedEntityActions.resetSelectEntity());
+        };
+
+        return;
+
       case AppData.Doors:
         id = utilities.functions.findMissingId(doors);
         
@@ -141,12 +213,15 @@ const Planner = () => {
           xPosition: mouse.x,
           yPosition: mouse.y
         })));
-      default:
-        id = 1;
-    };
 
-    if(!e.evt.shiftKey) {
-      dispatch(selectedEntityActions.resetSelectEntity());
+        if(!e.evt.shiftKey) {
+          dispatch(selectedEntityActions.resetSelectEntity());
+        };
+
+        return;
+
+      default:
+        return;
     };
   };
 

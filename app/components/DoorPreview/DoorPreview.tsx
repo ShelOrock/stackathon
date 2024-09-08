@@ -17,8 +17,8 @@ const DoorPreview: React.FC<ComponentPropTypes> = ({
       y={ yPosition }
       width={ DOOR_PREVIEW_WIDTH }
       height={ DOOR_PREVIEW_HEIGHT }
-      fill={ Styles.Colors.green }
-      stroke={ Styles.Colors.green }
+      fill={ "#8AC926" }
+      stroke={ "#000" }
       strokeWidth={ 3 }
     />
   )

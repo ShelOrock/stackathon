@@ -4,6 +4,7 @@ import { StylesTypes } from "../../types";
 interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
   id: number;
   label: string;
+  isActive?: boolean;
   isDisabled?: boolean;
   isHidden?: boolean;
   isHighlighted?: boolean;

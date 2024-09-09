@@ -60,12 +60,16 @@ const Planner = () => {
         }
       
       default:
-        console.log("HIT")
     };
   };
 
   const CANVAS_MINIMUM_SIZE = 0;
-  const MOUSE_OFFSET = 50;
+  const DEFAULT_ROOM_DIMENSION = 100;
+  const ROOM_OFFSET = 50;
+  const DEFAULT_DOOR_X_DIMENSION = 25;
+  const DEFAULT_DOOR_Y_DIMENSION = 6;
+  const DOOR_X_OFFSET = 12;
+  const DOOR_Y_OFFSET = 3;
   const GRID_SNAP = 25;
 
   const dispatch = useAppDispatch();
@@ -82,9 +86,11 @@ const Planner = () => {
     attributes: [ "id" ]
   }));
   const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms));
-
   const activeFloorRooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms, {
     filters: { floor: activeFloor.id }
+  }));
+  const activeRoom = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Rooms, {
+    attributes: [ "id" ]
   }));
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
@@ -103,9 +109,9 @@ const Planner = () => {
 
   const detectCanvasBoundaries = (collidingObject) => (
     collidingObject.x < CANVAS_MINIMUM_SIZE ||
-    collidingObject.x > canvasSize - 100 ||
+    collidingObject.x > canvasSize - DEFAULT_ROOM_DIMENSION ||
     collidingObject.y < CANVAS_MINIMUM_SIZE ||
-    collidingObject.y > canvasSize - 100
+    collidingObject.y > canvasSize - DEFAULT_ROOM_DIMENSION
   );
 
   const handleOnMouseMove = e => {
@@ -113,52 +119,56 @@ const Planner = () => {
     const mousePositionX = Math.round(stage.getPointerPosition().x / GRID_SNAP) * GRID_SNAP;
     const mousePositionY = Math.round(stage.getPointerPosition().y / GRID_SNAP) * GRID_SNAP;
 
-    const collidingObject = {
-      x: mousePositionX - MOUSE_OFFSET,
-      y: mousePositionY - MOUSE_OFFSET,
-      width: 100,
-      height: 100
-    }
-
-    if(detectCanvasBoundaries(collidingObject)) {
-
-      setIsColliding(true);
-
-    } else {
-      setLastMouse({
-        x: mouse.x,
-        y: mouse.y
-      });
-
-      setMouse({
-        x: mousePositionX,
-        y: mousePositionY
-      });
-    };
-
-    activeFloorRooms.forEach(room => {
-      const stationaryObject = {
-        x: room.xPosition,
-        y: room.yPosition,
-        width: room.width,
-        height: room.height
+    if(selectedEntity === AppData.Rooms) {
+      const collidingObject = {
+        x: mousePositionX - ROOM_OFFSET,
+        y: mousePositionY - ROOM_OFFSET,
+        width: DEFAULT_ROOM_DIMENSION,
+        height: DEFAULT_ROOM_DIMENSION
       };
 
-      if(detectCollision(collidingObject, stationaryObject)) {
+      if(detectCanvasBoundaries(collidingObject)) {
         setIsColliding(true);
+      };
+
+      activeFloorRooms.forEach(room => {
+        const stationaryObject = {
+          x: room.xPosition,
+          y: room.yPosition,
+          width: room.width,
+          height: room.height
+        };
+
+        if(detectCollision(collidingObject, stationaryObject)) {
+          setIsColliding(true)
+        };
+      });
+
+      if(isColliding) {
+
+        setIsColliding(false);
 
       } else {
         setLastMouse({
           x: mouse.x,
           y: mouse.y
         });
-  
+
         setMouse({
           x: mousePositionX,
           y: mousePositionY
         });
       };
-    });
+    };
+
+    if(selectedEntity === AppData.Doors) {
+      const collidingObject = {
+        x: mousePositionX - DOOR_X_OFFSET,
+        y: mousePositionY - DOOR_Y_OFFSET,
+        width: DEFAULT_ROOM_DIMENSION,
+        height: DEFAULT_ROOM_DIMENSION
+      };
+    }; 
   };
 
   useEffect(() => {
@@ -167,20 +177,8 @@ const Planner = () => {
         x: lastMouse.x,
         y: lastMouse.y
       });
-      setIsColliding(false);
-      // setLastMouse({
-      //   x: mouse.x,
-      //   y: mouse.y
-      // });
-
-      // setMouse({
-      //   x: mousePositionX,
-      //   y: mousePositionY
-      // });
-    } else {
-
-    }
-  }, [isColliding])
+    };
+  }, [isColliding]);
 
   const handleOnClick = e => {
     let id;
@@ -188,15 +186,16 @@ const Planner = () => {
     switch(selectedEntity) {
       case AppData.Rooms:
         id = utilities.functions.findMissingId(rooms);
-        
+
         const entity = createDefaultEntity(selectedEntity, {
           id,
           floorId: activeFloor.id,
-          xPosition: mouse.x - MOUSE_OFFSET,
-          yPosition: mouse.y - MOUSE_OFFSET
+          xPosition: mouse.x - ROOM_OFFSET,
+          yPosition: mouse.y - ROOM_OFFSET
         });
 
         dispatch(entityActions.addEntity(selectedEntity, entity));
+        dispatch(entityActions.setActiveId(selectedEntity, entity.id))
 
         if(!e.evt.shiftKey) {
           dispatch(selectedEntityActions.resetSelectEntity());
@@ -236,24 +235,24 @@ const Planner = () => {
       >
         <Layer>
           <Grid canvasSize={ canvasSize }/>
-          {
-            selectedEntity === AppData.Rooms ? (
-              <RoomPreview
-                xPosition={ mouse.x }
-                yPosition={ mouse.y }
-              />
-            ) : selectedEntity === AppData.Doors ? (
-              <DoorPreview
-                xPosition={ mouse.x }
-                yPosition={ mouse.y }
-              />
-            ) : null
-          }
+          { selectedEntity === AppData.Rooms && (
+            <RoomPreview
+              xPosition={ mouse.x }
+              yPosition={ mouse.y }
+            />
+          ) }
+          { selectedEntity === AppData.Doors && (
+            <DoorPreview
+              xPosition={ mouse.x }
+              yPosition={ mouse.y }
+            />
+          ) }
           <ComponentMapping
             componentData={ rooms }
             renderComponent={ room => (
               <Room
                 isDisabled={ room.floor !== activeFloor.id }
+                isActive={ room.id === activeRoom.id }
                 { ...room }
                 rooms={ activeFloorRooms }
               />
@@ -270,38 +269,6 @@ const Planner = () => {
           />
         </Layer>
       </Stage>
-      {/* <Canvas canvasSize={ canvasSize }
-        innerRef={ canvasRef }
-      /> */}
-        {/* { gridIsShowing && <Grid canvasSize={ canvasSize } /> }
-        <ComponentMapping
-          componentData={ rooms }
-          renderComponent={ room => (
-            <Room
-              isDisabled={ room.floor !== activeFloor.id }
-              { ...room }
-              rooms={ rooms }
-            />
-          ) }
-        />
-        <ComponentMapping
-          componentData={ doors }
-          renderComponent={ door => (
-            <Door
-              isDisabled={ door.floor !== activeFloor.id }
-              { ...door }
-            />
-          ) }
-        />
-        <ComponentMapping
-          componentData={ windows }
-          renderComponent={ window => (
-            <Window
-              isDisabled={ window.floor !== activeFloor.id }
-              { ...window }
-            />
-          ) }
-        /> */}
       <LayerPanel />
     </Row>
   );

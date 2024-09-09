@@ -12,6 +12,7 @@ import theme from "../../theme";
 const Room: React.FC<ComponentPropTypes> = ({
   id,
   label,
+  isActive = false,
   isDisabled = false, 
   isHidden = false,
   isHighlighted = false,
@@ -33,7 +34,7 @@ const Room: React.FC<ComponentPropTypes> = ({
     if(!currentRoom) {
       transformers.current.nodes([currentRoom.current]);
       transformers.current.getLayer().batchDraw();
-    }
+    };
   }, [currentRoom]);
 
   const dispatch = useAppDispatch();
@@ -75,7 +76,7 @@ const Room: React.FC<ComponentPropTypes> = ({
       elementPosition.x = xPosition;
       elementPosition.y = yPosition;
       e.target.absolutePosition(elementPosition);
-    }
+    };
 
     rooms.forEach(room => {
       if(room.id !== id) {
@@ -133,9 +134,13 @@ const Room: React.FC<ComponentPropTypes> = ({
     }));
   };
 
+  const onClick = () => {
+    dispatch(entityActions.setActiveId(AppData.Rooms, id));
+  };
+
   return (
     <Group>
-    { !isDisabled && (
+    { !isDisabled && isActive && (
       <Html>
         <FloatingTools
           appDataType={ AppData.Rooms }
@@ -162,6 +167,7 @@ const Room: React.FC<ComponentPropTypes> = ({
         onDragMove={ onDragMove }
         onDragEnd={ onDragStop }
         onTransform={ onTransform }
+        onClick={ onClick }
       />
       { !isDisabled && (<Transformer
         ref={ transformers }

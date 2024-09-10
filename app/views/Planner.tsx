@@ -11,7 +11,7 @@ import Window from "../components/Window";
 import Door from "../components/Door";
 
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { AppData, Styles } from "../enums";
+import { AppData, Directions, Styles } from "../enums";
 import { AppDataSelectors } from "../redux/selectors";
 import ToolsPanel from "../components/ToolsPanel";
 import { entityActions, selectedEntityActions } from "../redux/actions";
@@ -68,15 +68,19 @@ const Planner = () => {
   const ROOM_OFFSET = 50;
   const DEFAULT_DOOR_X_DIMENSION = 25;
   const DEFAULT_DOOR_Y_DIMENSION = 6;
-  const DOOR_X_OFFSET = 12;
-  const DOOR_Y_OFFSET = 3;
+  const DOOR_X_OFFSET = 0;
+  const DOOR_Y_OFFSET = 0;
   const GRID_SNAP = 25;
+  const HORIZONTAL = "horizontal";
+  const VERTICAL = "vertical";
 
   const dispatch = useAppDispatch();
 
   const [ mouse, setMouse ] = useState({ x: 0, y: 0 });
   const [ lastMouse, setLastMouse ] = useState({ x: 0, y: 0 });
-  const [ isColliding, setIsColliding ] = useState(false);
+  const [ isRoomColliding, setIsRoomColliding ] = useState(false);
+  const [ isDoorColliding, setIsDoorColliding ] = useState(false);
+  const [ doorPreviewOrientation, setDoorPreviewOrientation ] = useState<"horizontal" | "vertical">(HORIZONTAL);
 
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
@@ -107,11 +111,11 @@ const Planner = () => {
     collidingObject.y < stationaryObject.y + stationaryObject.height
   );
 
-  const detectCanvasBoundaries = (collidingObject) => (
+  const detectCanvasBoundaries = (collidingObject, xOffset, yOffset) => (
     collidingObject.x < CANVAS_MINIMUM_SIZE ||
-    collidingObject.x > canvasSize - DEFAULT_ROOM_DIMENSION ||
+    collidingObject.x > canvasSize - xOffset ||
     collidingObject.y < CANVAS_MINIMUM_SIZE ||
-    collidingObject.y > canvasSize - DEFAULT_ROOM_DIMENSION
+    collidingObject.y > canvasSize - yOffset
   );
 
   const handleOnMouseMove = e => {
@@ -127,8 +131,8 @@ const Planner = () => {
         height: DEFAULT_ROOM_DIMENSION
       };
 
-      if(detectCanvasBoundaries(collidingObject)) {
-        setIsColliding(true);
+      if(detectCanvasBoundaries(collidingObject, DEFAULT_ROOM_DIMENSION, DEFAULT_ROOM_DIMENSION)) {
+        setIsRoomColliding(true);
       };
 
       activeFloorRooms.forEach(room => {
@@ -140,14 +144,12 @@ const Planner = () => {
         };
 
         if(detectCollision(collidingObject, stationaryObject)) {
-          setIsColliding(true)
+          setIsRoomColliding(true)
         };
       });
 
-      if(isColliding) {
-
-        setIsColliding(false);
-
+      if(isRoomColliding) {
+        setIsRoomColliding(false);
       } else {
         setLastMouse({
           x: mouse.x,
@@ -168,17 +170,96 @@ const Planner = () => {
         width: DEFAULT_ROOM_DIMENSION,
         height: DEFAULT_ROOM_DIMENSION
       };
+
+      if(detectCanvasBoundaries(collidingObject, DEFAULT_DOOR_X_DIMENSION, DEFAULT_DOOR_Y_DIMENSION)) {
+        setIsDoorColliding(true);
+      };
+
+      activeFloorRooms.forEach(room => {
+        const stationaryObject = {
+          x: room.xPosition,
+          y: room.yPosition,
+          width: room.width,
+          height: room.height
+        };
+
+        if(
+          (
+            collidingObject.x === stationaryObject.x &&
+            collidingObject.y >= stationaryObject.y &&
+            collidingObject.y < stationaryObject.y + stationaryObject.height
+          ) || (
+            collidingObject.x === stationaryObject.x + stationaryObject.width &&
+            collidingObject.y >= stationaryObject.y &&
+            collidingObject.y < stationaryObject.y + stationaryObject.height
+          )
+        ) {
+          setDoorPreviewOrientation(VERTICAL);
+
+          setMouse({
+            x: mousePositionX,
+            y: mousePositionY
+          });
+        };
+
+        if(
+            (
+            collidingObject.y === stationaryObject.y &&
+            collidingObject.x >= stationaryObject.x &&
+            collidingObject.x < stationaryObject.x + stationaryObject.width
+          ) || (
+            collidingObject.y === stationaryObject.y + stationaryObject.height &&
+            collidingObject.x >= stationaryObject.x &&
+            collidingObject.x < stationaryObject.x + stationaryObject.width
+          )
+        ) {
+          setDoorPreviewOrientation(HORIZONTAL);
+
+          setMouse({
+            x: mousePositionX,
+            y: mousePositionY
+          });
+        };
+      });
+
+      if(isDoorColliding) {
+        setIsDoorColliding(false)
+      } else {
+
+        // setLastMouse({
+        //   x: mouse.x,
+        //   y: mouse.y
+        // });
+
+        // setMouse({
+        //   x: mousePositionX,
+        //   y: mousePositionY
+        // });
+      };
     }; 
   };
 
   useEffect(() => {
-    if(isColliding) {
-      setMouse({
-        x: lastMouse.x,
-        y: lastMouse.y
-      });
+    if(selectedEntity === AppData.Rooms) {
+      if(isRoomColliding) {
+        setMouse({
+          x: lastMouse.x,
+          y: lastMouse.y
+        });
+      };
     };
-  }, [isColliding]);
+  }, [isRoomColliding]);
+
+  useEffect(() => {
+    if(selectedEntity === AppData.Doors) {
+      if(isDoorColliding) {
+        // setMouse({
+        //   x: lastMouse.x,
+        //   y: lastMouse.y
+        // });
+      };
+    };
+  }, [isDoorColliding]);
 
   const handleOnClick = e => {
     let id;
@@ -243,8 +324,9 @@ const Planner = () => {
           ) }
           { selectedEntity === AppData.Doors && (
             <DoorPreview
-              xPosition={ mouse.x }
+              xPosition={ mouse.x - 3 }
               yPosition={ mouse.y }
+              orientation={ doorPreviewOrientation }
             />
           ) }
           <ComponentMapping

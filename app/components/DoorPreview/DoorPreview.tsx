@@ -1,11 +1,11 @@
 import React from "react";
 import { ComponentPropTypes } from "./types";
 import { Rect } from "react-konva";
-import { Styles } from "../../enums";
 
 const DoorPreview: React.FC<ComponentPropTypes> = ({
   xPosition,
-  yPosition
+  yPosition,
+  orientation
 }) => {
 
   const DOOR_PREVIEW_WIDTH = 25;
@@ -15,8 +15,8 @@ const DoorPreview: React.FC<ComponentPropTypes> = ({
     <Rect
       x={ xPosition }
       y={ yPosition }
-      width={ DOOR_PREVIEW_WIDTH }
-      height={ DOOR_PREVIEW_HEIGHT }
+      width={ orientation === "horizontal" ? DOOR_PREVIEW_WIDTH : DOOR_PREVIEW_HEIGHT }
+      height={ orientation === "horizontal" ? DOOR_PREVIEW_HEIGHT : DOOR_PREVIEW_WIDTH }
       fill={ "#8AC926" }
       stroke={ "#000" }
       strokeWidth={ 3 }

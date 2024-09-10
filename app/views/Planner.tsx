@@ -26,6 +26,8 @@ const Planner = () => {
     floorId,
     xPosition,
     yPosition,
+    orientation,
+    roomId
   }) => {
     switch(entity) {
       case AppData.Rooms:
@@ -49,8 +51,10 @@ const Planner = () => {
           id,
           label: `Untitled Door ${ id }`,
           floor: floorId,
+          room: roomId,
           width: 25,
           height: 6,
+          orientation,
           xPosition,
           yPosition,
           isHighlighted: false,
@@ -79,8 +83,8 @@ const Planner = () => {
   const [ mouse, setMouse ] = useState({ x: 0, y: 0 });
   const [ lastMouse, setLastMouse ] = useState({ x: 0, y: 0 });
   const [ isRoomColliding, setIsRoomColliding ] = useState(false);
-  const [ isDoorColliding, setIsDoorColliding ] = useState(false);
   const [ doorPreviewOrientation, setDoorPreviewOrientation ] = useState<"horizontal" | "vertical">(HORIZONTAL);
+  const [ currentRoom, setCurrentRoom ] = useState(null);
 
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
@@ -171,10 +175,6 @@ const Planner = () => {
         height: DEFAULT_ROOM_DIMENSION
       };
 
-      if(detectCanvasBoundaries(collidingObject, DEFAULT_DOOR_X_DIMENSION, DEFAULT_DOOR_Y_DIMENSION)) {
-        setIsDoorColliding(true);
-      };
-
       activeFloorRooms.forEach(room => {
         const stationaryObject = {
           x: room.xPosition,
@@ -195,6 +195,7 @@ const Planner = () => {
           )
         ) {
           setDoorPreviewOrientation(VERTICAL);
+          setCurrentRoom(room.id)
 
           setMouse({
             x: mousePositionX,
@@ -214,6 +215,7 @@ const Planner = () => {
           )
         ) {
           setDoorPreviewOrientation(HORIZONTAL);
+          setCurrentRoom(room.id)
 
           setMouse({
             x: mousePositionX,
@@ -221,21 +223,6 @@ const Planner = () => {
           });
         };
       });
-
-      if(isDoorColliding) {
-        setIsDoorColliding(false)
-      } else {
-
-        // setLastMouse({
-        //   x: mouse.x,
-        //   y: mouse.y
-        // });
-
-        // setMouse({
-        //   x: mousePositionX,
-        //   y: mousePositionY
-        // });
-      };
     }; 
   };
 
@@ -250,17 +237,6 @@ const Planner = () => {
     };
   }, [isRoomColliding]);
 
-  useEffect(() => {
-    if(selectedEntity === AppData.Doors) {
-      if(isDoorColliding) {
-        // setMouse({
-        //   x: lastMouse.x,
-        //   y: lastMouse.y
-        // });
-      };
-    };
-  }, [isDoorColliding]);
-
   const handleOnClick = e => {
     let id;
 
@@ -272,7 +248,9 @@ const Planner = () => {
           id,
           floorId: activeFloor.id,
           xPosition: mouse.x - ROOM_OFFSET,
-          yPosition: mouse.y - ROOM_OFFSET
+          yPosition: mouse.y - ROOM_OFFSET,
+          orientation: null,
+          roomId: null
         });
 
         dispatch(entityActions.addEntity(selectedEntity, entity));
@@ -285,17 +263,21 @@ const Planner = () => {
         return;
 
       case AppData.Doors:
-        id = utilities.functions.findMissingId(doors);
-        
-        dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(selectedEntity, {
-          id,
-          floorId: activeFloor.id,
-          xPosition: mouse.x,
-          yPosition: mouse.y
-        })));
+        if(currentRoom) {
+          id = utilities.functions.findMissingId(doors);
+          
+          dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(selectedEntity, {
+            id,
+            floorId: activeFloor.id,
+            xPosition: mouse.x,
+            yPosition: mouse.y,
+            orientation: doorPreviewOrientation === "horizontal" ? Directions.EAST_WEST : Directions.NORTH_SOUTH,
+            roomId: currentRoom
+          })));
 
-        if(!e.evt.shiftKey) {
-          dispatch(selectedEntityActions.resetSelectEntity());
+          if(!e.evt.shiftKey) {
+            dispatch(selectedEntityActions.resetSelectEntity());
+          };
         };
 
         return;
@@ -316,19 +298,8 @@ const Planner = () => {
       >
         <Layer>
           <Grid canvasSize={ canvasSize }/>
-          { selectedEntity === AppData.Rooms && (
-            <RoomPreview
-              xPosition={ mouse.x }
-              yPosition={ mouse.y }
-            />
-          ) }
-          { selectedEntity === AppData.Doors && (
-            <DoorPreview
-              xPosition={ mouse.x - 3 }
-              yPosition={ mouse.y }
-              orientation={ doorPreviewOrientation }
-            />
-          ) }
+        </Layer>
+        <Layer>
           <ComponentMapping
             componentData={ rooms }
             renderComponent={ room => (
@@ -340,6 +311,8 @@ const Planner = () => {
               />
             ) }
           />
+        </Layer>
+        <Layer>
           <ComponentMapping
             componentData={ doors }
             renderComponent={ door => (
@@ -349,6 +322,21 @@ const Planner = () => {
               />
             ) }
           />
+        </Layer>
+        <Layer>
+          { selectedEntity === AppData.Rooms && (
+            <RoomPreview
+              xPosition={ mouse.x }
+              yPosition={ mouse.y }
+            />
+          ) }
+          { selectedEntity === AppData.Doors && (
+            <DoorPreview
+              xPosition={ mouse.x }
+              yPosition={ mouse.y }
+              orientation={ doorPreviewOrientation }
+            />
+          ) }
         </Layer>
       </Stage>
       <LayerPanel />

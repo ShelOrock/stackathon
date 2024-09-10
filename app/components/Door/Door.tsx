@@ -112,16 +112,16 @@ const Door: React.FC<ComponentPropTypes> = ({
         <Rect
           x={ xPosition }
           y={ yPosition }
-          width={ width }
-          height={ height }
+          width={ orientation === Directions.EAST_WEST ? width : height }
+          height={ orientation === Directions.EAST_WEST ? height : width }
           fill="black"
           stroke="white"
           strokeWidth={ 3 }
-          offsetY={ 3 }
+          offsetX={ orientation === Directions.EAST_WEST ? 0 : 3 }
+          offsetY={ orientation === Directions.EAST_WEST ? 3 : 0 }
           draggable
           onDragMove={ onDragMove }
           onDoubleClick={ onDoubleClick }
-          // $orientation={ orientation }
           // $isDisabled={ isDisabled }
           // $isHighlighted={ isHighlighted }
           // $tag={ tag }

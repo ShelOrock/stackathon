@@ -8,6 +8,7 @@ import FloatingTools from "../FloatingTools";
 import { Group, Rect, Transformer } from "react-konva";
 import { Html } from "react-konva-utils";
 import theme from "../../theme";
+import { AppDataSelectors } from "../../redux/selectors";
 
 const Room: React.FC<ComponentPropTypes> = ({
   id,
@@ -40,6 +41,11 @@ const Room: React.FC<ComponentPropTypes> = ({
   const dispatch = useAppDispatch();
 
   const canvasSize = useAppSelector(state => state.canvasSize);
+  const currentDoors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors, {
+    filters: { room: id }
+  }));
+
+  console.log(currentDoors)
 
   const snapCoordinateToGrid = (deltaCoordinate, gridSnap) => {
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;

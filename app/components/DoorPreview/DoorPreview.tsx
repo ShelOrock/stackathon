@@ -10,11 +10,13 @@ const DoorPreview: React.FC<ComponentPropTypes> = ({
 
   const DOOR_PREVIEW_WIDTH = 25;
   const DOOR_PREVIEW_HEIGHT = 6;
+  const DOOR_PREVIEW_OFFSET = 3;
+  const NO_DOOR_PREVIEW_OFFSET = 0;
 
   return (
     <Rect
-      x={ xPosition }
-      y={ yPosition }
+      x={ xPosition - (orientation === "horizontal" ? NO_DOOR_PREVIEW_OFFSET : DOOR_PREVIEW_OFFSET) }
+      y={ yPosition - (orientation === "horizontal" ? DOOR_PREVIEW_OFFSET : NO_DOOR_PREVIEW_OFFSET) }
       width={ orientation === "horizontal" ? DOOR_PREVIEW_WIDTH : DOOR_PREVIEW_HEIGHT }
       height={ orientation === "horizontal" ? DOOR_PREVIEW_HEIGHT : DOOR_PREVIEW_WIDTH }
       fill={ "#8AC926" }

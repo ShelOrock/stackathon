@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import { ComponentPropTypes } from "./types";
@@ -8,6 +8,9 @@ import FloatingTools from "../FloatingTools";
 import { Group, Rect, Transformer } from "react-konva";
 import { Html } from "react-konva-utils";
 import theme from "../../theme";
+import { AppDataSelectors } from "../../redux/selectors";
+import ComponentMapping from "../ComponentMapping";
+import Door from "../Door";
 
 const Room: React.FC<ComponentPropTypes> = ({
   id,
@@ -40,6 +43,9 @@ const Room: React.FC<ComponentPropTypes> = ({
   const dispatch = useAppDispatch();
 
   const canvasSize = useAppSelector(state => state.canvasSize);
+  const currentDoors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors, {
+    filters: { room: id }
+  }));
 
   const snapCoordinateToGrid = (deltaCoordinate, gridSnap) => {
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
@@ -95,19 +101,6 @@ const Room: React.FC<ComponentPropTypes> = ({
         };
       };
     });
-    
-    elementPosition.x = snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
-    elementPosition.y = snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
-    e.target.absolutePosition(elementPosition);
-    dispatch(entityActions.updateEntity(AppData.Rooms, {
-      id,
-      xPosition: elementPosition.x,
-      yPosition: elementPosition.y
-    }));
-  };
-
-  const onDragStop = e => {
-    const elementPosition = e.target.absolutePosition();
 
     elementPosition.x = snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
     elementPosition.y = snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
@@ -118,6 +111,17 @@ const Room: React.FC<ComponentPropTypes> = ({
       xPosition: elementPosition.x,
       yPosition: elementPosition.y
     }));
+
+    const deltaX = elementPosition.x - xPosition;
+    const deltaY = elementPosition.y - yPosition;
+
+    currentDoors.forEach(door => {
+      dispatch(entityActions.updateEntity(AppData.Doors, {
+        id: door.id,
+        xPosition: door.xPosition + deltaX,
+        yPosition: door.yPosition + deltaY
+      }))
+    })
   };
 
   const onTransform = () => {
@@ -165,7 +169,6 @@ const Room: React.FC<ComponentPropTypes> = ({
         strokeWidth={ 5 }
         draggable
         onDragMove={ onDragMove }
-        onDragEnd={ onDragStop }
         onTransform={ onTransform }
         onClick={ onClick }
       />
@@ -193,6 +196,19 @@ const Room: React.FC<ComponentPropTypes> = ({
         } }
         rotateEnabled={ false }
       />) }
+      <ComponentMapping
+        componentData={ currentDoors }
+        renderComponent={ door => (
+        <Door
+            // isDisabled={ door.floor !== activeFloor.id }
+            xPosition={ door.xPosition }
+            yPosition={ door.yPosition }
+            rooms={ rooms }
+            activeRoom={ id }
+            { ...door }
+          />
+        ) }
+      />
     </Group>
   )
 };

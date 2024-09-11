@@ -26,6 +26,8 @@ const Planner = () => {
     floorId,
     xPosition,
     yPosition,
+    orientation,
+    roomId
   }) => {
     switch(entity) {
       case AppData.Rooms:
@@ -49,8 +51,10 @@ const Planner = () => {
           id,
           label: `Untitled Door ${ id }`,
           floor: floorId,
+          room: roomId,
           width: 25,
           height: 6,
+          orientation,
           xPosition,
           yPosition,
           isHighlighted: false,
@@ -70,6 +74,7 @@ const Planner = () => {
   const DEFAULT_DOOR_Y_DIMENSION = 6;
   const DOOR_X_OFFSET = 0;
   const DOOR_Y_OFFSET = 0;
+  const DOOR_TOLERANCE = 12;
   const GRID_SNAP = 25;
   const HORIZONTAL = "horizontal";
   const VERTICAL = "vertical";
@@ -79,8 +84,8 @@ const Planner = () => {
   const [ mouse, setMouse ] = useState({ x: 0, y: 0 });
   const [ lastMouse, setLastMouse ] = useState({ x: 0, y: 0 });
   const [ isRoomColliding, setIsRoomColliding ] = useState(false);
-  const [ isDoorColliding, setIsDoorColliding ] = useState(false);
   const [ doorPreviewOrientation, setDoorPreviewOrientation ] = useState<"horizontal" | "vertical">(HORIZONTAL);
+  const [ currentRoom, setCurrentRoom ] = useState(null);
 
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
@@ -116,6 +121,34 @@ const Planner = () => {
     collidingObject.x > canvasSize - xOffset ||
     collidingObject.y < CANVAS_MINIMUM_SIZE ||
     collidingObject.y > canvasSize - yOffset
+  );
+
+  const detectLeftRoomBoundary = (collidingObject, stationaryObject) => (
+    collidingObject.x + DOOR_TOLERANCE >= stationaryObject.x &&
+    collidingObject.x - DOOR_TOLERANCE <= stationaryObject.x &&
+    collidingObject.y >= stationaryObject.y &&
+    collidingObject.y < stationaryObject.y + stationaryObject.height
+  );
+
+  const detectRightRoomBoundary = (collidingObject, stationaryObject) => (
+    collidingObject.x + DOOR_TOLERANCE >= stationaryObject.x + stationaryObject.width &&
+    collidingObject.x - DOOR_TOLERANCE <= stationaryObject.x + stationaryObject.width &&
+    collidingObject.y >= stationaryObject.y &&
+    collidingObject.y < stationaryObject.y + stationaryObject.height
+  );
+
+  const detectTopRoomBoundary = (collidingObject, stationaryObject) => (
+    collidingObject.y + DOOR_TOLERANCE >= stationaryObject.y &&
+    collidingObject.y - DOOR_TOLERANCE <= stationaryObject.y &&
+    collidingObject.x >= stationaryObject.x &&
+    collidingObject.x < stationaryObject.x + stationaryObject.width
+  );
+
+  const detectBottomRoomBoundary = (collidingObject, stationaryObject) => (
+    collidingObject.y + DOOR_TOLERANCE >= stationaryObject.y + stationaryObject.height &&
+    collidingObject.y - DOOR_TOLERANCE <= stationaryObject.y + stationaryObject.height &&
+    collidingObject.x >= stationaryObject.x &&
+    collidingObject.x < stationaryObject.x + stationaryObject.width
   );
 
   const handleOnMouseMove = e => {
@@ -171,10 +204,6 @@ const Planner = () => {
         height: DEFAULT_ROOM_DIMENSION
       };
 
-      if(detectCanvasBoundaries(collidingObject, DEFAULT_DOOR_X_DIMENSION, DEFAULT_DOOR_Y_DIMENSION)) {
-        setIsDoorColliding(true);
-      };
-
       activeFloorRooms.forEach(room => {
         const stationaryObject = {
           x: room.xPosition,
@@ -183,18 +212,9 @@ const Planner = () => {
           height: room.height
         };
 
-        if(
-          (
-            collidingObject.x === stationaryObject.x &&
-            collidingObject.y >= stationaryObject.y &&
-            collidingObject.y < stationaryObject.y + stationaryObject.height
-          ) || (
-            collidingObject.x === stationaryObject.x + stationaryObject.width &&
-            collidingObject.y >= stationaryObject.y &&
-            collidingObject.y < stationaryObject.y + stationaryObject.height
-          )
-        ) {
+        if(detectLeftRoomBoundary(collidingObject, stationaryObject) || detectRightRoomBoundary(collidingObject, stationaryObject)) {
           setDoorPreviewOrientation(VERTICAL);
+          setCurrentRoom(room.id)
 
           setMouse({
             x: mousePositionX,
@@ -202,18 +222,9 @@ const Planner = () => {
           });
         };
 
-        if(
-            (
-            collidingObject.y === stationaryObject.y &&
-            collidingObject.x >= stationaryObject.x &&
-            collidingObject.x < stationaryObject.x + stationaryObject.width
-          ) || (
-            collidingObject.y === stationaryObject.y + stationaryObject.height &&
-            collidingObject.x >= stationaryObject.x &&
-            collidingObject.x < stationaryObject.x + stationaryObject.width
-          )
-        ) {
+        if(detectTopRoomBoundary(collidingObject, stationaryObject) || detectBottomRoomBoundary(collidingObject, stationaryObject)) {
           setDoorPreviewOrientation(HORIZONTAL);
+          setCurrentRoom(room.id)
 
           setMouse({
             x: mousePositionX,
@@ -221,21 +232,6 @@ const Planner = () => {
           });
         };
       });
-
-      if(isDoorColliding) {
-        setIsDoorColliding(false)
-      } else {
-
-        // setLastMouse({
-        //   x: mouse.x,
-        //   y: mouse.y
-        // });
-
-        // setMouse({
-        //   x: mousePositionX,
-        //   y: mousePositionY
-        // });
-      };
     }; 
   };
 
@@ -250,17 +246,6 @@ const Planner = () => {
     };
   }, [isRoomColliding]);
 
-  useEffect(() => {
-    if(selectedEntity === AppData.Doors) {
-      if(isDoorColliding) {
-        // setMouse({
-        //   x: lastMouse.x,
-        //   y: lastMouse.y
-        // });
-      };
-    };
-  }, [isDoorColliding]);
-
   const handleOnClick = e => {
     let id;
 
@@ -272,7 +257,9 @@ const Planner = () => {
           id,
           floorId: activeFloor.id,
           xPosition: mouse.x - ROOM_OFFSET,
-          yPosition: mouse.y - ROOM_OFFSET
+          yPosition: mouse.y - ROOM_OFFSET,
+          orientation: null,
+          roomId: null
         });
 
         dispatch(entityActions.addEntity(selectedEntity, entity));
@@ -285,17 +272,21 @@ const Planner = () => {
         return;
 
       case AppData.Doors:
-        id = utilities.functions.findMissingId(doors);
-        
-        dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(selectedEntity, {
-          id,
-          floorId: activeFloor.id,
-          xPosition: mouse.x,
-          yPosition: mouse.y
-        })));
+        if(currentRoom) {
+          id = utilities.functions.findMissingId(doors);
+          
+          dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(selectedEntity, {
+            id,
+            floorId: activeFloor.id,
+            xPosition: mouse.x,
+            yPosition: mouse.y,
+            orientation: doorPreviewOrientation === Directions.horizontal ? Directions.horizontal : Directions.vertical,
+            roomId: currentRoom
+          })));
 
-        if(!e.evt.shiftKey) {
-          dispatch(selectedEntityActions.resetSelectEntity());
+          if(!e.evt.shiftKey) {
+            dispatch(selectedEntityActions.resetSelectEntity());
+          };
         };
 
         return;
@@ -316,19 +307,8 @@ const Planner = () => {
       >
         <Layer>
           <Grid canvasSize={ canvasSize }/>
-          { selectedEntity === AppData.Rooms && (
-            <RoomPreview
-              xPosition={ mouse.x }
-              yPosition={ mouse.y }
-            />
-          ) }
-          { selectedEntity === AppData.Doors && (
-            <DoorPreview
-              xPosition={ mouse.x - 3 }
-              yPosition={ mouse.y }
-              orientation={ doorPreviewOrientation }
-            />
-          ) }
+        </Layer>
+        <Layer>
           <ComponentMapping
             componentData={ rooms }
             renderComponent={ room => (
@@ -340,15 +320,21 @@ const Planner = () => {
               />
             ) }
           />
-          <ComponentMapping
-            componentData={ doors }
-            renderComponent={ door => (
-              <Door
-                isDisabled={ door.floor !== activeFloor.id }
-                { ...door }
-              />
-            ) }
-          />
+        </Layer>
+        <Layer>
+          { selectedEntity === AppData.Rooms && (
+            <RoomPreview
+              xPosition={ mouse.x }
+              yPosition={ mouse.y }
+            />
+          ) }
+          { selectedEntity === AppData.Doors && (
+            <DoorPreview
+              xPosition={ mouse.x }
+              yPosition={ mouse.y }
+              orientation={ doorPreviewOrientation }
+            />
+          ) }
         </Layer>
       </Stage>
       <LayerPanel />

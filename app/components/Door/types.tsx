@@ -16,20 +16,10 @@ interface ComponentPropTypes extends
   xPosition: number;
   yPosition: number;
   tag: Styles.Colors;
+  rooms: any[];
+  activeRoom: any;
 };
-
-interface StylingPropTypes extends Omit<ComponentPropTypes,
-  | "id"
-  | "label"
-  | "isHidden"
-  | "isLocked"
-  | "xPosition"
-  | "yPosition"
-> {};
-
-interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};
 
 export {
   ComponentPropTypes,
-  StyledElementPropTypes
 };

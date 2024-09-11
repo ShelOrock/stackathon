@@ -46,23 +46,23 @@ const Window: React.FC<ComponentPropTypes> = ({
   };
 
   const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => {
-    if(orientation === Directions.NORTH_SOUTH) {
+    if(orientation === Directions.vertical) {
       dispatch(entityActions.updateEntity(AppData.Windows, {
         id,
         width: height,
         height: width,
-        orientation: Directions.EAST_WEST
+        orientation: Directions.horizontal
       }));
 
       return;
     };
 
-    if(orientation === Directions.EAST_WEST) {
+    if(orientation === Directions.horizontal) {
       dispatch(entityActions.updateEntity(AppData.Windows, {
         id,
         width: height,
         height: width,
-        orientation: Directions.NORTH_SOUTH
+        orientation: Directions.vertical
       }));
 
       return;

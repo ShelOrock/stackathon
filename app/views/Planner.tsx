@@ -74,6 +74,7 @@ const Planner = () => {
   const DEFAULT_DOOR_Y_DIMENSION = 6;
   const DOOR_X_OFFSET = 0;
   const DOOR_Y_OFFSET = 0;
+  const DOOR_TOLERANCE = 12;
   const GRID_SNAP = 25;
   const HORIZONTAL = "horizontal";
   const VERTICAL = "vertical";
@@ -120,6 +121,34 @@ const Planner = () => {
     collidingObject.x > canvasSize - xOffset ||
     collidingObject.y < CANVAS_MINIMUM_SIZE ||
     collidingObject.y > canvasSize - yOffset
+  );
+
+  const detectLeftRoomBoundary = (collidingObject, stationaryObject) => (
+    collidingObject.x + DOOR_TOLERANCE >= stationaryObject.x &&
+    collidingObject.x - DOOR_TOLERANCE <= stationaryObject.x &&
+    collidingObject.y >= stationaryObject.y &&
+    collidingObject.y < stationaryObject.y + stationaryObject.height
+  );
+
+  const detectRightRoomBoundary = (collidingObject, stationaryObject) => (
+    collidingObject.x + DOOR_TOLERANCE >= stationaryObject.x + stationaryObject.width &&
+    collidingObject.x - DOOR_TOLERANCE <= stationaryObject.x + stationaryObject.width &&
+    collidingObject.y >= stationaryObject.y &&
+    collidingObject.y < stationaryObject.y + stationaryObject.height
+  );
+
+  const detectTopRoomBoundary = (collidingObject, stationaryObject) => (
+    collidingObject.y + DOOR_TOLERANCE >= stationaryObject.y &&
+    collidingObject.y - DOOR_TOLERANCE <= stationaryObject.y &&
+    collidingObject.x >= stationaryObject.x &&
+    collidingObject.x < stationaryObject.x + stationaryObject.width
+  );
+
+  const detectBottomRoomBoundary = (collidingObject, stationaryObject) => (
+    collidingObject.y + DOOR_TOLERANCE >= stationaryObject.y + stationaryObject.height &&
+    collidingObject.y - DOOR_TOLERANCE <= stationaryObject.y + stationaryObject.height &&
+    collidingObject.x >= stationaryObject.x &&
+    collidingObject.x < stationaryObject.x + stationaryObject.width
   );
 
   const handleOnMouseMove = e => {
@@ -183,17 +212,7 @@ const Planner = () => {
           height: room.height
         };
 
-        if(
-          (
-            collidingObject.x === stationaryObject.x &&
-            collidingObject.y >= stationaryObject.y &&
-            collidingObject.y < stationaryObject.y + stationaryObject.height
-          ) || (
-            collidingObject.x === stationaryObject.x + stationaryObject.width &&
-            collidingObject.y >= stationaryObject.y &&
-            collidingObject.y < stationaryObject.y + stationaryObject.height
-          )
-        ) {
+        if(detectLeftRoomBoundary(collidingObject, stationaryObject) || detectRightRoomBoundary(collidingObject, stationaryObject)) {
           setDoorPreviewOrientation(VERTICAL);
           setCurrentRoom(room.id)
 
@@ -203,17 +222,7 @@ const Planner = () => {
           });
         };
 
-        if(
-            (
-            collidingObject.y === stationaryObject.y &&
-            collidingObject.x >= stationaryObject.x &&
-            collidingObject.x < stationaryObject.x + stationaryObject.width
-          ) || (
-            collidingObject.y === stationaryObject.y + stationaryObject.height &&
-            collidingObject.x >= stationaryObject.x &&
-            collidingObject.x < stationaryObject.x + stationaryObject.width
-          )
-        ) {
+        if(detectTopRoomBoundary(collidingObject, stationaryObject) || detectBottomRoomBoundary(collidingObject, stationaryObject)) {
           setDoorPreviewOrientation(HORIZONTAL);
           setCurrentRoom(room.id)
 
@@ -271,7 +280,7 @@ const Planner = () => {
             floorId: activeFloor.id,
             xPosition: mouse.x,
             yPosition: mouse.y,
-            orientation: doorPreviewOrientation === "horizontal" ? Directions.EAST_WEST : Directions.NORTH_SOUTH,
+            orientation: doorPreviewOrientation === Directions.horizontal ? Directions.horizontal : Directions.vertical,
             roomId: currentRoom
           })));
 
@@ -308,17 +317,6 @@ const Planner = () => {
                 isActive={ room.id === activeRoom.id }
                 { ...room }
                 rooms={ activeFloorRooms }
-              />
-            ) }
-          />
-        </Layer>
-        <Layer>
-          <ComponentMapping
-            componentData={ doors }
-            renderComponent={ door => (
-              <Door
-                isDisabled={ door.floor !== activeFloor.id }
-                { ...door }
               />
             ) }
           />

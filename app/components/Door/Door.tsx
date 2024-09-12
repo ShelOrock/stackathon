@@ -46,30 +46,30 @@ const Door: React.FC<ComponentPropTypes> = ({
   );
 
   const detectLeftRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.x + DOOR_TOLERANCE >= stationaryObject.x &&
-    collidingObject.x - DOOR_TOLERANCE <= stationaryObject.x &&
-    collidingObject.y >= stationaryObject.y &&
+    collidingObject.x + DOOR_TOLERANCE > stationaryObject.x &&
+    collidingObject.x - DOOR_TOLERANCE < stationaryObject.x &&
+    collidingObject.y > stationaryObject.y &&
     collidingObject.y < stationaryObject.y + stationaryObject.height
   );
 
   const detectRightRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.x + DOOR_TOLERANCE >= stationaryObject.x + stationaryObject.width &&
-    collidingObject.x - DOOR_TOLERANCE <= stationaryObject.x + stationaryObject.width &&
-    collidingObject.y >= stationaryObject.y &&
+    collidingObject.x + DOOR_TOLERANCE > stationaryObject.x + stationaryObject.width &&
+    collidingObject.x - DOOR_TOLERANCE < stationaryObject.x + stationaryObject.width &&
+    collidingObject.y > stationaryObject.y &&
     collidingObject.y < stationaryObject.y + stationaryObject.height
   );
 
   const detectTopRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.y + DOOR_TOLERANCE >= stationaryObject.y &&
-    collidingObject.y - DOOR_TOLERANCE <= stationaryObject.y &&
-    collidingObject.x >= stationaryObject.x &&
+    collidingObject.y + DOOR_TOLERANCE > stationaryObject.y &&
+    collidingObject.y - DOOR_TOLERANCE < stationaryObject.y &&
+    collidingObject.x > stationaryObject.x &&
     collidingObject.x < stationaryObject.x + stationaryObject.width
   );
 
   const detectBottomRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.y + DOOR_TOLERANCE >= stationaryObject.y + stationaryObject.height &&
-    collidingObject.y - DOOR_TOLERANCE <= stationaryObject.y + stationaryObject.height &&
-    collidingObject.x >= stationaryObject.x &&
+    collidingObject.y + DOOR_TOLERANCE > stationaryObject.y + stationaryObject.height &&
+    collidingObject.y - DOOR_TOLERANCE < stationaryObject.y + stationaryObject.height &&
+    collidingObject.x > stationaryObject.x &&
     collidingObject.x < stationaryObject.x + stationaryObject.width
   );
 
@@ -79,8 +79,8 @@ const Door: React.FC<ComponentPropTypes> = ({
     const collidingObject = {
       x: elementPosition.x,
       y: elementPosition.y,
-      width,
-      height
+      width: orientation === Directions.horizontal ? width : height,
+      height: orientation === Directions.horizontal ? height : width
     };
 
     if(detectCanvasBoundaries(collidingObject)) {
@@ -101,6 +101,7 @@ const Door: React.FC<ComponentPropTypes> = ({
         elementPosition.x = snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
         elementPosition.y = snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
         e.target.absolutePosition(elementPosition);
+        console.log(collidingObject, stationaryObject)
 
         dispatch(entityActions.updateEntity(AppData.Doors, {
           id,

@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { AppDataSelectors } from "../../../redux/selectors";
 import { ComponentPropTypes } from "./types";
 import { entityActions } from "../../../redux/actions";
+import RoomLayer from "../RoomLayer";
 
 const LayerGroup: React.FC<ComponentPropTypes> = ({
   id,
@@ -51,18 +52,9 @@ const LayerGroup: React.FC<ComponentPropTypes> = ({
           <ComponentMapping
             componentData={ rooms }
             renderComponent={ room => id === room.floor && (
-              <EntityLayer
+              <RoomLayer
                 appDataType={ AppData.Rooms }
                 { ...room }
-              />
-            ) }
-          />
-          <ComponentMapping
-            componentData={ doors }
-            renderComponent={ door => id === door.floor && (
-              <EntityLayer
-                appDataType={ AppData.Doors }
-                { ...door }
               />
             ) }
           />

@@ -1,6 +1,9 @@
 import React from "react";
-import { ComponentPropTypes } from "./types";
 import { Rect } from "react-konva";
+
+import { ComponentPropTypes } from "./types";
+
+import { Directions } from "../../enums";
 
 const DoorPreview: React.FC<ComponentPropTypes> = ({
   xPosition,
@@ -15,10 +18,10 @@ const DoorPreview: React.FC<ComponentPropTypes> = ({
 
   return (
     <Rect
-      x={ xPosition - (orientation === "horizontal" ? NO_DOOR_PREVIEW_OFFSET : DOOR_PREVIEW_OFFSET) }
-      y={ yPosition - (orientation === "horizontal" ? DOOR_PREVIEW_OFFSET : NO_DOOR_PREVIEW_OFFSET) }
-      width={ orientation === "horizontal" ? DOOR_PREVIEW_WIDTH : DOOR_PREVIEW_HEIGHT }
-      height={ orientation === "horizontal" ? DOOR_PREVIEW_HEIGHT : DOOR_PREVIEW_WIDTH }
+      x={ xPosition - (orientation === Directions.horizontal ? NO_DOOR_PREVIEW_OFFSET : DOOR_PREVIEW_OFFSET) }
+      y={ yPosition - (orientation === Directions.horizontal ? DOOR_PREVIEW_OFFSET : NO_DOOR_PREVIEW_OFFSET) }
+      width={ orientation === Directions.horizontal ? DOOR_PREVIEW_WIDTH : DOOR_PREVIEW_HEIGHT }
+      height={ orientation === Directions.horizontal ? DOOR_PREVIEW_HEIGHT : DOOR_PREVIEW_WIDTH }
       fill={ "#8AC926" }
       stroke={ "#000" }
       strokeWidth={ 3 }

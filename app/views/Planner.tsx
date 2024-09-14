@@ -7,8 +7,6 @@ import Row from "../components/Row";
 import Grid from "../components/Grid";
 import ComponentMapping from "../components/ComponentMapping";
 import Room from "../components/Room";
-import Window from "../components/Window";
-import Door from "../components/Door";
 
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { AppData, Directions, Styles } from "../enums";
@@ -18,6 +16,7 @@ import { entityActions, selectedEntityActions } from "../redux/actions";
 import * as utilities from "../utilities";
 import RoomPreview from "../components/RoomPreview.tsx/RoomPreview";
 import DoorPreview from "../components/DoorPreview";
+import WindowPreview from "../components/WindowPreview";
 
 const Planner = () => {
 
@@ -76,15 +75,14 @@ const Planner = () => {
   const DOOR_Y_OFFSET = 0;
   const DOOR_TOLERANCE = 12;
   const GRID_SNAP = 25;
-  const HORIZONTAL = "horizontal";
-  const VERTICAL = "vertical";
 
   const dispatch = useAppDispatch();
 
   const [ mouse, setMouse ] = useState({ x: 0, y: 0 });
   const [ lastMouse, setLastMouse ] = useState({ x: 0, y: 0 });
   const [ isRoomColliding, setIsRoomColliding ] = useState(false);
-  const [ doorPreviewOrientation, setDoorPreviewOrientation ] = useState<"horizontal" | "vertical">(HORIZONTAL);
+  const [ doorPreviewOrientation, setDoorPreviewOrientation ] = useState<Directions>(Directions.horizontal);
+  const [ windowPreviewOrientation, setWindowPreviewOrientation ] = useState<Directions>(Directions.horizontal);
   const [ currentRoom, setCurrentRoom ] = useState(null);
 
   const canvasSize = useAppSelector(state => state.canvasSize);
@@ -213,7 +211,7 @@ const Planner = () => {
         };
 
         if(detectLeftRoomBoundary(collidingObject, stationaryObject) || detectRightRoomBoundary(collidingObject, stationaryObject)) {
-          setDoorPreviewOrientation(VERTICAL);
+          setDoorPreviewOrientation(Directions.vertical);
           setCurrentRoom(room.id)
 
           setMouse({
@@ -223,7 +221,7 @@ const Planner = () => {
         };
 
         if(detectTopRoomBoundary(collidingObject, stationaryObject) || detectBottomRoomBoundary(collidingObject, stationaryObject)) {
-          setDoorPreviewOrientation(HORIZONTAL);
+          setDoorPreviewOrientation(Directions.vertical);
           setCurrentRoom(room.id)
 
           setMouse({
@@ -333,6 +331,13 @@ const Planner = () => {
               xPosition={ mouse.x }
               yPosition={ mouse.y }
               orientation={ doorPreviewOrientation }
+            />
+          ) }
+          { selectedEntity === AppData.Windows && (
+            <WindowPreview
+              xPosition={ mouse.x }
+              yPosition={ mouse.y }
+              orientation={ windowPreviewOrientation }
             />
           ) }
         </Layer>

@@ -58,15 +58,6 @@ const LayerGroup: React.FC<ComponentPropTypes> = ({
               />
             ) }
           />
-          <ComponentMapping
-            componentData={ windows }
-            renderComponent={ window => id === window.floor && (
-              <EntityLayer
-                appDataType={ AppData.Windows }
-                { ...window }
-              />
-            ) }
-          />
         </Column>
       ) }
     </Column>

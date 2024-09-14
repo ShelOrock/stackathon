@@ -1,78 +1,20 @@
-import React from 'react';
+import React from "react";
 
-import Column from '../Column';
-import Button from '../Button';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { functions } from '../../utilities';
-import { AppDataSelectors } from '../../redux/selectors';
-import { AppData, CanvasSizes, Directions, UIData, Styles, DefaultLabels } from '../../enums';
-import { entityActions, selectedEntityActions } from '../../redux/actions';
-import { setCanvasSize } from '../../redux/canvasSize/actions';
-import Row from '../Row';
-import { toggleElementsActions } from '../../redux/actions';
-import Paper from '../Paper';
-
-const BLUE_TAG = "blue";
-enum DefaultEntityPositions {
-  xPosition = 0,
-  yPosition = 0
-};
-
-enum DefaultRoomDimensions {
-  width = 100,
-  height = 100
-};
-const DEFAULT_ROOM_Z_AXIS = 2;
-
-enum DefaultDoorDimensions {
-  width = 25,
-  height = 6
-};
-
-enum DefaultWindowDimensions {
-  width = 25,
-  height = 2
-};
+import Column from "../Column";
+import Button from "../Button";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { functions } from "../../utilities";
+import { AppDataSelectors } from "../../redux/selectors";
+import { AppData, CanvasSizes, Directions, UIData, Styles, DefaultLabels } from "../../enums";
+import { entityActions, selectedEntityActions } from "../../redux/actions";
+import { setCanvasSize } from "../../redux/canvasSize/actions";
+import Row from "../Row";
+import { toggleElementsActions } from "../../redux/actions";
+import Paper from "../Paper";
 
 const DEFAULT_FLOOR = {
   isHighlighted: false,
   isHidden: false
-};
-
-const DEFAULT_ROOM = {
-  width: DefaultRoomDimensions.width,
-  height: DefaultRoomDimensions.height,
-  zAxis: DEFAULT_ROOM_Z_AXIS,
-  xPosition: DefaultEntityPositions.xPosition,
-  yPosition: DefaultEntityPositions.yPosition,
-  isHighlighted: false,
-  isLocked: false,
-  isHidden: false,
-  tag: BLUE_TAG,
-};
-
-const DEFAULT_DOOR = {
-  width: DefaultDoorDimensions.width,
-  height: DefaultDoorDimensions.height,
-  xPosition: DefaultEntityPositions.xPosition,
-  yPosition: DefaultEntityPositions.yPosition,
-  orientation: Directions.horizontal,
-  isHighlighted: false,
-  isLocked: false,
-  isHidden: false,
-  tag: BLUE_TAG
-};
-
-const DEFAULT_WINDOW = {
-  width: DefaultWindowDimensions.width,
-  height: DefaultWindowDimensions.height,
-  xPosition: DefaultEntityPositions.xPosition,
-  yPosition: DefaultEntityPositions.yPosition,
-  orientation: Directions.horizontal,
-  isHighlighted: false,
-  isLocked: false,
-  isHidden: false,
-  tag: BLUE_TAG,
 };
 
 const ToolsPanel = () => {
@@ -91,36 +33,12 @@ const ToolsPanel = () => {
   const floors = useAppSelector(AppDataSelectors.selectAppData(AppData.Floors, {
     attributes: [ "id" ]
   }));
-  const rooms = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms, {
-    attributes: [ "id" ]
-  } ));
-  const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors, {
-    attributes: [ "id" ]
-  } ));
-  const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows, {
-    attributes: [ "id" ]
-  }));
   const activeFloor = useAppSelector(AppDataSelectors.selectActiveAppData(AppData.Floors, {
     attributes: [ "id" ]
   }));
 
   const handleSetEntityPreview = (appDataType) => {
     dispatch(selectedEntityActions.setSelectedEntity(appDataType));
-  };
-
-  const handleCreateEntity = (appDataType, {
-    entities,
-    defaultEntity,
-    defaultLabel,
-  }): void => {
-    const id = functions.findMissingId(entities);
-
-    dispatch(entityActions.addEntity(appDataType, {
-      id,
-      label: `${ defaultLabel } ${ id }`,
-      floor: activeFloor.id,
-      ...defaultEntity
-    }));
   };
 
   const handleCreateFloor = () => {
@@ -193,11 +111,7 @@ const ToolsPanel = () => {
           $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >+ Create new door</Button>
         <Button
-          onClick={ () => handleCreateEntity(AppData.Windows, {
-            entities: windows,
-            defaultEntity: DEFAULT_WINDOW,
-            defaultLabel: DefaultLabels.UntitledWindow,
-          }) }
+          onClick={ () => handleSetEntityPreview(AppData.Windows) }
           $mt={ Styles.Spacings.xs }
           $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >+ Create new Window</Button>

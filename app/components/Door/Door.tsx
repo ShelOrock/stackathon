@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { AppData, Directions } from "../../enums";
 import { ComponentPropTypes } from "./types";
 import { entityActions } from "../../redux/actions";
-import { ReactTypes } from "../../types";
 import { Group, Rect } from "react-konva";
 
 const Door: React.FC<ComponentPropTypes> = ({
@@ -134,37 +133,21 @@ const Door: React.FC<ComponentPropTypes> = ({
 
   return (
     <Group>
-        {/* { !isDisabled && (
-          <FloatingTools
-            appDataType={ AppData.Doors }
-            id={ id }
-            label={ label }
-            isHidden={ isHidden }
-            isLocked={ isLocked }
-            tag={ tag }
-            xPosition={ 0 }
-            yPosition={ 0 }
-          /> 
-        ) } */}
-        <Rect
-          x={ xPosition }
-          y={ yPosition }
-          width={ orientation === Directions.horizontal ? width : height }
-          height={ orientation === Directions.horizontal ? height : width }
-          fill="black"
-          stroke="white"
-          strokeWidth={ 3 }
-          offsetX={ orientation === Directions.horizontal ? NO_DOOR_OFFSET : DOOR_OFFSET }
-          offsetY={ orientation === Directions.horizontal ? DOOR_OFFSET : NO_DOOR_OFFSET }
-          draggable
-          onDragMove={ onDragMove }
-          // $isDisabled={ isDisabled }
-          // $isHighlighted={ isHighlighted }
-          // $tag={ tag }
-        />
-        </Group>
-
-    )
+      <Rect
+        x={ xPosition }
+        y={ yPosition }
+        width={ orientation === Directions.horizontal ? width : height }
+        height={ orientation === Directions.horizontal ? height : width }
+        fill="black"
+        stroke="white"
+        strokeWidth={ 3 }
+        offsetX={ orientation === Directions.horizontal ? NO_DOOR_OFFSET : DOOR_OFFSET }
+        offsetY={ orientation === Directions.horizontal ? DOOR_OFFSET : NO_DOOR_OFFSET }
+        draggable
+        onDragMove={ onDragMove }
+      />
+    </Group>
+  );
 };
 
 export default Door;

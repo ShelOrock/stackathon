@@ -8,7 +8,7 @@ import Grid from "../components/Grid";
 import ComponentMapping from "../components/ComponentMapping";
 import Room from "../components/Room";
 
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector, useDetectCanvasCollision, useDetectRoomCollision } from "../hooks";
 import { AppData, Directions, Styles } from "../enums";
 import { AppDataSelectors } from "../redux/selectors";
 import ToolsPanel from "../components/ToolsPanel";
@@ -132,40 +132,14 @@ const Planner = () => {
     collidingObject.y < stationaryObject.y + stationaryObject.height
   );
 
-  const detectCanvasBoundaries = (collidingObject, xOffset, yOffset) => (
-    collidingObject.x < CANVAS_MINIMUM_SIZE ||
-    collidingObject.x > canvasSize - xOffset ||
-    collidingObject.y < CANVAS_MINIMUM_SIZE ||
-    collidingObject.y > canvasSize - yOffset
-  );
+  const { detectCanvasCollision } = useDetectCanvasCollision();
 
-  const detectLeftRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.x + DOOR_TOLERANCE >= stationaryObject.x &&
-    collidingObject.x - DOOR_TOLERANCE <= stationaryObject.x &&
-    collidingObject.y >= stationaryObject.y &&
-    collidingObject.y < stationaryObject.y + stationaryObject.height
-  );
-
-  const detectRightRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.x + DOOR_TOLERANCE >= stationaryObject.x + stationaryObject.width &&
-    collidingObject.x - DOOR_TOLERANCE <= stationaryObject.x + stationaryObject.width &&
-    collidingObject.y >= stationaryObject.y &&
-    collidingObject.y < stationaryObject.y + stationaryObject.height
-  );
-
-  const detectTopRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.y + DOOR_TOLERANCE >= stationaryObject.y &&
-    collidingObject.y - DOOR_TOLERANCE <= stationaryObject.y &&
-    collidingObject.x >= stationaryObject.x &&
-    collidingObject.x < stationaryObject.x + stationaryObject.width
-  );
-
-  const detectBottomRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.y + DOOR_TOLERANCE >= stationaryObject.y + stationaryObject.height &&
-    collidingObject.y - DOOR_TOLERANCE <= stationaryObject.y + stationaryObject.height &&
-    collidingObject.x >= stationaryObject.x &&
-    collidingObject.x < stationaryObject.x + stationaryObject.width
-  );
+  const {
+    detectLeftBoundary,
+    detectRightBoundary,
+    detectTopBoundary,
+    detectBottomBoundary
+  } = useDetectRoomCollision();
 
   const handleOnMouseMove = e => {
     const stage = e.target.getStage();
@@ -180,7 +154,7 @@ const Planner = () => {
         height: DEFAULT_ROOM_DIMENSION
       };
 
-      if(detectCanvasBoundaries(collidingObject, DEFAULT_ROOM_DIMENSION, DEFAULT_ROOM_DIMENSION)) {
+      if(detectCanvasCollision(canvasSize, collidingObject, { xOffset: DEFAULT_ROOM_DIMENSION, yOffset: DEFAULT_ROOM_DIMENSION })) {
         setIsRoomColliding(true);
       };
 
@@ -228,7 +202,7 @@ const Planner = () => {
           height: room.height
         };
 
-        if(detectLeftRoomBoundary(collidingObject, stationaryObject) || detectRightRoomBoundary(collidingObject, stationaryObject)) {
+        if(detectLeftBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE) || detectRightBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE)) {
           setDoorPreviewOrientation(Directions.vertical);
           setWindowPreviewOrientation(Directions.vertical);
           setCurrentRoom(room.id)
@@ -239,7 +213,7 @@ const Planner = () => {
           });
         };
 
-        if(detectTopRoomBoundary(collidingObject, stationaryObject) || detectBottomRoomBoundary(collidingObject, stationaryObject)) {
+        if(detectTopBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE) || detectBottomBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE)) {
           setDoorPreviewOrientation(Directions.horizontal);
           setWindowPreviewOrientation(Directions.horizontal);
           setCurrentRoom(room.id)

@@ -60,9 +60,27 @@ const Planner = () => {
           isLocked: false,
           isHidden: false,
           tag: Styles.Colors.blue
-        }
+        };
+
+      case AppData.Windows:
+        return {
+          id, 
+          label: `Untilited Window ${ id }`,
+          floor: floorId,
+          room: roomId,
+          width: 25,
+          height: 6,
+          orientation,
+          xPosition,
+          yPosition,
+          isHighlighted: false,
+          isLocked: false,
+          isHidden: false,
+          tag: Styles.Colors.blue
+        };
       
       default:
+        return;
     };
   };
 
@@ -194,7 +212,7 @@ const Planner = () => {
       };
     };
 
-    if(selectedEntity === AppData.Doors) {
+    if(selectedEntity === AppData.Doors || selectedEntity === AppData.Windows) {
       const collidingObject = {
         x: mousePositionX - DOOR_X_OFFSET,
         y: mousePositionY - DOOR_Y_OFFSET,
@@ -212,6 +230,7 @@ const Planner = () => {
 
         if(detectLeftRoomBoundary(collidingObject, stationaryObject) || detectRightRoomBoundary(collidingObject, stationaryObject)) {
           setDoorPreviewOrientation(Directions.vertical);
+          setWindowPreviewOrientation(Directions.vertical);
           setCurrentRoom(room.id)
 
           setMouse({
@@ -221,7 +240,8 @@ const Planner = () => {
         };
 
         if(detectTopRoomBoundary(collidingObject, stationaryObject) || detectBottomRoomBoundary(collidingObject, stationaryObject)) {
-          setDoorPreviewOrientation(Directions.vertical);
+          setDoorPreviewOrientation(Directions.horizontal);
+          setWindowPreviewOrientation(Directions.horizontal);
           setCurrentRoom(room.id)
 
           setMouse({
@@ -288,6 +308,20 @@ const Planner = () => {
         };
 
         return;
+
+      case AppData.Windows:
+        if(currentRoom) {
+          id = utilities.functions.findMissingId(windows);
+
+          dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(selectedEntity, {
+            id,
+            floorId: activeFloor.id,
+            xPosition: mouse.x,
+            yPosition: mouse.y,
+            orientation: windowPreviewOrientation === Directions.horizontal ? Directions.horizontal : Directions.vertical,
+            roomId: currentRoom
+          })))
+        }
 
       default:
         return;

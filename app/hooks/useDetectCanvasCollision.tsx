@@ -3,15 +3,16 @@ const useDetectCanvasCollision = () => {
   const CANVAS_MINIMUM_SIZE = 0;
 
   const detectCanvasCollision = (
-    canvasSize,
-    collidingObject, {
+    canvasSize, {
+    xPosition,
+    yPosition,
     xOffset,
     yOffset
   }) => (
-    collidingObject.x < CANVAS_MINIMUM_SIZE ||
-    collidingObject.x > canvasSize - xOffset ||
-    collidingObject.y < CANVAS_MINIMUM_SIZE ||
-    collidingObject.y > canvasSize - yOffset 
+    xPosition < CANVAS_MINIMUM_SIZE ||
+    xPosition > canvasSize - xOffset ||
+    yPosition < CANVAS_MINIMUM_SIZE ||
+    yPosition > canvasSize - yOffset 
   );
 
   return {

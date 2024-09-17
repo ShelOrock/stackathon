@@ -84,11 +84,8 @@ const Planner = () => {
     };
   };
 
-  const CANVAS_MINIMUM_SIZE = 0;
   const DEFAULT_ROOM_DIMENSION = 100;
   const ROOM_OFFSET = 50;
-  const DEFAULT_DOOR_X_DIMENSION = 25;
-  const DEFAULT_DOOR_Y_DIMENSION = 6;
   const DOOR_X_OFFSET = 0;
   const DOOR_Y_OFFSET = 0;
   const DOOR_TOLERANCE = 12;
@@ -100,7 +97,9 @@ const Planner = () => {
   const [ lastMouse, setLastMouse ] = useState({ x: 0, y: 0 });
   const [ isRoomColliding, setIsRoomColliding ] = useState(false);
   const [ doorPreviewOrientation, setDoorPreviewOrientation ] = useState<Directions>(Directions.horizontal);
+  const [ doorPositionIsValid, setDoorPositionIsValid ] = useState(false);
   const [ windowPreviewOrientation, setWindowPreviewOrientation ] = useState<Directions>(Directions.horizontal);
+  const [ windowPositionIsValid, setWindowPositionIsValid ] = useState(false);
   const [ currentRoom, setCurrentRoom ] = useState(null);
 
   const canvasSize = useAppSelector(state => state.canvasSize);
@@ -154,7 +153,12 @@ const Planner = () => {
         height: DEFAULT_ROOM_DIMENSION
       };
 
-      if(detectCanvasCollision(canvasSize, collidingObject, { xOffset: DEFAULT_ROOM_DIMENSION, yOffset: DEFAULT_ROOM_DIMENSION })) {
+      if(detectCanvasCollision(canvasSize, {
+        xPosition: collidingObject.x,
+        yPosition: collidingObject.y,
+        xOffset: DEFAULT_ROOM_DIMENSION,
+        yOffset: DEFAULT_ROOM_DIMENSION
+      })) {
         setIsRoomColliding(true);
       };
 
@@ -170,29 +174,30 @@ const Planner = () => {
           setIsRoomColliding(true)
         };
       });
-
-      if(isRoomColliding) {
-        setIsRoomColliding(false);
-      } else {
-        setLastMouse({
-          x: mouse.x,
-          y: mouse.y
-        });
-
-        setMouse({
-          x: mousePositionX,
-          y: mousePositionY
-        });
-      };
     };
 
-    if(selectedEntity === AppData.Doors || selectedEntity === AppData.Windows) {
+    if(selectedEntity === AppData.Doors || AppData.Windows) {
       const collidingObject = {
         x: mousePositionX - DOOR_X_OFFSET,
         y: mousePositionY - DOOR_Y_OFFSET,
         width: DEFAULT_ROOM_DIMENSION,
         height: DEFAULT_ROOM_DIMENSION
       };
+
+      if(detectCanvasCollision(canvasSize, {
+        xPosition: collidingObject.x,
+        yPosition: collidingObject.y,
+        xOffset: 25,
+        yOffset: 6
+      })) {
+        setMouse({
+          x: lastMouse.x,
+          y: lastMouse.y
+        });
+      };
+
+      setDoorPositionIsValid(false);
+      setWindowPositionIsValid(false);
 
       activeFloorRooms.forEach(room => {
         const stationaryObject = {
@@ -205,38 +210,31 @@ const Planner = () => {
         if(detectLeftBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE) || detectRightBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE)) {
           setDoorPreviewOrientation(Directions.vertical);
           setWindowPreviewOrientation(Directions.vertical);
-          setCurrentRoom(room.id)
-
-          setMouse({
-            x: mousePositionX,
-            y: mousePositionY
-          });
+          setCurrentRoom(room.id);
+          setDoorPositionIsValid(true);
+          setWindowPositionIsValid(true);
         };
-
+        
         if(detectTopBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE) || detectBottomBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE)) {
           setDoorPreviewOrientation(Directions.horizontal);
           setWindowPreviewOrientation(Directions.horizontal);
-          setCurrentRoom(room.id)
-
-          setMouse({
-            x: mousePositionX,
-            y: mousePositionY
-          });
+          setCurrentRoom(room.id);
+          setDoorPositionIsValid(true);
+          setWindowPositionIsValid(true);
         };
+      });
+
+      setLastMouse({
+        x: mouse.x,
+        y: mouse.y
+      });
+
+      setMouse({
+        x: mousePositionX,
+        y: mousePositionY
       });
     }; 
   };
-
-  useEffect(() => {
-    if(selectedEntity === AppData.Rooms) {
-      if(isRoomColliding) {
-        setMouse({
-          x: lastMouse.x,
-          y: lastMouse.y
-        });
-      };
-    };
-  }, [isRoomColliding]);
 
   const handleOnClick = e => {
     let id;
@@ -264,7 +262,7 @@ const Planner = () => {
         return;
 
       case AppData.Doors:
-        if(currentRoom) {
+        if(currentRoom && doorPositionIsValid) {
           id = utilities.functions.findMissingId(doors);
           
           dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(selectedEntity, {
@@ -284,7 +282,7 @@ const Planner = () => {
         return;
 
       case AppData.Windows:
-        if(currentRoom) {
+        if(currentRoom && windowPositionIsValid) {
           id = utilities.functions.findMissingId(windows);
 
           dispatch(entityActions.addEntity(selectedEntity, createDefaultEntity(selectedEntity, {
@@ -339,6 +337,7 @@ const Planner = () => {
               xPosition={ mouse.x }
               yPosition={ mouse.y }
               orientation={ doorPreviewOrientation }
+              isValid={ doorPositionIsValid }
             />
           ) }
           { selectedEntity === AppData.Windows && (

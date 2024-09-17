@@ -8,7 +8,8 @@ import { Directions } from "../../enums";
 const DoorPreview: React.FC<ComponentPropTypes> = ({
   xPosition,
   yPosition,
-  orientation
+  orientation,
+  isValid
 }) => {
 
   const DOOR_PREVIEW_WIDTH = 25;
@@ -22,7 +23,7 @@ const DoorPreview: React.FC<ComponentPropTypes> = ({
       y={ yPosition - (orientation === Directions.horizontal ? DOOR_PREVIEW_OFFSET : NO_DOOR_PREVIEW_OFFSET) }
       width={ orientation === Directions.horizontal ? DOOR_PREVIEW_WIDTH : DOOR_PREVIEW_HEIGHT }
       height={ orientation === Directions.horizontal ? DOOR_PREVIEW_HEIGHT : DOOR_PREVIEW_WIDTH }
-      fill={ "#8AC926" }
+      fill={ isValid ? "#8AC926" : "red" }
       stroke={ "#000" }
       strokeWidth={ 3 }
     />

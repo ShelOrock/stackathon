@@ -5,6 +5,7 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   xPosition: number;
   yPosition: number;
   orientation: Directions;
+  isValid;
 };
 
 export {

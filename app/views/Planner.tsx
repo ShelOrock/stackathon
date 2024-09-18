@@ -93,6 +93,8 @@ const Planner = () => {
 
   const dispatch = useAppDispatch();
 
+  const stageRef = useRef(null);
+
   const [ mouse, setMouse ] = useState({ x: 0, y: 0 });
   const [ lastMouse, setLastMouse ] = useState({ x: 0, y: 0 });
   const [ isRoomColliding, setIsRoomColliding ] = useState(false);
@@ -119,8 +121,6 @@ const Planner = () => {
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
 
-  const ref = useRef(null);
-
   const detectCollision = (
     collidingObject,
     stationaryObject
@@ -144,6 +144,8 @@ const Planner = () => {
     const stage = e.target.getStage();
     const mousePositionX = Math.round(stage.getPointerPosition().x / GRID_SNAP) * GRID_SNAP;
     const mousePositionY = Math.round(stage.getPointerPosition().y / GRID_SNAP) * GRID_SNAP;
+
+    setIsRoomColliding(false);
 
     if(selectedEntity === AppData.Rooms) {
       const collidingObject = {
@@ -174,9 +176,26 @@ const Planner = () => {
           setIsRoomColliding(true)
         };
       });
+
+      if(isRoomColliding) {
+        setMouse({
+          x: lastMouse.x,
+          y: lastMouse.y
+        });
+      } else {
+        setLastMouse({
+          x: mouse.x,
+          y: mouse.y
+        });
+
+        setMouse({
+          x: mousePositionX,
+          y: mousePositionY
+        });
+      }
     };
 
-    if(selectedEntity === AppData.Doors || AppData.Windows) {
+    if(selectedEntity === AppData.Doors || selectedEntity === AppData.Windows) {
       const collidingObject = {
         x: mousePositionX - DOOR_X_OFFSET,
         y: mousePositionY - DOOR_Y_OFFSET,
@@ -305,7 +324,7 @@ const Planner = () => {
       <ToolsPanel />
       <Stage
         canvasSize={ canvasSize }
-        innerRef={ ref }
+        innerRef={ stageRef }
         onMouseMove={ handleOnMouseMove }
         onClick={ handleOnClick }
       >

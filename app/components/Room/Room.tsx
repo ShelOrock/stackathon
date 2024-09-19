@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import { ComponentPropTypes } from "./types";
@@ -9,8 +9,6 @@ import { Group, Rect, Transformer } from "react-konva";
 import { Html } from "react-konva-utils";
 import theme from "../../theme";
 import { AppDataSelectors } from "../../redux/selectors";
-import ComponentMapping from "../ComponentMapping";
-import Door from "../Door";
 
 const Room: React.FC<ComponentPropTypes> = ({
   id,
@@ -44,6 +42,9 @@ const Room: React.FC<ComponentPropTypes> = ({
 
   const canvasSize = useAppSelector(state => state.canvasSize);
   const currentDoors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors, {
+    filters: { room: id }
+  }));
+  const currentWindows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows, {
     filters: { room: id }
   }));
 
@@ -196,19 +197,6 @@ const Room: React.FC<ComponentPropTypes> = ({
         } }
         rotateEnabled={ false }
       />) }
-      <ComponentMapping
-        componentData={ currentDoors }
-        renderComponent={ door => (
-        <Door
-            // isDisabled={ door.floor !== activeFloor.id }
-            xPosition={ door.xPosition }
-            yPosition={ door.yPosition }
-            rooms={ rooms }
-            activeRoom={ id }
-            { ...door }
-          />
-        ) }
-      />
     </Group>
   )
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Layer } from "react-konva";
 
 import Stage from "../components/Canvas";
@@ -17,6 +17,8 @@ import * as utilities from "../utilities";
 import RoomPreview from "../components/RoomPreview.tsx/RoomPreview";
 import DoorPreview from "../components/DoorPreview";
 import WindowPreview from "../components/WindowPreview";
+import Door from "../components/Door";
+import Window from "../components/Window";
 
 const Planner = () => {
 
@@ -69,7 +71,7 @@ const Planner = () => {
           floor: floorId,
           room: roomId,
           width: 25,
-          height: 6,
+          height: 4,
           orientation,
           xPosition,
           yPosition,
@@ -120,6 +122,10 @@ const Planner = () => {
   }));
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
+
+  const currentDoors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors, {
+    filters: { room: activeRoom.id }
+  }));
 
   const detectCollision = (
     collidingObject,
@@ -192,7 +198,7 @@ const Planner = () => {
           x: mousePositionX,
           y: mousePositionY
         });
-      }
+      };
     };
 
     if(selectedEntity === AppData.Doors || selectedEntity === AppData.Windows) {
@@ -342,6 +348,35 @@ const Planner = () => {
                 rooms={ activeFloorRooms }
               />
             ) }
+          />
+        </Layer>
+        <Layer>
+          <ComponentMapping
+            componentData={ doors }
+            renderComponent={ door => (
+              <Door
+                // isDisabled={ door.floor !== activeFloor.id }
+                xPosition={ door.xPosition }
+                yPosition={ door.yPosition }
+                rooms={ rooms }
+                activeRoom={ activeRoom.id }
+                { ...door }
+              />
+            ) }
+          />
+        </Layer>
+        <Layer>
+          <ComponentMapping
+            componentData={ windows }
+            renderComponent={ window => (
+              <Window
+                xPosition={ window.xPosition }
+                yPosition={ window.yPosition }
+                rooms={ rooms }
+                activeRoom={ activeRoom.id }
+                { ...window }
+              />
+            )}
           />
         </Layer>
         <Layer>

@@ -1,16 +1,12 @@
-import React from "react";
-import { useAppDispatch } from "../../hooks";
-
-import StyledWindow from "./styles";
-
-import DraggableComponent from "../DraggableComponent";
+import React, { useEffect, useRef } from "react";
+import { useAppDispatch, useAppSelector, useDetectCanvasCollision, useDetectRoomCollision } from "../../hooks";
 
 import { entityActions } from "../../redux/actions";
 
 import { AppData, Directions, Styles } from "../../enums";
-import { ReactTypes } from "../../types";
 import { ComponentPropTypes } from "./types";
-import FloatingTools from "../FloatingTools";
+import { Group, Rect } from "react-konva";
+import * as utilities from "../../utilities";
 
 const Window: React.FC<ComponentPropTypes> = ({
   id,
@@ -25,83 +21,117 @@ const Window: React.FC<ComponentPropTypes> = ({
   xPosition,
   yPosition,
   tag = Styles.Colors.blue,
+  rooms,
+  activeRoom
 }) => {
+
   const GRID_SNAP: number = 25;
+  const WINDOW_OFFSET = 2;
+  const NO_WINDOW_OFFSET = 0;
+  const WINDOW_TOLERANCE = 12;
+
+  const windowRef = useRef(null);
 
   const dispatch = useAppDispatch();
 
-  const snapCoordinateToGrid = (deltaCoordinate, gridSnap) => {
-    return Math.round(deltaCoordinate / gridSnap) * gridSnap;
-  };
+  const canvasSize = useAppSelector(state => state.canvasSize);
 
-  const onDragStop: ReactTypes.RndTypes.OnDragStopType = (_e, delta) => {
-    const xPosition = snapCoordinateToGrid(delta.x, GRID_SNAP);
-    const yPosition = snapCoordinateToGrid(delta.y, GRID_SNAP);
+  const { detectCanvasCollision } = useDetectCanvasCollision();
 
-    dispatch(entityActions.updateEntity(AppData.Windows, {
-      id,
-      xPosition,
-      yPosition
-    }));
-  };
+  const {
+    detectLeftBoundary,
+    detectRightBoundary,
+    detectTopBoundary,
+    detectBottomBoundary
+  } = useDetectRoomCollision();
 
-  const onDoubleClick: ReactTypes.HandlerTypes.OnClickType = () => {
-    if(orientation === Directions.vertical) {
-      dispatch(entityActions.updateEntity(AppData.Windows, {
-        id,
-        width: height,
-        height: width,
-        orientation: Directions.horizontal
-      }));
+  const onDragMove = e => {
 
-      return;
+    const elementPosition = e.target.absolutePosition();
+    const collidingObject = {
+      x: elementPosition.x,
+      y: elementPosition.y,
+      width: orientation === Directions.horizontal ? width : height,
+      height: orientation === Directions.horizontal ? height : width
     };
 
-    if(orientation === Directions.horizontal) {
-      dispatch(entityActions.updateEntity(AppData.Windows, {
-        id,
-        width: height,
-        height: width,
-        orientation: Directions.vertical
-      }));
-
-      return;
+    if(detectCanvasCollision(canvasSize, {
+      xPosition: collidingObject.x,
+      yPosition: collidingObject.y,
+      xOffset: WINDOW_TOLERANCE,
+      yOffset: WINDOW_TOLERANCE
+    })) {
+      elementPosition.x = xPosition;
+      elementPosition.y = yPosition;
+      e.target.absolutePosition(elementPosition);
     };
-  }
+
+    rooms.forEach(room => {
+      const stationaryObject = {
+        x: room.xPosition,
+        y: room.yPosition,
+        width: room.width,
+        height: room.height
+      };
+
+      if(detectLeftBoundary(collidingObject, stationaryObject, WINDOW_TOLERANCE) || detectRightBoundary(collidingObject, stationaryObject, WINDOW_TOLERANCE)) {
+        elementPosition.x = utilities.functions.snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
+        elementPosition.y = utilities.functions.snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
+        e.target.absolutePosition(elementPosition);
+
+        dispatch(entityActions.updateEntity(AppData.Windows, {
+          id,
+          xPosition: elementPosition.x,
+          yPosition: elementPosition.y,
+          orientation: Directions.vertical,
+          room: room.id
+        }));
+      };
+
+      if(detectTopBoundary(collidingObject, stationaryObject, WINDOW_TOLERANCE) || detectBottomBoundary(collidingObject, stationaryObject, WINDOW_TOLERANCE)) {
+        elementPosition.x = utilities.functions.snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
+        elementPosition.y = utilities.functions.snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
+        e.target.absolutePosition(elementPosition);
+
+        dispatch(entityActions.updateEntity(AppData.Windows, {
+          id,
+          xPosition: elementPosition.x,
+          yPosition: elementPosition.y,
+          orientation: Directions.horizontal,
+          room: room.id
+        }));
+      };
+    });
+
+    elementPosition.x = xPosition;
+    elementPosition.y = yPosition;
+    e.target.absolutePosition(elementPosition);
+  };
+
+  useEffect(() => {
+    if(windowRef.current) {
+      console.log(windowRef.current.moveToTop());
+      windowRef.current.moveToTop();
+    };
+  }, [windowRef.current]);
 
   return (
-    !isHidden && (
-      <DraggableComponent
-        dragGrid={ [ GRID_SNAP, GRID_SNAP ] }
-        enableResizing={ false }
-        xPosition={ xPosition } 
-        yPosition={ yPosition } 
-        width={ width }
-        height={ height }
-        onDragStop={ onDragStop }
-        onDoubleClick={ onDoubleClick }
-        disableDragging={ isLocked || isDisabled }
-      >
-        {/* { !isDisabled && (
-          <FloatingTools
-            appDataType={ AppData.Windows }
-            id={ id }
-            label={ label }
-            isHidden={ isHidden }
-            isLocked={ isLocked }
-            tag={ tag }
-          />
-        ) } */}
-        <StyledWindow 
-          $width={ width }
-          $height={ height }
-          $orientation={ orientation }
-          $isDisabled={ isDisabled }
-          $isHighlighted={ isHighlighted }
-          $tag={ tag }
-        />
-      </DraggableComponent>
-    )
+    <Group>
+      <Rect
+        ref={ windowRef }
+        x={ xPosition }
+        y={ yPosition }
+        width={ orientation === Directions.horizontal ? width : height }
+        height={ orientation === Directions.horizontal ? height : width }
+        fill="white"
+        stroke="black"
+        strokeWidth={ 2 }
+        offsetX={ orientation === Directions.horizontal ? NO_WINDOW_OFFSET : WINDOW_OFFSET }
+        offsetY={ orientation === Directions.horizontal ? WINDOW_OFFSET : NO_WINDOW_OFFSET }
+        draggable
+        onDragMove={ onDragMove }
+      />
+    </Group>
   );
 };
 

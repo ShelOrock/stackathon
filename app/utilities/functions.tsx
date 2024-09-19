@@ -36,7 +36,12 @@ const findMissingId = (array = []): number => {
   return result + 1;
 };
 
+const snapCoordinateToGrid = (deltaCoordinate, gridSnap) => {
+  return Math.round(deltaCoordinate / gridSnap) * gridSnap;
+};
+
 export { 
   sortArray,
   findMissingId,
+  snapCoordinateToGrid
 };

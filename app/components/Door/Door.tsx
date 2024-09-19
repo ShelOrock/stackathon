@@ -1,10 +1,12 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector, useDetectCanvasCollision, useDetectRoomCollision } from "../../hooks";
 
 import { AppData, Directions } from "../../enums";
 import { ComponentPropTypes } from "./types";
 import { entityActions } from "../../redux/actions";
 import { Group, Rect } from "react-konva";
+
+import * as utilities from "../../utilities";
 
 const Door: React.FC<ComponentPropTypes> = ({
   id,
@@ -24,7 +26,6 @@ const Door: React.FC<ComponentPropTypes> = ({
 }) => {
 
   const GRID_SNAP: number = 25;
-  const CANVAS_MINIMUM_SIZE = 0;
   const DOOR_OFFSET = 3;
   const NO_DOOR_OFFSET = 0;
   const DOOR_TOLERANCE = 12;
@@ -33,44 +34,14 @@ const Door: React.FC<ComponentPropTypes> = ({
 
   const canvasSize = useAppSelector(state => state.canvasSize);
 
-  const snapCoordinateToGrid = (deltaCoordinate, gridSnap) => {
-    return Math.round(deltaCoordinate / gridSnap) * gridSnap;
-  };
+  const { detectCanvasCollision } = useDetectCanvasCollision();
 
-  const detectCanvasBoundaries = (collidingObject) => (
-    collidingObject.x < CANVAS_MINIMUM_SIZE ||
-    collidingObject.x > canvasSize - width ||
-    collidingObject.y < CANVAS_MINIMUM_SIZE ||
-    collidingObject.y > canvasSize - height
-  );
-
-  const detectLeftRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.x + DOOR_TOLERANCE > stationaryObject.x &&
-    collidingObject.x - DOOR_TOLERANCE < stationaryObject.x &&
-    collidingObject.y > stationaryObject.y &&
-    collidingObject.y < stationaryObject.y + stationaryObject.height
-  );
-
-  const detectRightRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.x + DOOR_TOLERANCE > stationaryObject.x + stationaryObject.width &&
-    collidingObject.x - DOOR_TOLERANCE < stationaryObject.x + stationaryObject.width &&
-    collidingObject.y > stationaryObject.y &&
-    collidingObject.y < stationaryObject.y + stationaryObject.height
-  );
-
-  const detectTopRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.y + DOOR_TOLERANCE > stationaryObject.y &&
-    collidingObject.y - DOOR_TOLERANCE < stationaryObject.y &&
-    collidingObject.x > stationaryObject.x &&
-    collidingObject.x < stationaryObject.x + stationaryObject.width
-  );
-
-  const detectBottomRoomBoundary = (collidingObject, stationaryObject) => (
-    collidingObject.y + DOOR_TOLERANCE > stationaryObject.y + stationaryObject.height &&
-    collidingObject.y - DOOR_TOLERANCE < stationaryObject.y + stationaryObject.height &&
-    collidingObject.x > stationaryObject.x &&
-    collidingObject.x < stationaryObject.x + stationaryObject.width
-  );
+  const {
+    detectLeftBoundary,
+    detectRightBoundary,
+    detectTopBoundary,
+    detectBottomBoundary
+  } = useDetectRoomCollision();
 
   const onDragMove = e => {
 
@@ -82,7 +53,12 @@ const Door: React.FC<ComponentPropTypes> = ({
       height: orientation === Directions.horizontal ? height : width
     };
 
-    if(detectCanvasBoundaries(collidingObject)) {
+    if(detectCanvasCollision(canvasSize, {
+      xPosition: collidingObject.x,
+      yPosition: collidingObject.y,
+      xOffset: DOOR_TOLERANCE,
+      yOffset: DOOR_TOLERANCE
+    })) {
       elementPosition.x = xPosition;
       elementPosition.y = yPosition;
       e.target.absolutePosition(elementPosition);
@@ -96,11 +72,10 @@ const Door: React.FC<ComponentPropTypes> = ({
         height: room.height
       };
 
-      if(detectLeftRoomBoundary(collidingObject, stationaryObject) || detectRightRoomBoundary(collidingObject, stationaryObject)) {
-        elementPosition.x = snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
-        elementPosition.y = snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
+      if(detectLeftBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE) || detectRightBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE)) {
+        elementPosition.x = utilities.functions.snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
+        elementPosition.y = utilities.functions.snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
         e.target.absolutePosition(elementPosition);
-        console.log(collidingObject, stationaryObject)
 
         dispatch(entityActions.updateEntity(AppData.Doors, {
           id,
@@ -111,9 +86,9 @@ const Door: React.FC<ComponentPropTypes> = ({
         }));
       };
 
-      if(detectTopRoomBoundary(collidingObject, stationaryObject) || detectBottomRoomBoundary(collidingObject, stationaryObject)) {
-        elementPosition.x = snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
-        elementPosition.y = snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
+      if(detectTopBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE) || detectBottomBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE)) {
+        elementPosition.x = utilities.functions.snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
+        elementPosition.y = utilities.functions.snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
         e.target.absolutePosition(elementPosition);
 
         dispatch(entityActions.updateEntity(AppData.Doors, {

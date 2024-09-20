@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector, useDetectCanvasCollision, useDetectRoomCollision } from "../../hooks";
 
 import { AppData, Directions } from "../../enums";
@@ -36,6 +36,8 @@ const Door: React.FC<ComponentPropTypes> = ({
 
   const { detectCanvasCollision } = useDetectCanvasCollision();
 
+  const [ doorPositionIsValid, setDoorPositionIsValid ] = useState(false);
+
   const {
     detectLeftBoundary,
     detectRightBoundary,
@@ -64,6 +66,8 @@ const Door: React.FC<ComponentPropTypes> = ({
       e.target.absolutePosition(elementPosition);
     };
 
+    setDoorPositionIsValid(false);
+
     rooms.forEach(room => {
       const stationaryObject = {
         x: room.xPosition,
@@ -73,6 +77,7 @@ const Door: React.FC<ComponentPropTypes> = ({
       };
 
       if(detectLeftBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE) || detectRightBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE)) {
+        setDoorPositionIsValid(true);
         elementPosition.x = utilities.functions.snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
         elementPosition.y = utilities.functions.snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
         e.target.absolutePosition(elementPosition);
@@ -87,6 +92,7 @@ const Door: React.FC<ComponentPropTypes> = ({
       };
 
       if(detectTopBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE) || detectBottomBoundary(collidingObject, stationaryObject, DOOR_TOLERANCE)) {
+        setDoorPositionIsValid(true);
         elementPosition.x = utilities.functions.snapCoordinateToGrid(elementPosition.x, GRID_SNAP);
         elementPosition.y = utilities.functions.snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
         e.target.absolutePosition(elementPosition);

@@ -140,7 +140,7 @@ const RoomLayer: React.FC<ComponentPropTypes> = ({
       <Column>
         <ComponentMapping
           componentData={ windows }
-          renderComponent={ window => id === window.floor && (
+          renderComponent={ window => (
             <EntityLayer
               appDataType={ AppData.Windows }
               { ...window }

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector, useDetectRoomCollision } from "../../hooks";
 
 import { ComponentPropTypes } from "./types";
 import { entityActions } from "../../redux/actions";
@@ -51,6 +51,13 @@ const Room: React.FC<ComponentPropTypes> = ({
   const snapCoordinateToGrid = (deltaCoordinate, gridSnap) => {
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
   };
+
+  const {
+    detectLeftBoundary,
+    detectRightBoundary,
+    detectBottomBoundary,
+    detectTopBoundary
+  } = useDetectRoomCollision();
 
   const detectCollision = (
     collidingObject,
@@ -121,8 +128,39 @@ const Room: React.FC<ComponentPropTypes> = ({
         id: door.id,
         xPosition: door.xPosition + deltaX,
         yPosition: door.yPosition + deltaY
-      }))
-    })
+      }));
+
+      const collidingObject = {
+        x: door.xPosition,
+        y: door.yPosition,
+        width: door.width,
+        height: door.height
+      };
+
+      rooms.forEach(room => {
+        if(room.id !== id) {
+
+          const stationaryObject = {
+            x: room.xPosition,
+            y: room.yPosition,
+            width: room.width,
+            height: room.height
+          };
+    
+          if(detectCollision(collidingObject, stationaryObject)) {
+            dispatch(entityActions.deleteEntity(AppData.Doors, door.id));
+          };
+        };
+      });
+    });
+
+    currentWindows.forEach(window => {
+      dispatch(entityActions.updateEntity(AppData.Windows, {
+        id: window.id,
+        xPosition: window.xPosition + deltaX,
+        yPosition: window.yPosition + deltaY
+      }));
+    });
   };
 
   const onTransform = () => {

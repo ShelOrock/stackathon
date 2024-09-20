@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useAppDispatch, useAppSelector, useDetectCanvasCollision, useDetectRoomCollision } from "../../hooks";
 
 import { entityActions } from "../../redux/actions";
@@ -107,13 +107,6 @@ const Window: React.FC<ComponentPropTypes> = ({
     elementPosition.y = yPosition;
     e.target.absolutePosition(elementPosition);
   };
-
-  useEffect(() => {
-    if(windowRef.current) {
-      console.log(windowRef.current.moveToTop());
-      windowRef.current.moveToTop();
-    };
-  }, [windowRef.current]);
 
   return (
     <Group>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector, useDetectRoomCollision } from "../../hooks";
 
 import { ComponentPropTypes } from "./types";
@@ -48,6 +48,8 @@ const Room: React.FC<ComponentPropTypes> = ({
     filters: { room: id }
   }));
 
+  const [ dangerDoors, setDangerDoors ] = useState([]);
+
   const snapCoordinateToGrid = (deltaCoordinate, gridSnap) => {
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
   };
@@ -63,10 +65,10 @@ const Room: React.FC<ComponentPropTypes> = ({
     collidingObject,
     stationaryObject
   ) => (
-    collidingObject.x + collidingObject.width > stationaryObject.x &&
-    collidingObject.x < stationaryObject.x + stationaryObject.width && 
-    collidingObject.y + collidingObject.height > stationaryObject.y &&
-    collidingObject.y < stationaryObject.y + stationaryObject.height
+    collidingObject.x + collidingObject.width >= stationaryObject.x &&
+    collidingObject.x <= stationaryObject.x + stationaryObject.width && 
+    collidingObject.y + collidingObject.height >= stationaryObject.y &&
+    collidingObject.y <= stationaryObject.y + stationaryObject.height
   );
 
   const detectCanvasBoundaries = (collidingObject) => (
@@ -95,6 +97,8 @@ const Room: React.FC<ComponentPropTypes> = ({
     rooms.forEach(room => {
       if(room.id !== id) {
 
+        const dangerDoors = [];
+
         const stationaryObject = {
           x: room.xPosition,
           y: room.yPosition,
@@ -106,7 +110,24 @@ const Room: React.FC<ComponentPropTypes> = ({
           elementPosition.x = xPosition;
           elementPosition.y = yPosition;
           e.target.absolutePosition(elementPosition);
+
+          currentDoors.forEach(door => {
+            const collidingObject = {
+              x: door.xPosition,
+              y: door.yPosition,
+              width: door.width,
+              height: door.height
+            };
+
+            if(detectCollision(collidingObject, stationaryObject)) {
+              dangerDoors.push(door.id);
+            } else {
+              dangerDoors.filter(dangerDoor => dangerDoor === door.id)
+            };
+          });
         };
+
+        setDangerDoors(dangerDoors);
       };
     });
 
@@ -114,54 +135,40 @@ const Room: React.FC<ComponentPropTypes> = ({
     elementPosition.y = snapCoordinateToGrid(elementPosition.y, GRID_SNAP);
     e.target.absolutePosition(elementPosition);
 
-    dispatch(entityActions.updateEntity(AppData.Rooms, {
-      id,
-      xPosition: elementPosition.x,
-      yPosition: elementPosition.y
-    }));
-
-    const deltaX = elementPosition.x - xPosition;
-    const deltaY = elementPosition.y - yPosition;
-
-    currentDoors.forEach(door => {
-      dispatch(entityActions.updateEntity(AppData.Doors, {
-        id: door.id,
-        xPosition: door.xPosition + deltaX,
-        yPosition: door.yPosition + deltaY
+    if(elementPosition.x !== xPosition || elementPosition.y !== yPosition) {
+      dispatch(entityActions.updateEntity(AppData.Rooms, {
+        id,
+        xPosition: elementPosition.x,
+        yPosition: elementPosition.y
       }));
 
-      const collidingObject = {
-        x: door.xPosition,
-        y: door.yPosition,
-        width: door.width,
-        height: door.height
-      };
+      const deltaX = elementPosition.x - xPosition;
+      const deltaY = elementPosition.y - yPosition;
 
-      rooms.forEach(room => {
-        if(room.id !== id) {
-
-          const stationaryObject = {
-            x: room.xPosition,
-            y: room.yPosition,
-            width: room.width,
-            height: room.height
-          };
-    
-          if(detectCollision(collidingObject, stationaryObject)) {
-            dispatch(entityActions.deleteEntity(AppData.Doors, door.id));
-          };
-        };
+      currentDoors.forEach(door => {
+        dispatch(entityActions.updateEntity(AppData.Doors, {
+          id: door.id,
+          xPosition: door.xPosition + deltaX,
+          yPosition: door.yPosition + deltaY
+        }));
       });
-    });
 
-    currentWindows.forEach(window => {
-      dispatch(entityActions.updateEntity(AppData.Windows, {
-        id: window.id,
-        xPosition: window.xPosition + deltaX,
-        yPosition: window.yPosition + deltaY
-      }));
+      currentWindows.forEach(window => {
+        dispatch(entityActions.updateEntity(AppData.Windows, {
+          id: window.id,
+          xPosition: window.xPosition + deltaX,
+          yPosition: window.yPosition + deltaY
+        }));
+      });
+    };
+  };
+
+  const onDragEnd = () => {
+    dangerDoors.forEach(dangerDoor => {
+      dispatch(entityActions.deleteEntity(AppData.Doors, dangerDoor)) 
     });
   };
+
 
   const onTransform = () => {
     const node = currentRoom.current;
@@ -208,6 +215,7 @@ const Room: React.FC<ComponentPropTypes> = ({
         strokeWidth={ 5 }
         draggable
         onDragMove={ onDragMove }
+        onDragEnd={ onDragEnd }
         onTransform={ onTransform }
         onClick={ onClick }
       />

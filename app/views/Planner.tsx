@@ -317,8 +317,12 @@ const Planner = () => {
             yPosition: mouse.y,
             orientation: windowPreviewOrientation === Directions.horizontal ? Directions.horizontal : Directions.vertical,
             roomId: currentRoom
-          })))
-        }
+          })));
+
+          if(!e.evt.shiftKey) {
+            dispatch(selectedEntityActions.resetSelectEntity());
+          };
+        };
 
       default:
         return;
@@ -334,9 +338,11 @@ const Planner = () => {
         onMouseMove={ handleOnMouseMove }
         onClick={ handleOnClick }
       >
-        <Layer>
-          <Grid canvasSize={ canvasSize }/>
-        </Layer>
+        { gridIsShowing && (
+          <Layer>
+            <Grid canvasSize={ canvasSize }/>
+          </Layer>
+        ) }
         <Layer>
           <ComponentMapping
             componentData={ rooms }

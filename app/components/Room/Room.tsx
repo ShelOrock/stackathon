@@ -169,8 +169,26 @@ const Room: React.FC<ComponentPropTypes> = ({
     });
   };
 
+  const onTransform = (e) => {
+    // const stage = e.target.getStage();
+    // const mousePositionX = Math.round(stage.getPointerPosition().x);
+    // const mousePositionY = Math.round(stage.getPointerPosition().y);
 
-  const onTransform = () => {
+    // const node = currentRoom.current;
+    // const scaleX = node.scaleX();
+    // const scaleY = node.scaleY();
+    // console.log(scaleX, scaleY)
+
+    // dispatch(entityActions.updateEntity(AppData.Rooms, {
+    //   id,
+    //   xPosition: snapCoordinateToGrid(node.x(), GRID_SNAP),
+    //   yPosition: snapCoordinateToGrid(node.y(), GRID_SNAP),
+    //   width: snapCoordinateToGrid(node.width() * scaleX, GRID_SNAP),
+    //   height: snapCoordinateToGrid(node.height() * scaleY, GRID_SNAP)
+    // }));
+  };
+
+  const onTransformEnd = () => {
     const node = currentRoom.current;
     const scaleX = node.scaleX();
     const scaleY = node.scaleY();
@@ -179,14 +197,19 @@ const Room: React.FC<ComponentPropTypes> = ({
       id,
       xPosition: snapCoordinateToGrid(node.x(), GRID_SNAP),
       yPosition: snapCoordinateToGrid(node.y(), GRID_SNAP),
-      width: snapCoordinateToGrid(node.width() * scaleX, GRID_SNAP),
-      height: snapCoordinateToGrid(node.height() * scaleY, GRID_SNAP)
+      width: snapCoordinateToGrid(width * scaleX, GRID_SNAP),
+      height: snapCoordinateToGrid(height * scaleY, GRID_SNAP)
     }));
-  };
+  }
 
   const onClick = () => {
     dispatch(entityActions.setActiveId(AppData.Rooms, id));
   };
+
+  useEffect(() => {
+    transformers.current.nodes([currentRoom.current]);
+    transformers.current.getLayer().batchDraw();
+  }, [])
 
   return (
     <Group>
@@ -218,31 +241,38 @@ const Room: React.FC<ComponentPropTypes> = ({
         onDragEnd={ onDragEnd }
         onTransform={ onTransform }
         onClick={ onClick }
+        onTransformEnd={ onTransformEnd }
       />
-      { !isDisabled && (<Transformer
+      <Transformer
         ref={ transformers }
         boundBoxFunc={ (oldBox, newBox) => {
+          console.log(currentRoom.current.scaleX())
+          // console.log(oldBox)
+          return newBox
+          // if(
+          //   snapCoordinateToGrid(oldBox.x, GRID_SNAP) === snapCoordinateToGrid(newBox.x, GRID_SNAP) &&
+          //   snapCoordinateToGrid(oldBox.y, GRID_SNAP) === snapCoordinateToGrid(newBox.y, GRID_SNAP)
+          // ) {
+          //   return oldBox;
+          // };
+          // console.log(oldBox, newBox)
 
-          if(oldBox.width <= GRID_SNAP || oldBox.height <= GRID_SNAP) {
-            return oldBox;
-          };
+          // const newX = snapCoordinateToGrid(newBox.x, GRID_SNAP);
+          // const newY = snapCoordinateToGrid(newBox.y, GRID_SNAP);
 
-          const newX = snapCoordinateToGrid(newBox.x, GRID_SNAP);
-          const newY = snapCoordinateToGrid(newBox.y, GRID_SNAP);
+          // const dx = newX - snapCoordinateToGrid(oldBox.x, GRID_SNAP);
+          // const dy = newY - snapCoordinateToGrid(oldBox.y, GRID_SNAP);
 
-          const dx = newX - snapCoordinateToGrid(newBox.x,GRID_SNAP);
-          const dy = newY - snapCoordinateToGrid(newBox.y, GRID_SNAP);
-
-          newBox.x = newX;
-          newBox.y = newY;
+          // newBox.x = newX;
+          // newBox.y = newY;
         
-          newBox.width = snapCoordinateToGrid(newBox.width - dx, GRID_SNAP);
-          newBox.height = snapCoordinateToGrid(newBox.height - dy, GRID_SNAP);
+          // newBox.width = snapCoordinateToGrid(newBox.width - dx, GRID_SNAP);
+          // newBox.height = snapCoordinateToGrid(newBox.height - dy, GRID_SNAP);
 
-          return newBox;
+          // return newBox;
         } }
         rotateEnabled={ false }
-      />) }
+      />
     </Group>
   )
 };

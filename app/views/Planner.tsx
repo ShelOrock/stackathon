@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Layer } from "react-konva";
 
 import Stage from "../components/Canvas";
@@ -123,9 +123,22 @@ const Planner = () => {
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
 
-  const currentDoors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors, {
-    filters: { room: activeRoom.id }
-  }));
+  const [ conflictingDoors, setConflictingDoors ] = useState([]);
+  const [ conflictingWindows, setConflictingWindows ] = useState([]);
+
+  useEffect(() => {
+    const handleEscape = e => {
+      if(e.key === "Escape") {
+        dispatch(selectedEntityActions.resetSelectEntity());
+      };
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
 
   const detectCollision = (
     collidingObject,
@@ -405,6 +418,7 @@ const Planner = () => {
               xPosition={ mouse.x }
               yPosition={ mouse.y }
               orientation={ windowPreviewOrientation }
+              isValid={ windowPositionIsValid }
             />
           ) }
         </Layer>

@@ -8,7 +8,8 @@ import { Directions } from "../../enums";
 const WindowPreview: React.FC<ComponentPropTypes> = ({
   xPosition,
   yPosition,
-  orientation
+  orientation,
+  isValid = false
 }) => {
 
   const WINDOW_PREVIEW_WIDTH = 25;
@@ -18,13 +19,13 @@ const WindowPreview: React.FC<ComponentPropTypes> = ({
 
   return (
     <Rect
-    x={ xPosition - (orientation === Directions.horizontal ? NO_WINDOW_PREVIEW_OFFSET : WINDOW_PREVIEW_OFFSET) }
-    y={ yPosition - (orientation === Directions.horizontal ? WINDOW_PREVIEW_OFFSET : NO_WINDOW_PREVIEW_OFFSET) }
-    width={ orientation === Directions.horizontal ? WINDOW_PREVIEW_WIDTH : WINDOW_PREVIEW_HEIGHT }
-    height={ orientation === Directions.horizontal ? WINDOW_PREVIEW_HEIGHT : WINDOW_PREVIEW_WIDTH }
-    fill={ "#8AC926" }
-    stroke={ "#000" }
-    strokeWidth={ 1 }
+      x={ xPosition - (orientation === Directions.horizontal ? NO_WINDOW_PREVIEW_OFFSET : WINDOW_PREVIEW_OFFSET) }
+      y={ yPosition - (orientation === Directions.horizontal ? WINDOW_PREVIEW_OFFSET : NO_WINDOW_PREVIEW_OFFSET) }
+      width={ orientation === Directions.horizontal ? WINDOW_PREVIEW_WIDTH : WINDOW_PREVIEW_HEIGHT }
+      height={ orientation === Directions.horizontal ? WINDOW_PREVIEW_HEIGHT : WINDOW_PREVIEW_WIDTH }
+      fill={ isValid ? "#8AC926" : "red" }
+      stroke={ "#000" }
+      strokeWidth={ 1 }
     />
   )
 };

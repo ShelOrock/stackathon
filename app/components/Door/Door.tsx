@@ -7,6 +7,7 @@ import { entityActions } from "../../redux/actions";
 import { Group, Rect } from "react-konva";
 
 import * as utilities from "../../utilities";
+import theme from "../../theme";
 
 const Door: React.FC<ComponentPropTypes> = ({
   id,
@@ -119,7 +120,7 @@ const Door: React.FC<ComponentPropTypes> = ({
         y={ yPosition }
         width={ orientation === Directions.horizontal ? width : height }
         height={ orientation === Directions.horizontal ? height : width }
-        fill="black"
+        fill={ isDisabled ? theme.colors.disabled : isHighlighted ? theme.colors[tag].default : theme.colors.black }
         stroke="white"
         strokeWidth={ 3 }
         offsetX={ orientation === Directions.horizontal ? NO_DOOR_OFFSET : DOOR_OFFSET }

@@ -397,6 +397,7 @@ const Planner = () => {
                 isActive={ room.id === activeRoom.id }
                 { ...room }
                 rooms={ activeFloorRooms }
+                selectedEntity={ selectedEntity }
               />
             ) }
           />
@@ -406,7 +407,7 @@ const Planner = () => {
             componentData={ doors }
             renderComponent={ door => (
               <Door
-                // isDisabled={ door.floor !== activeFloor.id }
+                isDisabled={ door.floor !== activeFloor.id }
                 xPosition={ door.xPosition }
                 yPosition={ door.yPosition }
                 rooms={ rooms }
@@ -421,6 +422,7 @@ const Planner = () => {
             componentData={ windows }
             renderComponent={ window => (
               <Window
+                isDisabled={ window.floor !== activeFloor.id }
                 xPosition={ window.xPosition }
                 yPosition={ window.yPosition }
                 rooms={ rooms }

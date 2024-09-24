@@ -38,18 +38,6 @@ const Room: React.FC<ComponentPropTypes> = ({
     };
   }, [isActive]);
 
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
-  const handleClickOutside = e => {
-    dispatch(entityActions.resetActiveId(AppData.Rooms));
-  };
-
   const dispatch = useAppDispatch();
 
   const canvasSize = useAppSelector(state => state.canvasSize);
@@ -214,10 +202,13 @@ const Room: React.FC<ComponentPropTypes> = ({
     return newBox
   }
 
-  const onClick = e => {  
-    if(e.target === currentRoom.current) {
-      dispatch(entityActions.setActiveId(AppData.Rooms, id));
+  const onClick = () => {  
+    if(isActive) {
+      dispatch(entityActions.resetActiveId(AppData.Rooms));
+      return
     };
+
+    dispatch(entityActions.setActiveId(AppData.Rooms, id));
   };
 
   return (

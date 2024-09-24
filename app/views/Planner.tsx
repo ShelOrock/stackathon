@@ -133,10 +133,10 @@ const Planner = () => {
       };
     };
 
-    window.addEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handleEscape);
 
     return () => {
-      window.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleEscape);
     };
   }, []);
 
@@ -293,10 +293,6 @@ const Planner = () => {
         dispatch(entityActions.addEntity(selectedEntity, entity));
         dispatch(entityActions.setActiveId(selectedEntity, entity.id))
 
-        if(!e.evt.shiftKey) {
-          dispatch(selectedEntityActions.resetSelectEntity());
-        };
-
         return;
 
       case AppData.Doors:
@@ -341,6 +337,42 @@ const Planner = () => {
         return;
     };
   };
+
+  useEffect(() => {    
+    const handleOutsideClick = e => {
+      if(selectedEntity) {
+        if(!e.shiftKey) {
+          dispatch(selectedEntityActions.resetSelectEntity());
+        }
+      };
+
+      if(!activeRoom.id) {
+        return;
+      };
+  
+      if(!stageRef.current) {
+        return;
+      };
+
+      const pointerPosition = stageRef.current.getPointerPosition();
+
+      if(!pointerPosition) {
+        return;
+      };
+      
+      const clickedShape = stageRef.current.getIntersection(pointerPosition);
+
+      if(!clickedShape) {
+        dispatch(entityActions.resetActiveId(AppData.Rooms));
+      };
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [activeRoom.id]);
 
   return (
     <Row justifyContent={ Styles.JustifyContent.spaceBetween }>

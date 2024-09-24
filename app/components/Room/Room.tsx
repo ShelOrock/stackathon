@@ -24,6 +24,7 @@ const Room: React.FC<ComponentPropTypes> = ({
   yPosition,
   tag = Styles.Colors.blue,
   rooms,
+  selectedEntity
 }) => {
   const GRID_SNAP: number = 25;
   const CANVAS_MINIMUM_SIZE = 0;
@@ -37,6 +38,12 @@ const Room: React.FC<ComponentPropTypes> = ({
       transformers.current.getLayer().batchDraw();
     };
   }, [isActive]);
+
+  useEffect(() => {
+    if(transformers.current) {
+      transformers.current.moveToTop();
+    };
+  }, [transformers.current]);
 
   const dispatch = useAppDispatch();
 
@@ -202,10 +209,18 @@ const Room: React.FC<ComponentPropTypes> = ({
     return newBox
   }
 
-  const onClick = () => {  
+  const onClick = () => { 
+    if(selectedEntity) {
+      return;
+    };
+    
+    if(isDisabled) {
+      return;
+    };
+
     if(isActive) {
       dispatch(entityActions.resetActiveId(AppData.Rooms));
-      return
+      return;
     };
 
     dispatch(entityActions.setActiveId(AppData.Rooms, id));
@@ -236,14 +251,13 @@ const Room: React.FC<ComponentPropTypes> = ({
         fill={ "transparent" }
         stroke={ isDisabled ? theme.colors.disabled : isHighlighted ? theme.colors[tag].default : theme.colors.black }
         strokeWidth={ 5 }
-        draggable
+        draggable={ !isDisabled }
         onDragMove={ onDragMove }
         onDragEnd={ onDragEnd }
         onTransform={ onTransform }
         onClick={ onClick }
-        // onTransformEnd={ onTransformEnd }
       />
-      { isActive && (
+      { !isDisabled && isActive && (
         <Transformer
           ref={ transformers }
           boundBoxFunc={ handleTransformerBoundingBox }

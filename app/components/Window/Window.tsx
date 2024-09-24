@@ -7,6 +7,7 @@ import { AppData, Directions, Styles } from "../../enums";
 import { ComponentPropTypes } from "./types";
 import { Group, Rect } from "react-konva";
 import * as utilities from "../../utilities";
+import theme from "../../theme";
 
 const Window: React.FC<ComponentPropTypes> = ({
   id,
@@ -117,8 +118,7 @@ const Window: React.FC<ComponentPropTypes> = ({
         width={ orientation === Directions.horizontal ? width : height }
         height={ orientation === Directions.horizontal ? height : width }
         fill="white"
-        stroke="black"
-        strokeWidth={ 2 }
+        stroke={ isDisabled ? theme.colors.disabled : isHighlighted ? theme.colors[tag].default : theme.colors.black }        strokeWidth={ 2 }
         offsetX={ orientation === Directions.horizontal ? NO_WINDOW_OFFSET : WINDOW_OFFSET }
         offsetY={ orientation === Directions.horizontal ? WINDOW_OFFSET : NO_WINDOW_OFFSET }
         draggable

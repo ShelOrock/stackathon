@@ -1,4 +1,4 @@
-import { Styles } from "../../enums";
+import { AppData, Styles } from "../../enums";
 import { StylesTypes } from "../../types";
 
 interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.PaddingPropTypes {
@@ -15,6 +15,7 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   yPosition: number;
   tag: Styles.Colors.blue;
   rooms: any[];
+  selectedEntity: AppData;
 };
 
 export {

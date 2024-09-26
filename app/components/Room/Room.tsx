@@ -56,6 +56,7 @@ const Room: React.FC<ComponentPropTypes> = ({
   }));
 
   const [ dangerDoors, setDangerDoors ] = useState([]);
+  const [ isColliding, setIsColliding ] = useState(false);
 
   const snapCoordinateToGrid = (deltaCoordinate, gridSnap) => {
     return Math.round(deltaCoordinate / gridSnap) * gridSnap;
@@ -174,12 +175,46 @@ const Room: React.FC<ComponentPropTypes> = ({
     const scaleX = node.scaleX();
     const scaleY = node.scaleY();
 
-    let newWidth = snapCoordinateToGrid(node.width() * scaleX, GRID_SNAP);
-    let newHeight = snapCoordinateToGrid(node.height() * scaleY, GRID_SNAP);
+    const newWidth = snapCoordinateToGrid(node.width() * scaleX, GRID_SNAP);
+    const newHeight = snapCoordinateToGrid(node.height() * scaleY, GRID_SNAP);
     const newX = snapCoordinateToGrid(node.x() - (newWidth - node.width() * scaleX), GRID_SNAP);
     const newY = snapCoordinateToGrid(node.y() - (newHeight - node.height() * scaleY), GRID_SNAP);
 
     if(newWidth < 25 || newHeight < 25) {
+      return;
+    };
+
+    // setIsColliding(false);
+
+    const collidingObject = {
+      x: newX,
+      y: newY,
+      width: newWidth,
+      height: newHeight
+    };
+
+    rooms.forEach(room => {
+      if(room.id !== id) {
+        const stationaryObject = {
+          x: room.xPosition,
+          y: room.yPosition,
+          width: room.width,
+          height: room.height
+        };
+
+        if(detectCollision(collidingObject, stationaryObject)) {
+          setIsColliding(true);
+          node.width(node.width());
+          node.height(node.height());
+          node.x(node.x());
+          node.y(node.y());
+          node.scaleX(1);
+          node.scaleY(1);
+        };
+      };
+    });
+
+    if(isColliding) {
       return;
     };
 
@@ -204,10 +239,29 @@ const Room: React.FC<ComponentPropTypes> = ({
       return oldBox;
     };
 
-    newBox.width = snapCoordinateToGrid(newBox.width, GRID_SNAP);
-    newBox.height = snapCoordinateToGrid(newBox.height, GRID_SNAP);
-    return newBox
-  }
+    setIsColliding(false);
+
+    rooms.forEach(room => {
+      if(id !== room.id) {
+        const stationaryObject = {
+          x: room.xPosition,
+          y: room.yPosition,
+          width: room.width,
+          height: room.height
+        };
+
+        if(detectCollision(newBox, stationaryObject)) {
+          setIsColliding(true);
+        };
+      };
+    });
+
+    if(isColliding) {
+      return oldBox;
+    };
+
+    return newBox;
+  };
 
   const onClick = () => { 
     if(selectedEntity) {

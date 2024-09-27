@@ -32,6 +32,15 @@ const Room: React.FC<ComponentPropTypes> = ({
   const currentRoom = useRef(null);
   const transformers = useRef(null);
 
+  enum RoomStatuses {
+    Stationary = "Stationary",
+    Dragging = "Dragging",
+    Resizing = "Resizing",
+    Colliding = "Colliding"
+  }
+
+  const [ elementStatus, setElementStatus ] = useState<RoomStatuses>(RoomStatuses.Stationary);
+
   useEffect(() => {
     if(isActive) {
       transformers.current.nodes([currentRoom.current]);
@@ -72,6 +81,18 @@ const Room: React.FC<ComponentPropTypes> = ({
     collidingObject.y <= stationaryObject.y + stationaryObject.height
   );
 
+  const detectCollisionX = (collidingObject) => {
+    return rooms.every(room => {
+      return (
+        room.id !== id &&
+        collidingObject.x < room.xPosition + room.width &&
+        collidingObject.x + collidingObject.width > room.xPosition &&
+        collidingObject.y < room.yPosition + room.height &&
+        collidingObject.y + collidingObject.height > room.yPosition
+      );
+    });
+  };
+
   const detectCanvasBoundaries = (collidingObject) => (
     collidingObject.x < CANVAS_MINIMUM_SIZE ||
     collidingObject.x > canvasSize - width ||
@@ -80,6 +101,8 @@ const Room: React.FC<ComponentPropTypes> = ({
   );
 
   const onDragMove = e => {
+
+    setElementStatus(RoomStatuses.Dragging);
 
     const elementPosition = e.target.absolutePosition();
     const collidingObject = {
@@ -90,9 +113,11 @@ const Room: React.FC<ComponentPropTypes> = ({
     };
 
     if(detectCanvasBoundaries(collidingObject)) {
+      setElementStatus(RoomStatuses.Colliding);
       elementPosition.x = xPosition;
       elementPosition.y = yPosition;
       e.target.absolutePosition(elementPosition);
+      return;
     };
 
     rooms.forEach(room => {
@@ -108,6 +133,7 @@ const Room: React.FC<ComponentPropTypes> = ({
         };
 
         if(detectCollision(collidingObject, stationaryObject)) {
+          setElementStatus(RoomStatuses.Colliding);
           elementPosition.x = xPosition;
           elementPosition.y = yPosition;
           e.target.absolutePosition(elementPosition);
@@ -165,98 +191,48 @@ const Room: React.FC<ComponentPropTypes> = ({
   };
 
   const onDragEnd = () => {
+    setElementStatus(RoomStatuses.Stationary);
     dangerDoors.forEach(dangerDoor => {
       dispatch(entityActions.deleteEntity(AppData.Doors, dangerDoor)) 
     });
   };
 
-  const onTransform = () => {
-    const node = currentRoom.current;
-    const scaleX = node.scaleX();
-    const scaleY = node.scaleY();
+  const onTransform = (e) => {
+    const node = e.target;
 
-    const newWidth = snapCoordinateToGrid(node.width() * scaleX, GRID_SNAP);
-    const newHeight = snapCoordinateToGrid(node.height() * scaleY, GRID_SNAP);
-    const newX = snapCoordinateToGrid(node.x() - (newWidth - node.width() * scaleX), GRID_SNAP);
-    const newY = snapCoordinateToGrid(node.y() - (newHeight - node.height() * scaleY), GRID_SNAP);
+    const scaledWidth = node.width() * node.scaleX();
+    const scaledHeight = node.height() * node.scaleY();
+    const newWidth = snapCoordinateToGrid(scaledWidth, GRID_SNAP);
+    const newHeight = snapCoordinateToGrid(scaledHeight, GRID_SNAP);
 
-    if(newWidth < 25 || newHeight < 25) {
-      return;
-    };
-
-    // setIsColliding(false);
-
-    const collidingObject = {
-      x: newX,
-      y: newY,
-      width: newWidth,
-      height: newHeight
-    };
-
-    rooms.forEach(room => {
-      if(room.id !== id) {
-        const stationaryObject = {
-          x: room.xPosition,
-          y: room.yPosition,
-          width: room.width,
-          height: room.height
-        };
-
-        if(detectCollision(collidingObject, stationaryObject)) {
-          setIsColliding(true);
-          node.width(node.width());
-          node.height(node.height());
-          node.x(node.x());
-          node.y(node.y());
-          node.scaleX(1);
-          node.scaleY(1);
-        };
-      };
-    });
-
-    if(isColliding) {
-      return;
-    };
-
-    node.width(newWidth);
-    node.height(newHeight);
-    node.x(newX);
-    node.y(newY);
     node.scaleX(1);
     node.scaleY(1);
 
-    dispatch(entityActions.updateEntity(AppData.Rooms, {
-      id,
-      xPosition: newX,
-      yPosition: newY,
-      width: newWidth,
-      height: newHeight
-    }));
+    rooms.forEach(room => {
+      if(room.id !== id) {
+        const newRoom = {
+          ...room,
+          width: newWidth,
+          height: newHeight
+        };
+
+        if(detectCollisionX(newRoom)) {
+          setElementStatus(RoomStatuses.Colliding);
+          return;
+        };
+      };
+
+      setElementStatus(RoomStatuses.Stationary);
+      dispatch(entityActions.updateEntity(AppData.Rooms, {
+        id,
+        width: newWidth,
+        height: newHeight
+      }));
+    });
   };
 
   const handleTransformerBoundingBox = (oldBox, newBox) => {
     if(newBox.width < 25 || newBox.height < 25) {
-      return oldBox;
-    };
-
-    setIsColliding(false);
-
-    rooms.forEach(room => {
-      if(id !== room.id) {
-        const stationaryObject = {
-          x: room.xPosition,
-          y: room.yPosition,
-          width: room.width,
-          height: room.height
-        };
-
-        if(detectCollision(newBox, stationaryObject)) {
-          setIsColliding(true);
-        };
-      };
-    });
-
-    if(isColliding) {
       return oldBox;
     };
 
@@ -293,6 +269,7 @@ const Room: React.FC<ComponentPropTypes> = ({
           tag={ tag }
           xPosition={ xPosition }
           yPosition={ yPosition }
+          status={ elementStatus }
         />
       </Html>
     ) }
@@ -308,13 +285,58 @@ const Room: React.FC<ComponentPropTypes> = ({
         draggable={ !isDisabled }
         onDragMove={ onDragMove }
         onDragEnd={ onDragEnd }
-        onTransform={ onTransform }
+        onTransformEnd={ onTransform }
         onClick={ onClick }
       />
       { !isDisabled && isActive && (
         <Transformer
           ref={ transformers }
-          boundBoxFunc={ handleTransformerBoundingBox }
+          boundBoxFunc={ (oldBox, newBox) => {
+
+            setElementStatus(RoomStatuses.Resizing);
+
+            const oldBoxWidth = oldBox.width;
+            const oldBoxHeight = oldBox.height;
+            const oldBoxX = oldBox.x;
+            const oldBoxY = oldBox.y;
+
+            const newBoxWidth = newBox.width;
+            const newBoxHeight = newBox.height;
+            const newBoxX = newBox.x;
+            const newBoxY = newBox.y;
+
+            const test = {
+              x: newBox.x,
+              y: newBox.y,
+              width: newBox.width,
+              height: newBox.height,
+              id
+            };
+            console.log(detectCanvasBoundaries(test))
+            console.log(detectCollisionX(test));
+            if(detectCanvasBoundaries(test)) {
+              setElementStatus(RoomStatuses.Colliding);
+
+              oldBox.width = snapCoordinateToGrid(oldBoxWidth, GRID_SNAP);
+              oldBox.height = snapCoordinateToGrid(oldBoxHeight, GRID_SNAP);
+              return oldBox ;
+            };
+
+            if(detectCollisionX(test)) {
+              setElementStatus(RoomStatuses.Colliding);
+
+              // oldBox.width = snapCoordinateToGrid(oldBoxWidth, GRID_SNAP);
+              // oldBox.height = snapCoordinateToGrid(oldBoxHeight, GRID_SNAP);
+              return oldBox ;
+            };
+
+            newBox.width = snapCoordinateToGrid(newBoxWidth, GRID_SNAP);
+            newBox.height = snapCoordinateToGrid(newBoxHeight, GRID_SNAP);
+            newBox.x = snapCoordinateToGrid(newBoxX, GRID_SNAP);
+            newBox.y = snapCoordinateToGrid(newBoxY, GRID_SNAP);
+
+            return newBox;
+          } }
           flipEnabled={ false }
           rotateEnabled={ false }
         />

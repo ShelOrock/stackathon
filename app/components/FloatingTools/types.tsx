@@ -10,6 +10,7 @@ interface ComponentPropTypes extends StylesTypes.MarginPropTypes, StylesTypes.Pa
   tag?: Styles.Colors;
   xPosition: number;
   yPosition: number;
+  status: string;
 };
 
 interface StylingPropTypes extends Omit<ComponentPropTypes,
@@ -19,6 +20,7 @@ interface StylingPropTypes extends Omit<ComponentPropTypes,
   | "isHidden"
   | "isLocked"
   | "tag"
+  | "status"
 > {};
 
 interface StyledElementPropTypes extends StylesTypes.StyledPropTypes<StylingPropTypes> {};

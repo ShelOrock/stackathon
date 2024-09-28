@@ -82,9 +82,10 @@ const Room: React.FC<ComponentPropTypes> = ({
   );
 
   const detectCollisionX = (collidingObject) => {
-    return rooms.every(room => {
+    const otherRooms = rooms.filter(room => room.id !== collidingObject.id);
+
+    return otherRooms.length && otherRooms.every(room => {
       return (
-        room.id !== id &&
         collidingObject.x < room.xPosition + room.width &&
         collidingObject.x + collidingObject.width > room.xPosition &&
         collidingObject.y < room.yPosition + room.height &&
@@ -93,12 +94,23 @@ const Room: React.FC<ComponentPropTypes> = ({
     });
   };
 
-  const detectCanvasBoundaries = (collidingObject) => (
-    collidingObject.x < CANVAS_MINIMUM_SIZE ||
-    collidingObject.x > canvasSize - width ||
-    collidingObject.y < CANVAS_MINIMUM_SIZE ||
-    collidingObject.y > canvasSize - height
-  );
+  const detectCanvasBoundaries = (collidingObject) => {
+    return (
+      collidingObject.x < CANVAS_MINIMUM_SIZE ||
+      collidingObject.x > canvasSize - width ||
+      collidingObject.y < CANVAS_MINIMUM_SIZE ||
+      collidingObject.y > canvasSize - height
+    )
+  };
+
+  const detectCanvasBoundariesX = (collidingObject) => {
+    return (
+      collidingObject.x < CANVAS_MINIMUM_SIZE ||
+      collidingObject.x + collidingObject.width > canvasSize ||
+      collidingObject.y < CANVAS_MINIMUM_SIZE ||
+      collidingObject.y + collidingObject.height > canvasSize
+    )
+  };
 
   const onDragMove = e => {
 
@@ -197,7 +209,7 @@ const Room: React.FC<ComponentPropTypes> = ({
     });
   };
 
-  const onTransform = (e) => {
+  const onTransformEnd = e => {
     const node = e.target;
 
     const scaledWidth = node.width() * node.scaleX();
@@ -208,36 +220,12 @@ const Room: React.FC<ComponentPropTypes> = ({
     node.scaleX(1);
     node.scaleY(1);
 
-    rooms.forEach(room => {
-      if(room.id !== id) {
-        const newRoom = {
-          ...room,
-          width: newWidth,
-          height: newHeight
-        };
-
-        if(detectCollisionX(newRoom)) {
-          setElementStatus(RoomStatuses.Colliding);
-          return;
-        };
-      };
-
-      setElementStatus(RoomStatuses.Stationary);
-      dispatch(entityActions.updateEntity(AppData.Rooms, {
-        id,
-        width: newWidth,
-        height: newHeight
-      }));
-    });
-  };
-
-  const handleTransformerBoundingBox = (oldBox, newBox) => {
-    if(newBox.width < 25 || newBox.height < 25) {
-      return oldBox;
-    };
-
-    return newBox;
-  };
+    dispatch(entityActions.updateEntity(AppData.Rooms, {
+      id,
+      width: newWidth,
+      height: newHeight
+    }));
+  }
 
   const onClick = () => { 
     if(selectedEntity) {
@@ -285,7 +273,7 @@ const Room: React.FC<ComponentPropTypes> = ({
         draggable={ !isDisabled }
         onDragMove={ onDragMove }
         onDragEnd={ onDragEnd }
-        onTransformEnd={ onTransform }
+        onTransformEnd={ onTransformEnd }
         onClick={ onClick }
       />
       { !isDisabled && isActive && (
@@ -305,16 +293,7 @@ const Room: React.FC<ComponentPropTypes> = ({
             const newBoxX = newBox.x;
             const newBoxY = newBox.y;
 
-            const test = {
-              x: newBox.x,
-              y: newBox.y,
-              width: newBox.width,
-              height: newBox.height,
-              id
-            };
-            console.log(detectCanvasBoundaries(test))
-            console.log(detectCollisionX(test));
-            if(detectCanvasBoundaries(test)) {
+            if(detectCanvasBoundariesX(newBox)) {
               setElementStatus(RoomStatuses.Colliding);
 
               oldBox.width = snapCoordinateToGrid(oldBoxWidth, GRID_SNAP);
@@ -322,11 +301,13 @@ const Room: React.FC<ComponentPropTypes> = ({
               return oldBox ;
             };
 
-            if(detectCollisionX(test)) {
+            if(detectCollisionX({ ...newBox, id })) {
               setElementStatus(RoomStatuses.Colliding);
 
-              // oldBox.width = snapCoordinateToGrid(oldBoxWidth, GRID_SNAP);
-              // oldBox.height = snapCoordinateToGrid(oldBoxHeight, GRID_SNAP);
+              oldBox.width = snapCoordinateToGrid(oldBoxWidth, GRID_SNAP);
+              oldBox.height = snapCoordinateToGrid(oldBoxHeight, GRID_SNAP);
+              oldBox.x = snapCoordinateToGrid(oldBoxX, GRID_SNAP);
+              oldBox.y = snapCoordinateToGrid(oldBoxY, GRID_SNAP)
               return oldBox ;
             };
 

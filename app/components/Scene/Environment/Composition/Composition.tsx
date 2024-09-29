@@ -8,6 +8,7 @@ import { AppData, Directions } from "../../../../enums";
 import ComponentMapping from "../../../ComponentMapping";
 import DoorMesh from "../../../DoorMesh";
 import RoomMesh from "../../../RoomMesh";
+import WindowMesh from "../../../WindowMesh";
 
 const Composition = () => {
 
@@ -63,25 +64,35 @@ const Composition = () => {
       <ComponentMapping
         componentData={ doors }
         renderComponent={ door => {
-          console.log(door.orientation === Directions.vertical)
-
-          return <DoorMesh 
-            width={ door.orientation === Directions.vertical ? door.height / SCALE_FACTOR : door.width / SCALE_FACTOR }
-            height={ 6 }
-            depth={ door.orientation === Directions.vertical ? door.width / SCALE_FACTOR : door.height / SCALE_FACTOR }
-            xPosition={ translateXCoordinatesTo3D(door.xPosition, door.width, door.orientation) }
-            yPosition={ 10 * door.floor - 7 }
-            zPosition={ translateYCoordinatesTo3D(door.yPosition, door.width, door.orientation) }
-            xRotation={ ROTATION_0_DEGREES }
-            yRotation={ ROTATION_0_DEGREES }
-            zRotation={ ROTATION_0_DEGREES }
-          />
+          return (
+            <DoorMesh 
+              width={ door.orientation === Directions.vertical ? door.height / SCALE_FACTOR : door.width / SCALE_FACTOR }
+              height={ 6 }
+              depth={ door.orientation === Directions.vertical ? door.width / SCALE_FACTOR : door.height / SCALE_FACTOR }
+              xPosition={ translateXCoordinatesTo3D(door.xPosition, door.width, door.orientation) }
+              yPosition={ 10 * door.floor - 7 }
+              zPosition={ translateYCoordinatesTo3D(door.yPosition, door.width, door.orientation) }
+              xRotation={ ROTATION_0_DEGREES }
+              yRotation={ ROTATION_0_DEGREES }
+              zRotation={ ROTATION_0_DEGREES }
+            />
+          )
          } }
       />
       <ComponentMapping
         componentData={ windows }
         renderComponent={ window => (
-          <Window { ...window } />
+          <WindowMesh 
+            width={ window.orientation === Directions.vertical ? window.height / SCALE_FACTOR : window.width / SCALE_FACTOR }
+            height={ 3 }
+            depth={ window.orientation === Directions.vertical ? window.width / SCALE_FACTOR : window.height / SCALE_FACTOR }
+            xPosition={ translateXCoordinatesTo3D(window.xPosition, window.width, window.orientation) }
+            yPosition={ 10 * window.floor - 5 }
+            zPosition={ translateYCoordinatesTo3D(window.yPosition, window.width, window.orientation) }
+            xRotation={ ROTATION_0_DEGREES }
+            yRotation={ ROTATION_0_DEGREES }
+            zRotation={ ROTATION_0_DEGREES }
+          />
         )}
       />
     </>

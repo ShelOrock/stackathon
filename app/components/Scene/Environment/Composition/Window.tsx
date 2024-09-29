@@ -14,29 +14,29 @@ const Window = (window) => {
   const DEFAULT_DIMENSION: number = 0;
 
   const translateXCoordinatesTo3D = (window): number => {
-    if(window.orientation == Directions.NORTH_SOUTH) {
+    if(window.orientation == Directions.vertical) {
       return ((window.xPosition - window.width / TRANSLATION_FACTOR) + window.width / TRANSLATION_FACTOR) / SCALE_FACTOR;
     };
-    if(window.orientation == Directions.EAST_WEST) {
+    if(window.orientation == Directions.horizontal) {
       return (window.xPosition + window.width / TRANSLATION_FACTOR) / SCALE_FACTOR
     };
   };
 
   const translateYCoordinatesTo3D = (window): number => {
-    if(window.orientation == Directions.NORTH_SOUTH) {
+    if(window.orientation == Directions.vertical) {
       return ((window.yPosition + window.width / TRANSLATION_FACTOR) + window.height / TRANSLATION_FACTOR) / SCALE_FACTOR;
     };
-    if(window.orientation == Directions.EAST_WEST) {
+    if(window.orientation == Directions.horizontal) {
       return ((window.yPosition - window.width / TRANSLATION_FACTOR) + window.width / TRANSLATION_FACTOR) / SCALE_FACTOR;
     };
   };
 
   const evaluateRotation = (window): [number, number, number] => {
     switch(window.orientation) {
-      case Directions.NORTH_SOUTH:
+      case Directions.vertical:
         return [ROTATION_0_DEGREES, ROTATION_90_DEGREES, ROTATION_0_DEGREES];
 
-      case Directions.EAST_WEST:
+      case Directions.horizontal:
         return [ROTATION_0_DEGREES, ROTATION_0_DEGREES, ROTATION_0_DEGREES];
 
       default: 
@@ -46,14 +46,14 @@ const Window = (window) => {
 
   const evaluateWindowDimensions = (window): [number, number, number] => {
     switch(window.orientation) {
-      case Directions.NORTH_SOUTH:
+      case Directions.vertical:
         return [
           window.height / SCALE_FACTOR,
           WINDOW_THICKNESS,
           window.width / SCALE_FACTOR
         ];
 
-      case Directions.EAST_WEST:
+      case Directions.horizontal:
         return [
           window.width / SCALE_FACTOR,
           WINDOW_THICKNESS,

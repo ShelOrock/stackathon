@@ -93,7 +93,7 @@ const Composition = () => {
             yRotation={ ROTATION_0_DEGREES }
             zRotation={ ROTATION_0_DEGREES }
           />
-        )}
+        )} 
       />
     </>
   );

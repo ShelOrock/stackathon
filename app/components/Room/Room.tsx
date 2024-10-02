@@ -222,6 +222,8 @@ const Room: React.FC<ComponentPropTypes> = ({
 
     dispatch(entityActions.updateEntity(AppData.Rooms, {
       id,
+      xPosition: node.x(),
+      yPosition: node.y(),
       width: newWidth,
       height: newHeight
     }));
@@ -257,10 +259,19 @@ const Room: React.FC<ComponentPropTypes> = ({
           tag={ tag }
           xPosition={ xPosition }
           yPosition={ yPosition }
-          status={ elementStatus }
         />
       </Html>
     ) }
+      <Html>
+        <p
+          style={{
+            margin: 0,
+            position: "absolute",
+            top: yPosition + width,
+            left: xPosition
+          }}
+        >{ elementStatus }</p>
+      </Html>
       <Rect
         x={ xPosition }
         y={ yPosition }
@@ -275,6 +286,7 @@ const Room: React.FC<ComponentPropTypes> = ({
         onDragEnd={ onDragEnd }
         onTransformEnd={ onTransformEnd }
         onClick={ onClick }
+        strokeScaleEnabled={false}
       />
       { !isDisabled && isActive && (
         <Transformer

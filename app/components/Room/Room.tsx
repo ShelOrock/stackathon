@@ -227,7 +227,7 @@ const Room: React.FC<ComponentPropTypes> = ({
       width: newWidth,
       height: newHeight
     }));
-  }
+  };
 
   const onClick = () => { 
     if(selectedEntity) {
@@ -286,7 +286,7 @@ const Room: React.FC<ComponentPropTypes> = ({
         onDragEnd={ onDragEnd }
         onTransformEnd={ onTransformEnd }
         onClick={ onClick }
-        strokeScaleEnabled={false}
+        strokeScaleEnabled={ false }
       />
       { !isDisabled && isActive && (
         <Transformer
@@ -332,6 +332,7 @@ const Room: React.FC<ComponentPropTypes> = ({
           } }
           flipEnabled={ false }
           rotateEnabled={ false }
+          ignoreStroke
         />
       ) }
     </Group>

@@ -5,7 +5,7 @@ import Button from "../Button";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { functions } from "../../utilities";
 import { AppDataSelectors } from "../../redux/selectors";
-import { AppData, CanvasSizes, Directions, UIData, Styles, DefaultLabels } from "../../enums";
+import { AppData, CanvasSizes, UIData, Styles, DefaultLabels } from "../../enums";
 import { entityActions, selectedEntityActions } from "../../redux/actions";
 import { setCanvasSize } from "../../redux/canvasSize/actions";
 import Row from "../Row";
@@ -115,6 +115,11 @@ const ToolsPanel = () => {
           $mt={ Styles.Spacings.xs }
           $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
         >+ Create new Window</Button>
+        <Button
+          onClick={ () => handleSetEntityPreview(AppData.Roofs) }
+          $mt={ Styles.Spacings.xs }
+          $pt={ Styles.Spacings.xs } $pr={ Styles.Spacings.sm } $pb={ Styles.Spacings.xs } $pl={ Styles.Spacings.sm }
+        >+ Create new Roof</Button>
       </Column>
     </Paper>
   );

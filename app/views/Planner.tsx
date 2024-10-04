@@ -19,6 +19,8 @@ import DoorPreview from "../components/DoorPreview";
 import WindowPreview from "../components/WindowPreview";
 import Door from "../components/Door";
 import Window from "../components/Window";
+import Roof from "../components/Roof/Roof";
+import RoofPreview from "../components/RoofPreview/RoofPreview";
 
 const Planner = () => {
 
@@ -122,6 +124,7 @@ const Planner = () => {
   }));
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
+  const roofs = useAppSelector(AppDataSelectors.selectAppData(AppData.Roofs));
 
   const [ conflictingDoors, setConflictingDoors ] = useState([]);
   const [ conflictingWindows, setConflictingWindows ] = useState([]);
@@ -165,6 +168,13 @@ const Planner = () => {
     const mousePositionY = Math.round(stage.getPointerPosition().y / GRID_SNAP) * GRID_SNAP;
 
     setIsRoomColliding(false);
+
+    if(selectedEntity === AppData.Roofs) {
+      setMouse({
+        x: mousePositionX,
+        y: mousePositionY
+      });
+    };
 
     if(selectedEntity === AppData.Rooms) {
       const collidingObject = {
@@ -433,6 +443,18 @@ const Planner = () => {
           />
         </Layer>
         <Layer>
+          <ComponentMapping
+            componentData={ roofs }
+            renderComponent={ roof => {
+              return (
+                <Roof
+                  { ...roof }
+                />
+              )
+            } }
+          />
+        </Layer>
+        <Layer>
           { selectedEntity === AppData.Rooms && (
             <RoomPreview
               xPosition={ mouse.x }
@@ -453,6 +475,14 @@ const Planner = () => {
               yPosition={ mouse.y }
               orientation={ windowPreviewOrientation }
               isValid={ windowPositionIsValid }
+            />
+          ) }
+          { selectedEntity === AppData.Roofs && (
+            <RoofPreview
+              xPosition={ mouse.x }
+              yPosition={ mouse.y }
+              orientation={ windowPreviewOrientation }
+              isValid={ true }
             />
           ) }
         </Layer>

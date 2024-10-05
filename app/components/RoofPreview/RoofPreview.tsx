@@ -25,10 +25,10 @@ const RoofPreview: React.FC<ComponentPropTypes> = ({
       />
       <Line
         points={ [
-          Math.floor((xPosition + ROOF_PREVIEW_WIDTH) / 2),
-          yPosition,
-          Math.floor((xPosition + ROOF_PREVIEW_WIDTH) / 2),
-          yPosition + ROOF_PREVIEW_WIDTH
+          xPosition,
+          yPosition + 50,
+          xPosition + ROOF_PREVIEW_WIDTH,
+          yPosition + 50,
         ] }
         stroke={ "#000" }
         strokeWidth={ 2 }

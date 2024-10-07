@@ -89,7 +89,9 @@ const Planner = () => {
   };
 
   const DEFAULT_ROOM_DIMENSION = 100;
+  const DEFAULT_ROOF_DIMENSION = 100;
   const ROOM_OFFSET = 50;
+  const ROOF_OFFSET = 50;
   const DOOR_X_OFFSET = 0;
   const DOOR_Y_OFFSET = 0;
   const DOOR_TOLERANCE = 12;
@@ -107,6 +109,7 @@ const Planner = () => {
   const [ windowPreviewOrientation, setWindowPreviewOrientation ] = useState<Directions>(Directions.horizontal);
   const [ windowPositionIsValid, setWindowPositionIsValid ] = useState(false);
   const [ currentRoom, setCurrentRoom ] = useState(null);
+  const [ roofPositionIsValid, setRoofPositionIsValid ] = useState(false);
 
   const canvasSize = useAppSelector(state => state.canvasSize);
   const gridIsShowing = useAppSelector(state => state.toggleElements.grid.isShowing);
@@ -125,6 +128,10 @@ const Planner = () => {
   const doors = useAppSelector(AppDataSelectors.selectAppData(AppData.Doors));
   const windows = useAppSelector(AppDataSelectors.selectAppData(AppData.Windows));
   const roofs = useAppSelector(AppDataSelectors.selectAppData(AppData.Roofs));
+
+  const floorFootprint = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms, {
+    filters: { floor: activeFloor.id - 1 }
+  }));
 
   const [ conflictingDoors, setConflictingDoors ] = useState([]);
   const [ conflictingWindows, setConflictingWindows ] = useState([]);
@@ -168,13 +175,6 @@ const Planner = () => {
     const mousePositionY = Math.round(stage.getPointerPosition().y / GRID_SNAP) * GRID_SNAP;
 
     setIsRoomColliding(false);
-
-    if(selectedEntity === AppData.Roofs) {
-      setMouse({
-        x: mousePositionX,
-        y: mousePositionY
-      });
-    };
 
     if(selectedEntity === AppData.Rooms) {
       const collidingObject = {
@@ -282,6 +282,28 @@ const Planner = () => {
         y: mousePositionY
       });
     }; 
+
+    if(selectedEntity === AppData.Roofs) {
+      const collidingObject = {
+        x: mousePositionX,
+        y: mousePositionY,
+        width: DEFAULT_ROOF_DIMENSION,
+        height: DEFAULT_ROOM_DIMENSION
+      }
+      if(checkRoofIsValid({
+        xPosition: collidingObject.x,
+        yPosition: collidingObject.y,
+        width: collidingObject.width,
+        height: collidingObject.height
+      })) {
+        console.log('OK')
+      }
+
+      setMouse({
+        x: mousePositionX,
+        y: mousePositionY
+      });
+    };
   };
 
   const handleOnClick = e => {
@@ -346,6 +368,17 @@ const Planner = () => {
       default:
         return;
     };
+  };
+
+  const checkRoofIsValid = ({ xPosition, yPosition, width, height }) => {
+    return floorFootprint.some(room => {
+      return (
+        xPosition >= room.xPosition &&
+        xPosition + width <= room.xPosition + room.width &&
+        yPosition >= room.yPosition &&
+        yPosition + height <= room.yPosition + room.height
+      );
+    });
   };
 
   useEffect(() => {    
@@ -482,7 +515,7 @@ const Planner = () => {
               xPosition={ mouse.x }
               yPosition={ mouse.y }
               orientation={ windowPreviewOrientation }
-              isValid={ true }
+              isValid={ roofPositionIsValid }
             />
           ) }
         </Layer>

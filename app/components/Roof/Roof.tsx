@@ -20,21 +20,6 @@ const Roof = ({
 }) => {
   const GRID_SNAP = 25;
 
-  const roomsFromFloorBelow = useAppSelector(AppDataSelectors.selectAppData(AppData.Rooms, {
-    filters: { floor: activeFloor.id - 1 }
-  }));
-
-  const checkIsInRooms = (xPosition, yPosition, width, height, rooms) => {
-    return rooms.some(room => {
-      return (
-        xPosition >= room.xPosition &&
-        xPosition + width <= room.xPosition + room.width &&
-        yPosition >= room.yPosition &&
-        yPosition + height <= room.yPosition + room.height
-      );
-    });
-  };
-
   const dispatch = useAppDispatch();
 
   return <></>

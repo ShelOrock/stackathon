@@ -296,8 +296,9 @@ const Planner = () => {
         width: collidingObject.width,
         height: collidingObject.height
       })) {
+        console.log(createPolygon());
         console.log('OK')
-      }
+      };
 
       setMouse({
         x: mousePositionX,
@@ -368,6 +369,17 @@ const Planner = () => {
       default:
         return;
     };
+  };
+
+  const createPolygon = () => {
+    return floorFootprint.flatMap(room => {
+      return [
+        { x: room.xPosition, y: room.yPosition },
+        { x: room.xPosition + room.width, y: room.yPosition },
+        { x: room.xPosition, y: room.yPosition + room.height },
+        { x: room.xPosition + room.width, y: room.yPosition + room.height }
+      ];
+    });
   };
 
   const checkRoofIsValid = ({ xPosition, yPosition, width, height }) => {

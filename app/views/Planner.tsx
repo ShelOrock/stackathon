@@ -383,6 +383,14 @@ const Planner = () => {
   };
 
   const checkRoofIsValid = ({ xPosition, yPosition, width, height }) => {
+
+    const collidingObject = [
+      { x: xPosition, y: yPosition },
+      { x: xPosition + width, y: yPosition },
+      { x: xPosition, y: yPosition + height },
+      { x: xPosition + width, y: yPosition + height }
+    ];
+
     return floorFootprint.some(room => {
       return (
         xPosition >= room.xPosition &&

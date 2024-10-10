@@ -372,7 +372,7 @@ const Planner = () => {
   };
 
   const createPolygon = () => {
-    return floorFootprint.flatMap(room => {
+    return floorFootprint.map(room => {
       return [
         { x: room.xPosition, y: room.yPosition },
         { x: room.xPosition + room.width, y: room.yPosition },
@@ -384,12 +384,18 @@ const Planner = () => {
 
   const checkRoofIsValid = ({ xPosition, yPosition, width, height }) => {
 
-    const collidingObject = [
+    const collidingObjectCorners = [
       { x: xPosition, y: yPosition },
       { x: xPosition + width, y: yPosition },
       { x: xPosition, y: yPosition + height },
       { x: xPosition + width, y: yPosition + height }
     ];
+
+    collidingObjectCorners.every(corner => {
+      floorFootprint.forEach(room => {
+        console.log(room);
+      });
+    });
 
     return floorFootprint.some(room => {
       return (

@@ -392,8 +392,10 @@ const Planner = () => {
     ];
 
     collidingObjectCorners.every(corner => {
+      console.log(corner);
       floorFootprint.forEach(room => {
         console.log(room);
+      
       });
     });
 

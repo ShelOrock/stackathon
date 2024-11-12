@@ -7,6 +7,7 @@ import Row from "../components/Row";
 import Grid from "../components/Grid";
 import ComponentMapping from "../components/ComponentMapping";
 import Room from "../components/Room";
+import hull from "hull.js";
 
 import { useAppDispatch, useAppSelector, useDetectCanvasCollision, useDetectRoomCollision } from "../hooks";
 import { AppData, Directions, Styles } from "../enums";
@@ -289,16 +290,23 @@ const Planner = () => {
         y: mousePositionY,
         width: DEFAULT_ROOF_DIMENSION,
         height: DEFAULT_ROOM_DIMENSION
-      }
-      if(checkRoofIsValid({
-        xPosition: collidingObject.x,
-        yPosition: collidingObject.y,
-        width: collidingObject.width,
-        height: collidingObject.height
-      })) {
-        console.log(createPolygon());
-        console.log('OK')
       };
+
+      const collidingPolygon = [
+        [ collidingObject.x, collidingObject.y ],
+        [ collidingObject.x + DEFAULT_ROOF_DIMENSION, collidingObject.y ],
+        [ collidingObject.x + DEFAULT_ROOF_DIMENSION, collidingObject.y + DEFAULT_ROOF_DIMENSION ],
+        [ collidingObject.x, collidingObject.y + DEFAULT_ROOF_DIMENSION ]
+      ];
+
+      const floorPlanVertices = getFloorPlanVertices(floorFootprint);
+      if(checkRoofIsValid(collidingPolygon, floorPlanVertices)) {
+        setRoofPositionIsValid(true)
+      } else {
+        setRoofPositionIsValid(false);
+
+      }
+
 
       setMouse({
         x: mousePositionX,
@@ -371,42 +379,67 @@ const Planner = () => {
     };
   };
 
-  const createPolygon = () => {
-    return floorFootprint.map(room => {
-      return [
-        { x: room.xPosition, y: room.yPosition },
-        { x: room.xPosition + room.width, y: room.yPosition },
-        { x: room.xPosition, y: room.yPosition + room.height },
-        { x: room.xPosition + room.width, y: room.yPosition + room.height }
-      ];
-    });
+  const getFloorPlanVertices = floorplan => {
+    const allVertices = floorplan.reduce((accumulator, currentPolygon) => {
+      console.log(currentPolygon);
+      const topLeft = [ currentPolygon.xPosition, currentPolygon.yPosition ];
+      const topRight = [ currentPolygon.xPosition + currentPolygon.width, currentPolygon.yPosition ];
+      const bottomRight = [ currentPolygon.xPosition + currentPolygon.width, currentPolygon.yPosition + currentPolygon.height ];
+      const bottomLeft = [ currentPolygon.xPosition, currentPolygon.yPosition + currentPolygon.height ];
+
+      return [ ...accumulator, topLeft, topRight, bottomRight, bottomLeft ];
+    }, []);
+
+    const uniqueVertices = [ ...new Set(allVertices.map(vertex => JSON.stringify(vertex))) ].map((vertex: string) => JSON.parse(vertex));
+
+    const finalVertices = hull(uniqueVertices);
+
+    return finalVertices;
   };
 
-  const checkRoofIsValid = ({ xPosition, yPosition, width, height }) => {
+  const checkRoofIsValid = (collidingPolygon, stationaryPolygon) => {
+    for(let point of collidingPolygon) {
+      if(!isPointInside(stationaryPolygon, point)) {
+        return false;
+      };
 
-    const collidingObjectCorners = [
-      { x: xPosition, y: yPosition },
-      { x: xPosition + width, y: yPosition },
-      { x: xPosition, y: yPosition + height },
-      { x: xPosition + width, y: yPosition + height }
-    ];
+      return true;
+    };
+  };
 
-    collidingObjectCorners.every(corner => {
-      console.log(corner);
-      floorFootprint.forEach(room => {
-        console.log(room);
-      
-      });
-    });
+  const isPointInside = (polygon, point) => {
+    
+    let intersectionCount = 0;
+    const xPosition = point[0];
+    const yPosition = point[1];
+    
+    for(let i = 0; i < polygon.length; i++) {
+      const currentPolygonCoordinates = polygon[i];
+      const nextPolygonCoordinates = polygon[(i + 1) % polygon.length];
 
-    return floorFootprint.some(room => {
-      return (
-        xPosition >= room.xPosition &&
-        xPosition + width <= room.xPosition + room.width &&
-        yPosition >= room.yPosition &&
-        yPosition + height <= room.yPosition + room.height
-      );
-    });
+      if(currentPolygonCoordinates[1] === nextPolygonCoordinates[1]) {
+        continue;
+      };
+
+      if(
+        yPosition < Math.min(currentPolygonCoordinates[1], nextPolygonCoordinates[1]) ||
+        yPosition > Math.max(currentPolygonCoordinates[1], nextPolygonCoordinates[1])
+      ) {
+        continue;
+      };
+
+      const xIntersection = (yPosition - currentPolygonCoordinates[1]) * (nextPolygonCoordinates[0] - currentPolygonCoordinates[0]) / (nextPolygonCoordinates[1] - currentPolygonCoordinates[1]) + currentPolygonCoordinates[0];
+
+      if(xIntersection < xPosition) {
+        intersectionCount++;
+      };
+    };
+
+    if(intersectionCount % 2 === 1) {
+      return true;
+    };
+
+    return false;
   };
 
   useEffect(() => {    

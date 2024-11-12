@@ -2,6 +2,7 @@ import React from "react";
 import { ComponentPropTypes } from "./types";
 import { Group, Line, Rect } from "react-konva";
 import { Directions } from "../../enums";
+import { Html } from "react-konva-utils";
 
 const RoofPreview: React.FC<ComponentPropTypes> = ({
   xPosition,
@@ -47,6 +48,7 @@ const RoofPreview: React.FC<ComponentPropTypes> = ({
         stroke={ "#000" }
         strokeWidth={ 2 }
       />
+      <Html>{ isValid ? "ok" : "invalid" }</Html>
     </Group>
   );
 };

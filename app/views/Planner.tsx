@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Layer } from "react-konva";
+import * as turf from "@turf/turf";
 
 import Stage from "../components/Canvas";
 import LayerPanel from "../components/LayerPanel";
@@ -7,7 +8,6 @@ import Row from "../components/Row";
 import Grid from "../components/Grid";
 import ComponentMapping from "../components/ComponentMapping";
 import Room from "../components/Room";
-import hull from "hull.js";
 
 import { useAppDispatch, useAppSelector, useDetectCanvasCollision, useDetectRoomCollision } from "../hooks";
 import { AppData, Directions, Styles } from "../enums";
@@ -150,6 +150,10 @@ const Planner = () => {
       document.removeEventListener("keydown", handleEscape);
     };
   }, []);
+
+  const snapToGrid = coordinate => {
+    return Math.round(coordinate / GRID_SNAP) * GRID_SNAP;
+  };
 
   const detectCollision = (
     collidingObject,
@@ -296,15 +300,17 @@ const Planner = () => {
         [ collidingObject.x, collidingObject.y ],
         [ collidingObject.x + DEFAULT_ROOF_DIMENSION, collidingObject.y ],
         [ collidingObject.x + DEFAULT_ROOF_DIMENSION, collidingObject.y + DEFAULT_ROOF_DIMENSION ],
-        [ collidingObject.x, collidingObject.y + DEFAULT_ROOF_DIMENSION ]
+        [ collidingObject.x, collidingObject.y + DEFAULT_ROOF_DIMENSION ],
+        [ collidingObject.x, collidingObject.y ]
       ];
 
       const floorPlanVertices = getFloorPlanVertices(floorFootprint);
-      if(checkRoofIsValid(collidingPolygon, floorPlanVertices)) {
+      const roofVertices = turf.polygon([ collidingPolygon ]);
+      
+      if(checkRoofIsValid(roofVertices, floorPlanVertices)) {
         setRoofPositionIsValid(true)
       } else {
         setRoofPositionIsValid(false);
-
       }
 
 
@@ -380,66 +386,29 @@ const Planner = () => {
   };
 
   const getFloorPlanVertices = floorplan => {
-    const allVertices = floorplan.reduce((accumulator, currentPolygon) => {
-      console.log(currentPolygon);
-      const topLeft = [ currentPolygon.xPosition, currentPolygon.yPosition ];
-      const topRight = [ currentPolygon.xPosition + currentPolygon.width, currentPolygon.yPosition ];
-      const bottomRight = [ currentPolygon.xPosition + currentPolygon.width, currentPolygon.yPosition + currentPolygon.height ];
-      const bottomLeft = [ currentPolygon.xPosition, currentPolygon.yPosition + currentPolygon.height ];
+    const polygons = floorplan.map(room => {
+      const polygon = [
+        [ room.xPosition, room.yPosition ],
+        [ room.xPosition + room.width, room.yPosition ],
+        [ room.xPosition + room.width, room.yPosition + room.height ],
+        [ room.xPosition, room.yPosition + room.height ],
+        [ room.xPosition, room.yPosition ],
+      ];
+      return turf.polygon([ polygon ]);
+    });
 
-      return [ ...accumulator, topLeft, topRight, bottomRight, bottomLeft ];
-    }, []);
-
-    const uniqueVertices = [ ...new Set(allVertices.map(vertex => JSON.stringify(vertex))) ].map((vertex: string) => JSON.parse(vertex));
-
-    const finalVertices = hull(uniqueVertices);
-
-    return finalVertices;
+    const allPolygons = turf.union(turf.featureCollection(polygons));
+    return allPolygons;
   };
 
   const checkRoofIsValid = (collidingPolygon, stationaryPolygon) => {
-    for(let point of collidingPolygon) {
-      if(!isPointInside(stationaryPolygon, point)) {
-        return false;
-      };
+    const isContained = turf.booleanContains(stationaryPolygon, collidingPolygon);
 
-      return true;
-    };
-  };
-
-  const isPointInside = (polygon, point) => {
-    
-    let intersectionCount = 0;
-    const xPosition = point[0];
-    const yPosition = point[1];
-    
-    for(let i = 0; i < polygon.length; i++) {
-      const currentPolygonCoordinates = polygon[i];
-      const nextPolygonCoordinates = polygon[(i + 1) % polygon.length];
-
-      if(currentPolygonCoordinates[1] === nextPolygonCoordinates[1]) {
-        continue;
-      };
-
-      if(
-        yPosition < Math.min(currentPolygonCoordinates[1], nextPolygonCoordinates[1]) ||
-        yPosition > Math.max(currentPolygonCoordinates[1], nextPolygonCoordinates[1])
-      ) {
-        continue;
-      };
-
-      const xIntersection = (yPosition - currentPolygonCoordinates[1]) * (nextPolygonCoordinates[0] - currentPolygonCoordinates[0]) / (nextPolygonCoordinates[1] - currentPolygonCoordinates[1]) + currentPolygonCoordinates[0];
-
-      if(xIntersection < xPosition) {
-        intersectionCount++;
-      };
+    if(!isContained) {
+      return false;
     };
 
-    if(intersectionCount % 2 === 1) {
-      return true;
-    };
-
-    return false;
+    return true;
   };
 
   useEffect(() => {    

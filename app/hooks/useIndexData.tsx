@@ -1,4 +1,4 @@
-const useIndexData = (items = [], itemKey) => {
+const useIndexData = (items: unknown[] = [], itemKey: string) => {
 
   const indexedData = items.map((item, index) => ({
     id: index,

@@ -11,7 +11,8 @@ import theme from "./theme";
 
 const APP = "app";
 
-const root = createRoot(document.getElementById(APP));
+const container = document.createElement(APP);
+const root = createRoot(container);
 
 root.render(
   <Provider store={ store }>

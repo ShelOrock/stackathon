@@ -1,7 +1,7 @@
 const { resolve } = require('path');
 
 module.exports = {
-    entry: './app/main.tsx',
+    entry: './src/main.tsx',
     output: {
         path: resolve(__dirname, 'public'),
         filename: 'bundle.js',
@@ -19,7 +19,7 @@ module.exports = {
             },
             {
                 test: /jsx?$/,
-                include: resolve(__dirname, './app'),
+                include: resolve(__dirname, './src'),
                 loader: 'babel-loader'
             },
             {
